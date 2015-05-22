@@ -1,0 +1,6 @@
+*.log
+*.aux
+*.out
+*.toc
+/thesis_plan/planpdfs
+*.pdf

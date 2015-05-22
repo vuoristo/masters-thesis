@@ -1,0 +1,17 @@
+This thesis builds upon research conducted in the Embedded Systems Group at Aalto University and the international research community. Risto has already been introduced to some key articles, tools and experiments on the field. Further background investigation will be conducted in parallel with the experiments but mostly after the practical experiments have been completed.
+
+Taavi Teemaa has a good introduction to streaming parallelism in his B.Sc work. Dynamic Data flow on multicore processors needs to be further studied. Programmability of frameworks providing dataflow actors: OpenMP good, RVC-CAL bad
+
+\textit{Stream Processing} is a programming paradigm that aims to simplify the design of parallel programs. In stream processing computations happen in kernel functions. The kernel functions are applied upon each element of the input stream. Stream Processing is a high level programming model and can be implemented in a multitude of ways. Stream Processing is called uniform if all data is processed by all kernels. (NVIDIA Streaming Multiprocessor references this type of streaming.) \\http://en.wikipedia.org/wiki/Stream\_processing
+
+\textit{Stream Computing} is often considered in IoT or Industrial Internet context. In Stream Computing data is not in the memory as in V. Neumann architecture but in a ``stream'' that passes through the process. A problem or a task involving lots of continuous I/O without necessarily knowing the end of the input is a dataflow computing problem.
+
+\textit{Flow}, a high-level concept where computations happen when dependencies are updates. For example excel implements kind of flow computation.
+
+\textit{Dataflow Programming} models a program as a directed graph of data flowing between operations. Operations have explicitly defined inputs and outputs. Operations are carried out as soon as the inputs to that particular operation become valid. The explicit dependencies between the operations make Dataflow Programming well suited for parallel processing because when the operation becomes ready it can be executed any time on any hardware resource without further need for considering its dependencies.\\http://en.wikipedia.org/wiki/Dataflow\_programming
+
+\textit{Dataflow Architecture} is a hardware architecture in which the execution of instructions is based on the availability of input arguments. The execution order of the instructions is thus indeterministic.\\http://en.wikipedia.org/wiki/Dataflow\_architecture
+
+\textit{Dataflow (computing)} is a software architecture based on the Flow concept. Writing software in dataflow pattern helps reduce coupling related code in programs, meaning programmers need to write less code to explicitly update values based on their dependencies.\\http://en.wikipedia.org/wiki/Dataflow\\http://en.wikipedia.org/wiki/Kahn\_process\_networks
+
+\textit{Actor model} Actors can be thought of as similar to OOP objects but with special emphasis on parallelism. Anything actors do can be done in parallel with other actors. In actor model all computations are done in actors. Actor model is based on the idea of actors sending messages to each other. As a response to receiving a message an actor can create more actors, send messages, change how to respond to next message etc. Actors can send messages at any time, but the receiver can respond whenever it is ready.\\http://en.wikipedia.org/wiki/Actor\_model
