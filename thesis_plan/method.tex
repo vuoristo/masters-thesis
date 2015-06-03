@@ -1,9 +1,5 @@
 In this thesis an experiment on implementing and analyzing a stream processing program is conducted. The program is implemented on Texas Instruments (TI) hardware using Open Event Machine (OpenEM). The program will be implemented in a dataflow pattern.
 
-In OpenEM the general problem of locking in concurrent programming is transformed in to a scheduling problem. Whenever two threads need the same resource they are scheduled sequentially so that they don't try access the resource simultaneously.
-
-When OpenEM schedules an event, it allocates the resources for that event and lets it run to completion. The next event utilizing the same resources might be something completely different depending on which events are ready for execution. There are no local buffers tied to certain memory locations, as all resource allocation and event execution is scheduled on the fly. This thesis studies the memory behavior in such dataflow context, through the application implemented and the analysis conducted on it. 
-
 The execution of the program will be statically analyzed using a suitable tool. The current candidate for analysing the execution is implemented in a tracing library provided by Texas Instruments.
 
 The execution will be dynamically analyzed by measuring the real system. In addition a simulation model of the system will be constructed. The execution of the simulation model will be monitored. Results from the simulation model and the real system will be compared.

@@ -37,6 +37,9 @@ Open Event Machine (OpenEM) is a framework of an event driven multicore optimize
 
 The Texas Instruments OpenEM implementation is a parallel runtime providing inter core communication, event scheduling, event queues and other required components for parallel processing applications. OpenEM is Operating System independent runtime framework. The TI OpenEM white paper states the following ``OpenEM is able to operate in a heterogeneous OS environment: some cores may have SW running on the bare metal, others may have SW running on an OS and still others may have SW running on another OS.''
 
+In OpenEM the general problem of locking in concurrent programming is transformed in to a scheduling problem. Whenever two threads need the same resource they are scheduled sequentially so that they don't try access the resource simultaneously.
+
+When OpenEM schedules an event, it allocates the resources for that event and lets it run to completion. The next event utilizing the same resources might be something completely different depending on which events are ready for execution. There are no local buffers tied to certain memory locations, as all resource allocation and event execution is scheduled on the fly.
 \subsection{People}
 Vesa Hirvisalo - instructor
 
