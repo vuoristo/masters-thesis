@@ -1,0 +1,21 @@
+\subsection{Overview}
+The hardware platform used in this experiment is Texas Instruments TMDSEVM6678L TMS320C6678 Evaluation Module. The device belongs to the Keystone I family of multicore DSPs. The device has eight C6678 dsp cores. Each core can dispatch eight instructions every cycle. Communication between cores can be handled through hardware accelerated packet communication channel called Multicore Navigator or through shared memory using user defined locking scheme. For more details see the technical report by Hanhirova and Texas Instruments manuals.
+
+\textbf{Hanhirova, Jussi:} TECHNICAL REPORT TI TMS320C6678 evaluation board characteristics, tools and analysis mechanisms for the purpose of static analysis\\
+\textbf{Texas Instruments:} Multicore Fixed and Floating-Point Digital Signal Processor, tms320c6678.pdf
+
+\subsection{Multicore Navigator}\label{navigator}
+The Multicore Navigator provides high speed packet communication on the device. The Multicore Navigator provides a hardware queue manager called the Queue Manager Subsystem (QMSS), packet DMA (PKTDMA) and multicore host notifications via interrupt generation.
+
+In the Keystone I architecture there are two Packet data structure processors (PDSP) in the QMSS. The PDSPs execute a firmware that can perform QMSS related functions. In this experiment firmware provided in the TI OpenEM implementation will be used. The firmware used handles the hardware queue management related to event scheduling.
+
+The packets passed through the Multicore Navigator consist of descriptors and payload data. The packets reside in the memory and pointers to the packets are passed from core to core using the Multicore Navigator.
+
+\textbf{Texas Instruments:} KeyStone Architecture Multicore Navigator, sprugr9h.pdf
+
+\subsection{Development Environment}\label{MCSDK}
+Software is developed for the device using an IDE from Texas Instruments called Code Composer Studio. CCS version 5.2.1 is used. The Software Development Kit used for development for the device is called Multicore Software Development Kit (MCSDK). MCSDK version 2.1.2.5 is used.
+
+CCS features a variety of debug, trace and analysis tools but to access performance counters in the hardware libraries external to MCSDK are required. The needed trace libraries are distributed under collective name of CToolsLib. The newest versions supporting the device are used.
+
+\textbf{CToolsLib download} https://gforge.ti.com/gf/project/ctoolslib/frs/?action=index

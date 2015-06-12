@@ -1,0 +1,9 @@
+A realistic workload application with capability for processing dynamic input is designed for the experiment. DSPs are commonly used for video stream processing. Processing video streams is a suitable workload for parallelization and dynamic number of inputs. Video filtering is a common and fairly simple task in video stream processing. For these reasons a video filtering application is selected as the workload for the experiment.
+
+The workload consists of two common filters. The first is a sobel filter that is used in edge detection. The second is a gaussian filter that has a wide range of uses. Both filters are used in a canny edge detector which is a realistic workload for a multicore DSP. The real world users of the studied device would probably implement a complete edge detector rather than parts of it, the workload in this experiment is kept simple to make it well analyzable and reasonably simple to implement.
+
+The filters themselves are based on convolving the image data with a filter matrix and are thus straightforward to implement.
+
+\textbf{Gaussian Filter} http://en.wikipedia.org/wiki/Gaussian\_filter\\
+\textbf{Sobel Operator} http://en.wikipedia.org/wiki/Sobel\_operator\\
+\textbf{Canny Edge Detector} http://en.wikipedia.org/wiki/Canny\_edge\_detector\\
