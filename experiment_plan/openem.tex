@@ -9,11 +9,6 @@ The Texas Instruments implementation of Open Event Machine runtime system is inc
 The OpenEM library is OS agnostic: the OpenEM dispatcher can be called from bare metal software or from an OS thread. The TI implementation of OpenEM Leverages the Multicore Navigator for hardware queues and packet communication. The scheduler always runs on a PDSP core and is defined by firmware specific to OpenEM.
 
 The OpenEM execution model is described in figure \ref{tiem}. The event descriptors are allocated at OpenEM initialization in the free pool. The application allocates events from the free pool using \textit{em\_alloc}. Events can be allocated either at runtime or at initialization. After the allocated event has been populated it is sent to a queue using \textit{em\_send}. The queues are associated with specific execution objects at initialization and therefore they determine which EO will process the events the queues. The scheduler running on a PDSP core (chapter \ref{navigator}) manages the queues (virtual queues mapped to QMSS hardware queues). The scheduling operations are carried out on an explicit request from a DSP core when a call to \textit{ti\_em\_preschedule} is made. When one of the cores mapped to a specific execution object finishes executing its current event it makes a call to \textit{ti\_em\_dispatch\_once} which triggers a call to the \textit{receive} function of the execution object. The execution object processes the data and makes a call to \textit{em\_free} to return the event to its free pool.
-
-The concept of queue groups is used to specify which cores can execute which EOs. Queues are associated with EOs and each queue belongs to a queue group. Queue groups define which cores can execute the events from the queues in the group using a core mask.
-
-The scheduler running on a PDSP core considers four scheduling criteria: \textbf{Priority}, \textbf{Atomicity}, \textbf{Locality} and \textbf{Order}. Each queue has a priority. The scheduler will always select events from queues with the highest priority. Queues are either atomic or parallel. Events from parallel queues can be scheduled on as many cores as are available for the queue. In contrast no event from an atomic queue can be scheduled while another event from the same queue is executing. The scheduler tries to schedule events from certain queues on the same cores if possible. The last criterion for scheduling is order. If multiple events are eligible for scheduling, the event that has been in a queue longest will be scheduled.
-
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[width=1.3\textwidth,natwidth=701,natheight=500]{openem_model.png}
@@ -21,12 +16,10 @@ The scheduler running on a PDSP core considers four scheduling criteria: \textbf
 \end{center}
 \end{figure}
 
+The concept of queue groups is used to specify which cores can execute which EOs. Queues are associated with EOs and each queue belongs to a queue group. Queue groups define which cores can execute the events from the queues in the group using a core mask.
+
+The scheduler running on a PDSP core considers four scheduling criteria: \textbf{Priority}, \textbf{Atomicity}, \textbf{Locality} and \textbf{Order}. Each queue has a priority. The scheduler will always select events from queues with the highest priority. Queues are either atomic or parallel. Events from parallel queues can be scheduled on as many cores as are available for the queue. In contrast no event from an atomic queue can be scheduled while another event from the same queue is executing. The scheduler tries to schedule events from certain queues on the same cores if possible. The last criterion for scheduling is order. If multiple events are eligible for scheduling, the event that has been in a queue longest will be scheduled.
+
 \textbf{Texas Instrument} OpenEM White Paper, ti.openem.white.paper.pdf\\
 \textbf{Texas Instrument} OpenEM User Guide, ti.openem.user.guide.pdf\\
 \textbf{Texas Instrument} OpenEM Api Guide, ti.openem.api.guide.pdf\\
-
-
-\subsection{Video Filter Application Using OpenEM}
-The video filter application that is first constructed as a PREESM actor model, will be implemented using OpenEM. The actors in the actor model map to execution objects in a straightforward manner. An execution object is allocated for each actor in the actor model. The events passed between the actors encapsulate the data in the video streams.
-
-The video streams are preloaded in to memory before execution to keep the application simple.
