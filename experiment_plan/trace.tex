@@ -3,11 +3,11 @@ Runtime performance measurements are carried out on both of the implemented appl
 
 Area of interest for the finer grained metrics are the costs associated to the OpenEM runtime model. Even though the PREESM generated application is not an optimized application it will hopefully show the performance behavior to be expected from a simpler, non-hardware accelerated, ``traditional'' multicore implementation. Relating the PREESM application behavior to the OpenEM application behavior gives us a good view to the performance of the OpenEM runtime.
 
-The specific time measurements to be carried in addition to FPS out are: time spent per actor, cost of switching from one actor to another on a core and time spent in the runtime. The time spent in the runtime can be further split to account for the time related to the scheduler running on a PDSP core and the time spent in the runtime on a actual C6678 core.
+The specific time measurements to be carried out in addition to FPS are: time spent per actor, cost of switching from one actor to another on a core and time spent in the runtime. The time spent in the runtime can be further split to account for the time related to the scheduler running on a PDSP core and the time spent in the runtime on an actual C6678 core.
 
-Other metrics will be implemented if the measurements described above will not yield enough information about the behavior of OpenEM runtime.
+Other metrics will be implemented if the measurements described above will not yield accurate enough implementation about the OpenEM runtime behavior under dynamic loads.
 \subsection{Implementation of the metrics}
-The frames per second measurement is straightforward to implement by measuring the number of complete frames processed by the application. The details of implementing the FPS measurement are not critical because completing a frame is relatively rare event in the execution of the application and calculating time spent per frame is simple.
+The frames per second measurement is straightforward to implement by measuring the number of complete frames processed per time unit. The details of implementing the FPS measurement are not critical because completing a frame is relatively rare event in the execution of the application and calculating time spent per frame is simple.
 
 Fine grained metrics will be implemented using Texas Instruments tools provided in CCS and CToolsLib. CCS provides a tool called System Analyzer which makes profiling the execution simple. System Analyzer can be used to easily measure time spent executing the actors. It is possible that the overhead caused by System Analyzer is too large to yield usable results. In that case the measurements will be carried out utilizing CToolsLib provided tools for capturing trace data and exporting the data through purpose built buffers.
 
