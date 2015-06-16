@@ -21,6 +21,6 @@ In contrast to the PREESM application where the schedule has to be changed for e
 
 The specifics of setting up the execution objects, number of queues attached to them, the priority of the queues and other specifics depend heavily on the final workload application and thus are not further explained here. The details are also subject to change based on the initial measurements to make the workload better reflect a realistic application.
 \subsection{Workload}
-The workload application needs to be kept simpel to keep it analyzable. Complex parts of real applications unrelated to the parallel execution such as I/O are omitted from the workload implementation. Without I/O available the video streams need to be preloaded to the memory. CCS provides tools for preloading.
+The workload application needs to be kept simple to keep it analyzable. Complex parts of real applications unrelated to the parallel execution such as I/O are omitted from the workload implementation. Without I/O available the video streams need to be preloaded to the memory. CCS provides tools for preloading.
 
 The purpose of the experiment is to understand the OpenEM behavior under dynamic load. Organizing the workload so that the number of streams could actually be dynamically changed at runtime will not be necessary if the cost of switching between streams can be estimated. A number of static loads will be constructed and measured on both of the applications.
