@@ -7,7 +7,7 @@ The hardware platform used in this experiment is Texas Instruments TMDSEVM6678L 
 \subsection{Multicore Navigator}\label{navigator}
 The Multicore Navigator provides high speed packet communication on the device. The Multicore Navigator provides a hardware queue manager called the Queue Manager Subsystem (QMSS), packet DMA (PKTDMA) and multicore host notifications via interrupt generation.
 
-In the Keystone I architecture there are two Packed Data Structure Processors (PDSP) in the QMSS. The PDSPs execute a firmware that can perform QMSS related functions. In this experiment firmware provided in the TI OpenEM implementation will be used. The firmware used handles the hardware queue management related to event scheduling.
+In the Keystone I architecture there are two Packed Data Structure Processors (PDSP) in the QMSS. The PDSPs execute a firmware that can perform QMSS related functions. In this experiment firmware provided in the TI OpenEM implementation will be used. The OpenEM runtime system uses hardware queues to accelerate inter-core communication. Firmware specific to OpenEM handles the hardware queue management.
 
 The packets consist of descriptors and payload data. The packets reside in the memory and pointers to the packets are passed from core to core using the Multicore Navigator.
 

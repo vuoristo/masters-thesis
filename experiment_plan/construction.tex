@@ -8,16 +8,13 @@ An actor network is constructed in PREESM that represents the video filter appli
 \end{figure}
 To keep the model simple and the program well analyzable all of the processing paths in the network are independent. The shared dependencies in the sketch (marked with dashed lines) are constants related to the video stream and will change in the actual application.
 
-Each filter implemented will have its own independent processing path.
+The first actor on each of the processing paths loads the video frames from memory and passes them to splitting actors. The splitting actor splits the frames to a suitable number of splices to enable processing of the same video stream on multiple cores. The filter actor follows the splitting actor. Partial frames filtered in the filter actor are merged back to whole frames in the merge actors. The last actors on each processing path are sink actors that collect data from the execution and frees resources.
 
-The first actors on each of the processing paths load the video frames form memory and pass them to splitting actors. The splitting actor splits the frames to suitable number of splices to enable processing of the same video stream on multiple cores. The filter actor follows the splitting actors. Partial frames filtered in the filter actor are merged in to whole frames in the merge actors. The last actors on each processing path are sink actors that collect data from the execution and frees resources.
-
-The filter actors will be run on all cores according to manual selection before execution. The cores on which the other actors will run on are to be determined when more knowledge about the execution is available.
-
+The filter actors are run on all cores following a manually created schedule. The manual schedule determines the execution in the simpler runtime system and is thus very important for the experiment results. The details of the schedule are determined according to the workload cases generated.
 \subsection{Video Filter Application Using OpenEM}
-The video filter application first constructed as a PREESM actor model, will be implemented using OpenEM. The actors in the actor model map to execution objects in a straightforward manner. An execution object is allocated for each actor in the actor model. The events passed between the actors encapsulate the data in the video streams.
+The video filter application first constructed as a PREESM actor model, will be implemented using OpenEM. The mapping from the actors in the actor model to the execution objects in OpenEM is expected to be one-to-one. An execution object is allocated for each actor in the actor model. The events passed between the actors encapsulate the data in the video streams.
 
-In contrast to the PREESM application where the schedule has to be changed for each number of video streams, the OpenEM implementation will not be changed for the different workloads.
+In contrast to the PREESM application where the schedule has to be changed for each streaming case, the OpenEM implementation will not be changed for the different workloads.
 
 The specifics of setting up the execution objects, number of queues attached to them, the priority of the queues and other specifics depend heavily on the final workload application and thus are not further explained here. The details are also subject to change based on the initial measurements to make the workload better reflect a realistic application.
 \subsection{Workload}

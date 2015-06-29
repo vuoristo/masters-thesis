@@ -1,14 +1,28 @@
 \subsection{Desired Metrics}
-Runtime performance measurements are carried out on both of the implemented applications. The high level metric which will tell us about the dynamic behavior of the OpenEM runtime model and the effect of the hardware acceleration is video frames per second. Finer grained metrics are implemented to understand the details of the Texas Instruments OpenEM implementation.
+Runtime performance measurements are carried out on both of the implemented applications. The high level metric used is video frames per second. Finer grained metrics are used to understand the details of the Texas Instruments OpenEM implementation. Clock cycle accurate metrics are needed for the construction of the PSE simulation model. The selection of the metrics is easier with the initial construction of the simulation model completed.
 
-Area of interest for the finer grained metrics are the costs associated to the OpenEM runtime model. Even though the PREESM generated application is not an optimized application it will hopefully show the performance behavior to be expected from a simpler, non-hardware accelerated, ``traditional'' multicore implementation. Relating the PREESM application behavior to the OpenEM application behavior gives us a good view to the performance of the OpenEM runtime.
+An area of interest for the finer grained metrics are the costs associated with the OpenEM runtime model. Even though the PREESM generated application is not an optimized application it will hopefully show the performance behavior to be expected from a simpler, non-hardware accelerated multicore implementation. Relating the PREESM application behavior to the OpenEM application behavior gives us a good view to the performance of the OpenEM runtime.
 
-The specific time measurements to be carried out in addition to FPS are: time spent per actor, cost of switching from one actor to another on a core and time spent in the runtime. The time spent in the runtime can be further split to account for the time related to the scheduler running on a PDSP core and the time spent in the runtime on an actual C6678 core.
-
-Other metrics will be implemented if the measurements described above will not yield accurate enough implementation about the OpenEM runtime behavior under dynamic loads.
+\begin{itemize}
+\item[] \textbf{Quantitative Metrics}
+    \subitem \textbf{FPS} - video Frames Per Second. How many frames of each stream per second the application is capable of processing.
+    \subitem \textbf{Core Utilization} - How many instructions were dispatched on each core per clock cycle. Measuring core utilization will help us understand the efficiencies of the scheduling strategies.
+    \subitem \textbf{Time Per Actor / Execution Object} - Which parts of the program the execution is spending the most time at.
+    \subitem \textbf{Other} - Other quantitative metrics are implemented if required for the construction of the simulation model.
+\end{itemize}
 \subsection{Implementation of the metrics}
-The frames per second measurement is straightforward to implement by measuring the number of complete frames processed per time unit. The details of implementing the FPS measurement are not critical because completing a frame is relatively rare event in the execution of the application and calculating time spent per frame is simple.
+The frames per second metric is straightforward to implement by measuring the number of complete frames processed per time unit.
 
-Fine grained metrics will be implemented using Texas Instruments tools provided in CCS and CToolsLib. CCS provides a tool called System Analyzer which makes profiling the execution simple. System Analyzer can be used to easily measure time spent executing the actors. It is possible that the overhead caused by System Analyzer is too large to yield usable results. In that case the measurements will be carried out utilizing CToolsLib provided tools for capturing trace data and exporting the data through purpose built buffers.
+Fine grained metrics will be implemented using Texas Instruments tools provided in CCS and CToolsLib. CToolsLib provides an API for accessing performance counters of the different hardware components and exporting the performance data. CCS also provides a profiling tool called System Analyzer which might be useful for some measurements as it has a relatively simple interface for performance measurements on the device.
+\subsection{Measurement Parameters}
+Dynamic workload conditions are emulated by repeating the measurements with different parameters. To keep things simple video streams are not dynamically switched at runtime. The measurement parameters are presented in the listing.
 
-On the first iteration all of the metrics are based on measuring execution time to keep things simple and fast to iterate. If some timing based measurements prove inaccurate or inefficient, they can be substituted with cycle-based measurements.
+\begin{itemize}\label{itm:params}
+\item[] \textbf{Measurement Parameters}
+    \subitem \textbf{Video Frame Size} - The workloads are differentiated by changing the frame size of the video streams.
+    \subitem \textbf{Number of Frame Slices} - The video frames are sliced in to a number of slices. The unit of data to be processed is one frame slice, therefore the number of slices affects the granularity of the schedule.
+    \subitem \textbf{PREESM Core Mapping} - The PREESM application is measured with different core mappings of the actors to find out how large an effect the static mapping has under dynamic workload.
+    \subitem \textbf{OpenEM Core Masks} - The OpenEM application is measured with different core masks of the Execution Objects to learn more about the behavior of the scheduler.
+\end{itemize}
+
+The parameters in the listing and many other parameters could be used as factors for different measurement setups but the utility of additional factors needs to be evaluated before the final selection is done. If too many factors are selected, conducting the measurements will become very time consuming and pontentially generate unnecessary data that only complicates the analysis. The final factors of the measurement are selected after the implementation of iteration 1 is complete.

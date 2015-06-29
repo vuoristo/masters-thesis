@@ -1,27 +1,26 @@
 \subsection{Outline}
-This document describes the construction of an OpenEM dynamic workload experiment. OpenEM implementation on Texas Instruments TMS320C6678 will be used as the runtime system. The workload will be a simple video filtering application consisting of couple of filters and dynamic number of streams.
+This document describes the construction of an dynamic workload experiment using OpenEM. OpenEM implementation on Texas Instruments TMS320C6678 will be used as the runtime system. The workload will be a simple video filtering application consisting of couple of filters and dynamic stream bitrate.
 
 The implementation steps of the experiment are represented in the following figure.
 
 \begin{itemize}
-\item[] \textbf{Iteration 1}
+\item[] \textbf{Iteration 1 - Initial Implementation and Measurements}
     \subitem Filter application in PREESM
     \subitem Convert Filter application to OpenEM
-    \subitem Implement tracing in both applications
-    \subitem Model the OpenEM application with PSE
+    \subitem Instrumentation of both applications
     \subitem Select a suitable workload for the applications
     \subitem Measure applications
+    \subitem Model the OpenEM application with PSE
     \subitem Compare measurements with the PSE estimates
-    \subitem Check fitness of model to application behavior
-\item[] \textbf{Iteration 2}
-    \subitem Compare the model behavior to expected OpenEM behavior
-    \subitem If the model behavior matches expected OpenEM behavior but not the real application behavior study the cause
+\item[] \textbf{Iteration 2 - Refining the Experiment}
+    \subitem Compare the model behavior to the expected OpenEM behavior
+    \subitem If the model behavior matches the expected OpenEM behavior but not the real application behavior study the cause
     \subitem Does the application utilize OpenEM according to specification?
     \subitem Does OpenEM specification match the implementation on the platform
     \subitem If faults in either model or the application are found fix them
 \end{itemize}
 
 \subsection{Goals}
-The objective of this experiment is to understand the behavior and performance of Texas Instruments implementation of Open Event Machine in processing a dynamic workload. The performance of an application implemented using OpenEM will be compared to the performance of a similar application implemented using a simpler multicore runtime. Open Event Machine utilizes a hardware accelerated packet communication system called The Multicore Navigator. The simpler runtime doesn't utilize hardware acceleration. The focus of this experiment is in understanding the effects of hardware accelerated scheduling vs. simple scheduling.
+The objective of this experiment is to understand the behavior and performance of Texas Instruments implementation of Open Event Machine in stream computation. The objective is achieved by comparing the performance of an application implemented using OpenEM to the performance of a similar application implemented using a simpler multicore runtime (PREESM). The OpenEM runtime system utilizes two performance enchancing features the simpler runtime does not, namely hardware accelerated inter-core communication and dynamic scheduling. The hypothesis is that OpenEM will achieve better performance under dynamic workload. Performance difference is expected to be smaller for static workloads.
 
-The OpenEM implementation of the workload application will be modeled using Performance Simulation Environment. The PSE simulation results are compared to the performance of the real world application. The simulation model created in PSE and validated on one real world application could be used to estimate the performance of similar applications on the hardware platform studied in this experiment or the performance of the application on similar hardware platforms.
+The second part of the experiment is the construction of a simulation model. The performance estimates from the constructed simulation model will be compared to the performance of the real world application. The objectives of the comparison are to help better understand the OpenEM platform and to assess the utility of simulation and modeling in analysis of stream computation.
