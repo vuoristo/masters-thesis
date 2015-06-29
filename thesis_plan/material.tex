@@ -1,46 +1,16 @@
-\subsection{Workload}
-The workload consists of two common filters. The first is a sobel filter that is used in edge detection. The second is a gaussian filter that has a wide range of uses. Both filters are used in a canny edge detector which is a realistic workload for a multicore DSP.
-
-The purpose of the experiment is to understand the OpenEM behavior under dynamic load. Organizing the workload so that the number of streams could actually be dynamically changed at runtime will not be necessary if the cost of switching between streams can be estimated. A number of static loads will be constructed and measured on both of the applications.
-
-The workload application needs to be kept simple to keep it analyzable. Complex parts of real applications unrelated to the parallel execution such as I/O are omitted from the workload implementation.
-
-The workload will be implemented in two versions: 1. Simple actor based implementation built using PREESM which is scheduled statically according to hand derived schedule. 2. OpenEM adaptation of the simple implementation. OpenEM provides dynamic scheduling.
-\subsection{PREESM}
-PREESM is a research tool for prototyping actor model software on multi-core platforms. PREESM features graphical interface for construction of the actor network, the inter core communication and the code generation for target platform. PREESM supports code generation for TMS320C6678 and provides example implementation for Sobel filter.
-\subsection{TMDSEVM6678L with TMS320C6678 multi-core DSP processor}
-Hanhirova's {\tt TECHNICAL REPORT TI TMS320C6678 evaluation board} document explains the hardware and related software well. The C6678 belongs to Texas Instruments Keystone family of DSPs.
-
-The TMS320C6678 has eight C6678 - also known as CorePac - processors on it.
-
-The processors are pipelined with the pipeline capable of dispatching 8 instructions every cycle. The processors also have vector processing units for 32, 16, 8 bit instructions.
-
-In the Keystone devices the shared memory controller doesn't maintain memory coherency between the Cores. The coherency is managed by the application running on the devices. For example in [http://link.springer.com/chapter/10.1007\%2F978-3-642-40698-0\_9\#page-1] OpenEM is utilized for the communication needed for memory coherency.
-
-\subsection{Analysis}
-Runtime performance measurements are carried out on both of the implemented applications. The high level metric which will tell us about the dynamic behavior of the OpenEM runtime model and the effect of the hardware acceleration is video frames per second. Finer grained metrics are implemented to understand the details of the Texas Instruments OpenEM implementation.
-
-PSE will be used to construct a resource network model of the OpenEM based workload application. Building a resource network model will help us generalize the findings from the experiment.
-
-The workload execution will be measured dynamically by timing the execution or using performance counters available in the TI hardware. The performance counters can be accessed through CPTLib.
-\subsection{Multicore programming}
-The TMS320C6678 has multiple different models of inter-core communication: Explicit through Inter Processor Communication, Multicore navigator and SRIO (Serial RapidIO).
-
-Understanding of the capabilities of the multicore platform is vital for successful experiments. In the OpenEM version of the workload the multicore communication will be handled using Multicore Navigator through the TI OpenEM implementation. The explicit Inter Processor Communication will be utilized in the simple Actor version of the workload.
-
-\subsection{Code Composer Studio v5}
-Code Composer Studio is Eclipse based IDE for developing for TI hardware. CCS features a wide variety of debug, trace and system analysis tools.
-\subsection{OpenEM}
-Open Event Machine (OpenEM) is a framework of an event driven multicore optimized processing originally developed at NSN. In this thesis OpenEM will be used as the platform for parallelism. First item in the work plan is to get familiar with OpenEM in general and the Texas Instruments OpenEM implementation. TI OpenEM 1.0.0.2 is the newest OpenEM implementation available.
-
-The Texas Instruments OpenEM implementation is a parallel runtime providing inter core communication, event scheduling, event queues and other required components for parallel processing applications. OpenEM is Operating System independent runtime framework.
-
-In OpenEM the general problem of locking in concurrent programming is transformed in to a scheduling problem. Whenever two threads need the same resource they are scheduled sequentially so that they don't try access the resource simultaneously.
-
-OpenEM implementation discussed in detail in the experiment plan.
+\subsection{Where's all the material?}
+The key material to the experiment is introduced in detail in the experiment plan. The key material can be found in the following listing.
+\begin{itemize}
+\item Workload
+\item PREESM
+\item TMS320C6678
+\item Analysis
+\item Code Composer Studio v5
+\item OpenEM
+\end{itemize}
+\subsection{I/O}
+The thesis will include a section about I/O in context of stream processing, virtualized I/O and the omission of I/O from the thesis experiment. The importance of I/O to the stream processing and I/O virtualization was explored in ESG study circle.
 \subsection{People}
-Vesa Hirvisalo - instructor
-
-Jussi Hanhirova - sort of internal client / co-researcher
-
-Kristian Hartikainen - research on similar subjects
+\textbf{Vesa Hirvisalo} - instructor \\
+\textbf{Jussi Hanhirova} - PHD student researching similar subjects \\
+\textbf{Kristian Hartikainen} - research on similar subjects

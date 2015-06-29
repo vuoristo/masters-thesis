@@ -1,9 +1,8 @@
 \subsection{First iteration}
-set-up -> construct -> analyze -> repeat
+The PREESM workload has been implemented. The current focus is on instrumentation of the applications. After instrumentation is understood well enough and some usable performance data can be captured, the focus shifts to OpenEM.
 
-The experiment has been planned in detail. The tools have been installed and example applications compiled and run. Next step is to actually implement the workload.
+Hopefully most of the implementation of the applications is completed by week 30. After both applications are implemented and instrumented, the simulation model will be constructed. The construction of simulation model will be interleaved with some of the measurements because the precise measurements needed are dictated by the simulation model.
 
-Analysis phase of the experiment has been planned in less detail due to uncertainty about the challenges in workload implementation and the analysis tools. On a high level, TI provides libraries and other tools to access performance counters and trace from the device. PSE will be used to construct a resource network simulation model of the workload.
-
-\subsection{More iterations}
-Depending on the findings from the first iteration further iterations may be needed.
+The goal of the first iteration is to create a working experiment setup which yields some measurement results.
+\subsection{Second iteration}
+The experiment will be refined in the second iteration. Unnecessary parts of the experiment are abandoned and the rest are improved to produce publishable results. The construction of the simulation model in the end of first iteration will help shape the experiment to a better form. After the second iteration we should have a simulation model based on measurement data.

@@ -1,30 +1,7 @@
-Workload construction and measurements are discussed in detail in the experiment plan.
+Workload construction, measurements and modeling are discussed in detail in the experiment plan.
 
-In this thesis an experiment on implementing and analyzing a stream processing program is conducted. The program is implemented on Texas Instruments (TI) hardware using Open Event Machine (OpenEM). The program will be implemented in a dataflow pattern.
+The OpenEM programming model and runtime system are studied using \textbf{comparison} and \textbf{modeling} as the methods. A workload application is constructed with a simple runtime system (PREESM) and then converted to OpenEM runtime. The two applications are compared under different load conditions.
 
-The execution of the program will be analyzed using a suitable tool. There are two candidates for analysing the execution. First option is to time the execution of different parts of the code. The other candidate is to get execution cycle counts with by accessing performance counters with tools implemented in a tracing library.
+The OpenEM application is modeled for resource network simulation. The construction of simulation model needs detailed information about the OpenEM runtime system and the workload application. The data from the measurements is used for the timings needed in the simulation model.
 
-The execution will be dynamically analyzed by measuring the real system. In addition a simulation model of the system will be constructed. Results from measurements of execution of the simulation model and the real system will be compared.
-\subsection{Construction}
-An actor based implementation of Sobel filter will be used as base for the workload construction. This implementation will be rebuilt on top of OpenEM preserving the actors but changing the details to match the runtime. The structure of the application construction is presented in the following graph.
-
-\begin{samepage}
-\begin{verbatim}
-**************************************************
-|     Video processing workload in Actor Model   |
-**************************************************
- . . . . . . . . . . OpenEM . . . . . . . . . . .
-**************************************************
-|           Texas Instruments Hardware           |
-**************************************************
-\end{verbatim}
-\end{samepage}
-
-Two filters, gaussian filter and sobel filter are used in the workload. The initial actor based implementation will be constructed in PREESM. The PREESM implementation will be converted to OpenEM.
-
-The two filters are used to simultaneously process two or more streams on the same DSP. The simple implementations (Actors, PREESM) will be scheduled with hand derived static schedule. The benchmarking setup will be constructed so that the number of streams can be changed dynamically.
-
-The performance of the OpenEM based version will be compared to the statically scheduled version under different load conditions. Dynamically changing numbers of streams are especially interesting for the goals of this thesis. Static loads will be studied to find out the overhead of dynamic scheduling in OpenEM versus the static scheduling. 
-
-\subsection{Analysis}
-Before choosing the exact analysis tools to be used, more information needs to be gathered about the tools and the workload to be analyzed. There is some internal interest in using the PSE tool for dynamic analysis and since Jussi Hanhirova has been exploring the tool and the using it to analyze applications for TMS320C6678 it seems like a logical choice on the Dynamic analysis side.
+To keep the implementation simple all I/O is omitted from the experiment. The omission of I/O is justified by keeping the experiment strictly focused on the computation in stream processing. The effects of an I/O layer to the studied workload are investigated through literature. 
