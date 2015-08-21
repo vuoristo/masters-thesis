@@ -1,4 +1,4 @@
-PROJECT=thesis
+PROJECT=thesis-vuorio
 TEX=pdflatex
 BIBTEX=bibtex
 BUILDTEX=$(TEX) $(PROJECT).tex
