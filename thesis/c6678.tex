@@ -58,9 +58,21 @@ the IO from the application design.
 The IDE used for development of the experiment applications is called Code
 Composer Studio. CCS version 5.2. is distributed with the evaluation module.
 CCS is discussed in detail in \ref{subsec:devtools}.
-\subsection{C6678 Cores}
-Pipeline
-Vector instructions
+
+\subsection{c66x DSP}
+TMS320C6678 is a multicore fixed and floating-point DSP. The device supports
+core speed up to 1.4 GHz but was set up to run at 1.0 GHz for all the
+experiments. The device consists of eight c66x DSPs, on-chip memory and
+peripherals. The c66x is based on TMS320C66x ISA which is a VLIW architecture
+with 8 functional units. The c66x CPU has 64 general-purpose 32 bit registers.
+\cite{sprugh7}
+
+The CPU is capable of dispatching up to eight parallel instructions every
+cycle. The instructions dispatched in parallel move through pipeline stages
+simultaneously. Pipelining helps eliminate CPU stalls while waiting for memory
+operations or other CPU instructions taking multiple cycles complete.
+\cite{sprugh7}
+
 \subsection{Memory}
 \label{subsec:c66memory}
 Caches
