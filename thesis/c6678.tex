@@ -37,29 +37,39 @@ the experiments is the support for the platform in PREESM
     \end{center}
 \end{figure}
 
-The Keystone I architecture the TMS320C6678 is based on specifies a set
-of hardware elements which enable integration of DSP cores, application 
-specific co-processors and IO \cite{tmsdatasheet}. In the Keystone I 
-architecture there are multiple ways for the C66x cores to communicate
-with each other, the memory and the peripherals. The methods of
-communication of specific interest for the experiments in this thesis
-are communication through shared memory and communication through
-Multicore Navigator.
+The Keystone I architecture the TMS320C6678 is based on specifies a set of
+hardware elements which enable integration of DSP cores, application specific
+co-processors and IO \cite{tmsdatasheet}. In the Keystone I architecture there
+are multiple ways for the C66x cores to communicate with each other, the memory
+and the peripherals. The methods of communication of specific interest for the
+experiments in this thesis are communication through shared memory discussed in
+\ref{subsec:c66memory} and communication through packet based communication
+manager Multicore Navigator introduced in \ref{subsec:multicorenav}.
 
-Keystone I architecture
-Explain the evaluation module
-Development tools
+The development board used for development of the experiment applications and 
+measurements was an Advantech TMDXEVM6678L. TMDXEVM6678L is an evaluation module
+and hardware reference design platform for the TMS320C6678 multicore DSP. The
+evaluation module provides 512 megabytes of DDR3 memory and an onboard XDS100
+emulator with USB connectivity along with other features. \cite{evmref} The 
+connectivity provided by the onboard emulator simplified developing and
+debugging for the platform. The memory on the evaluation module helped us omit
+the IO from the application design.
 
+The IDE used for development of the experiment applications is called Code
+Composer Studio. CCS version 5.2. is distributed with the evaluation module.
+CCS is discussed in detail in \ref{subsec:devtools}.
 \subsection{C6678 Cores}
 Pipeline
 Vector instructions
 \subsection{Memory}
+\label{subsec:c66memory}
 Caches
 MSMC
 Off chip memory in the EVM
 \subsection{Multicore Navigator}
+\label{subsec:multicorenav}
 QMSS
 PDSP
 \subsection{Development Tools}
-
+\label{subsec:devtools}
 
