@@ -75,9 +75,26 @@ operations or other CPU instructions taking multiple cycles complete.
 
 \subsection{Memory}
 \label{subsec:c66memory}
+Each c66x CPU has 32 KB level 1 program cache (L1P), 32 KB level 1 data cache
+(L1D) and 512 KB of level 2 cache. Initially after bootup both L1P and L1D are
+configured as cache but they can be reconfigured as addressable memory by
+software. The L2 memory is always configured as addressable memory after reset
+but can be configured as cache by software. \cite{tmsdatasheet} L2 SRAM
+addresses are always cached with L1P and L1D whereas external memory addresses
+are configured noncacheable by default \cite{cacheguide}.
+
+In PC hardware cache coherence is usually handled automatically by the hardware.
+In c66x, however, that is not the case. Each c66x core maintains cache coherence
+between its L1 caches and the L2 cache automatically but programmer needs to
+manage coherence in most other cases. For example if caching is enabled
+for an external memory region shared by two cores, explicit cache coherence
+operations need to be performed before each core can read from or write to the
+shared region \cite{cacheguide}.
+
 Caches
 MSMC
 Off chip memory in the EVM
+Communication
 \subsection{Multicore Navigator}
 \label{subsec:multicorenav}
 QMSS
