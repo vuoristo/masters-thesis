@@ -128,5 +128,17 @@ packet buffers between memory locations. When a packet is sent to a queue The
 PKTDMA reads the address of the data to be transferred from packet descriptor,
 transfers the data in one or more data moves and writes the pointer to the data
 queue specified as the receiver of the packet. \cite{navigator}
-\subsection{Development Tools} \label{subsec:devtools}
 
+\subsection{Development Tools}
+\label{subsec:devtools}
+TODO: do we need this? where to find references, ti doesn't even have a printed
+CCS manual
+
+
+Texas Instruments provides a suite of tools for development on the TMS320C6678
+devices. In this thesis the development tools were used through an Eclipse based
+IDE called Code Composer Studio (CCS). CCS integrates source editor, compiler,
+debugger, simulator and other tools. CCS version 5.2 was used in this thesis 
+and is available for Linux. \cite{ccspage} The thesis experiments were developed
+with CCS in C89. The v8.x Texas Instruments optimizing compiler was used
+\cite{compilerguide}.
