@@ -103,8 +103,37 @@ itself contains 4096KB of shared memory accesible by all cores.
 
 \subsection{Multicore Navigator}
 \label{subsec:multicorenav}
-QMSS
-PDSP
+Multicore Navigator is the name for a collection of features in Keystone I and
+II devices which enables hardware-accelerated, packet-based communication
+between the on-chip devices. Texas Instruments claims the use of specialized
+hardware for on-chip communication results in significant performance gains
+when implemented carefully. Among the design goals stated for the Multicore
+Navigator are minimizing host interaction and maximizing memory use efficiency.
+\cite{navigator}
+
+In Keystone I devices such as the TMS320C6678 the Multicore Navigator provides 
+a hardware queue manager, a special DMA access for different subsystems called
+PKTDMA, for Packet DMA, and multicore host notifications via interrupts. 
+\cite{navigator} The Texas Instruments OpenEM implementation 
+\ref{chapter:openem} heavily utilizes the features provided by Multicore
+Navigator. Next the Queue Manager and PKTDMA are explained.
+
+The Queue Manager on Keystone I architecture devices is a hardware module that 
+manages 8192 queues. Packets are queued and removed from the queues by writing
+the packet descriptors to specific memory locations. The Queue Manager is
+responsible for accelerating the packet communication. In addition to the Queue
+Manager the Queue Management Subsystem contains two Packed Data Structure
+Processors (PSDP) which perform tasks related to the Queue Management.
+\cite{navigator} For example the TI implementation of OpenEM 
+\ref{chapter:openem} provides its own firmware for the PDSP cores which is
+utilized by the OpenEM runtime for event scheduling \cite{openemwhite}. Only
+one PDSP core is used by the OpenEM runtime
+
+The PKTDMA is a special DMA utilized by the Multicore Navigator to transfer
+packet buffers between memory locations. When a packet is sent to a queue
+The PKTDMA reads the address of the data to be transferred from packet 
+descriptor, transfers the data in one or more data moves and writes the pointer
+to the data queue specified as the receiver of the packet. \cite{navigator}
 \subsection{Development Tools}
 \label{subsec:devtools}
 
