@@ -75,8 +75,13 @@ operations or other CPU instructions taking multiple cycles complete.
 
 \subsection{Memory}
 \label{subsec:c66memory}
+The TMS320C6678 contains a multi-layer memory hierarchy which can be configured
+by the user to a large extent. The memory hierarchy in the device consists of L1
+and L2 memories of each core, Multicore Shared Memory (MSM) and additionally
+external memory provided by the evaluation module.
+
 Each c66x CPU has 32 KB level 1 program cache (L1P), 32 KB level 1 data cache
-(L1D) and 512 KB of level 2 cache. Initially after bootup both L1P and L1D are
+(L1D) and 512 KB of level 2 memory. Initially after bootup both L1P and L1D are
 configured as cache but they can be reconfigured as addressable memory by
 software. The L2 memory is always configured as addressable memory after reset
 but can be configured as cache by software. \cite{tmsdatasheet} L2 SRAM
@@ -91,10 +96,11 @@ for an external memory region shared by two cores, explicit cache coherence
 operations need to be performed before each core can read from or write to the
 shared region \cite{cacheguide}.
 
-Caches
-MSMC
-Off chip memory in the EVM
-Communication
+The evaluation module has 512 MB of DDR3 memory \cite{evmref}. The memory in
+the evaluation module, as any external memory in other hardware configurations,
+is accessible through the Multicore Shared Memory Controller (MSMC). The MSMC
+itself contains 4096KB of shared memory accesible by all cores.
+
 \subsection{Multicore Navigator}
 \label{subsec:multicorenav}
 QMSS
