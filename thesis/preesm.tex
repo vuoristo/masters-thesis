@@ -1,7 +1,7 @@
 \chapter{PREESM}
 \label{chapter:preesm}
 In this chapter the PREESM rapid prototyping framework is introduced. First an
-overview of the framework is given. Second Dataflow models of computation are
+overview of the framework is given. Second dataflow models of computation are
 discussed. Third development using the PREESM framework is discussed.
 
 \section{PREESM Overview}
@@ -14,13 +14,15 @@ guaranteed to be deadlock free \cite{pelcat2014preesm}. The code generation can
 be configured through graphical tools which provide hints to the scheduler about
 the execution time of different actors and rules on which cores they can be
 executed on. A PREESM dataflow diagram is presented in figure
+\ref{preesm_example}.
 
 \begin{figure}[h!] \label{preesm_example} \begin{center}
     \includegraphics[width=0.99\textwidth]{images/example_preesm_diagram.png}
-    \caption{Dataflow diagram used by PREESM} \end{center}
+    \caption{A simple dataflow diagram used by PREESM} \end{center}
 \end{figure}
-The reason PREESM was used in the experiment was the need for a simple way to
-create multicore applications to provide a baseline for the OpenEM application.
+
+PREESM was used in the experiment for its simplicity and its ability to generate
+code for TMS320C6678 to be used as a baseline for the OpenEM application.
 
 \section{Dataflow Models of Computation}
 \label{sec:dataflow}
