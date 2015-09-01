@@ -12,9 +12,10 @@ provides a programming model for scalable and dynamically load balanced
 applications. The key components of the OpenEM programming model are events,
 execution objects, queues and the scheduler. OpenEM works with
 run-to-completion principle which means once an event begins to execute it will
-not be interrupted by the runtime. The run-to-completion principle implies
-limitations within which well performing applications must be designed, the
-main limitation being the required small granule size for computations.
+not be interrupted but will run until completed. The run-to-completion
+principle implies limitations within which well performing applications must be
+designed, the main limitations being the required small granule size for
+computations and the lock-free implementation of the application.
 \cite{openempage}
 
 The unit of communication in OpenEM is the Event described in
@@ -22,14 +23,31 @@ The unit of communication in OpenEM is the Event described in
 connected to Execution Objects (\ref{subsec:eos}). The scheduler
 (\ref{subsec:schedule}) chooses an event from a suitable queue based on
 scheduling rules and schedules it on a core.
+
 \subsection{Events}
 \label{subsec:event}
+In the core of the OpenEM framework design is the event. The work to be done by
+an OpenEM application is divided into application specific pieces of data
+called events. OpenEM does not specify the event content to allow for the use
+of hardware specific descriptors in OpenEM implementations for different
+hardware platforms. Usually events carry pointers to messages or descriptors.
+\cite{openemintro} For example in a network packet processing application an
+arriving packet could be converted to or encapsulated by an event.
+
+Event memory is managed by OpenEM, meaning the application allocates events
+from OpenEM and freeing events returns the control of the memory to OpenEM
+\cite{openemintro}.
 \subsection{Execution Objects}
 \label{subsec:eos}
 \subsection{Queues}
 \label{subsec:queues}
 \subsection{Scheduling}
 \label{subsec:schedule}
+\subsection{An Illustrative Example}
+\label{subsec:example}
+Present a graphical representation of a simple OpenEM application\\
+Explain the execution of the application
+
 
 \section{Texas Instruments Implementation of OpenEM}
 \subsection{Multicore Navigator and OpenEM}
