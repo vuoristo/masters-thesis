@@ -10,7 +10,7 @@ The PREESM rapid prototyping framework for multicore development was used to
 create a workload application for the thesis experiment described in
 \ref{sec:firstexperiment}. Dataflow Models of Computation (MoC), discussed in
 section \ref{sec:dataflow}, are used in PREESM to build a representation of the
-application. The application is divided into parallel actors which communicate
+application. The application is divided into parallel actors, which communicate
 through First In, First Out (FIFO) data queues. The actors are manually created
 by the application designer in the target language. PREESM provides graphical
 tools for editing the dataflow diagram and it generates a static schedule for
@@ -18,7 +18,7 @@ multicore platforms that is guaranteed to be deadlock free. PREESM combines the
 generated and manually created code into a multicore executable
 \cite{pelcat2014preesm}. The code generation can be configured through graphical
 tools that provide hints to the schedule generation about the execution time of
-different actors and rules on which cores they can be executed on. A PREESM
+different actors and rules on which cores they can be executed. A PREESM
 dataflow diagram is presented in figure \ref{preesm_example}.
 
 \begin{figure}[h!] \label{preesm_example} \begin{center}
@@ -37,7 +37,8 @@ PREESM applications are created by combining inputs of two different
 internal representations and manually created source code. The two internal
 representations are described here: first the PREESM algorithm representation
 PiSDF and second the PREESM hardware model.
-\subsection{PiSDF}
+
+\subsection{PREESM Algorithm Representation}
 The PREESM applications are defined using the Parameterized and Interfaced
 Synchronous Dataflow Model of Computation (PiSDF)\cite{pelcat2014preesm}.
 
@@ -46,12 +47,25 @@ represents a function and the arcs are the only possible paths the data can
 traverse in the graph. In the generic Dataflow MoC the number of tokens produced
 or consumed by an actor is not known before execution. For example an actor may
 have two output paths and it may choose to produce an output token conditionally
-to either one (or both) of the paths. In contrast in Synchronous Data Flow MoC
-each actor produces and consumes a pre-determined number of tokens.
+to either one (or both) of the paths. In contrast in Synchronous Data Flow
+(SDF) MoC each actor produces and consumes a pre-determined number of tokens.
 \cite{lee1987synchronous} A more thorough explanation of Dataflow MoCs can be
 found in \cite{lee2015introduction}.
 
-\subsection{The System-Level Architecture Model (S-LAM)}
+PREESM uses an extended version of SDF called PiSDF \cite{pelcat2014preesm}.
+PiSDF extends SDF by providing hierarchical graphs based on interfaces and by
+introducing parameterized actors. An actor in PiSDF can be replaced by a
+subgraph, which has input and output interfaces. The interfaces insulate the
+hierarchy levels in terms of schedulability analysis. The parameters are used
+to reconfigure the production and consumption rates of the actors.
+\cite{desnos2013pimm} An example of a PiSDF graph is presented in figure
+\ref{preesm_example}. The parameters of the PiSDF model are presented at the
+top of the figure as pentagons connected to the actors with dashed lines. The
+actors have input and output ports for parameters and data. The ports define
+the input and output interfaces of the actors. The actual data paths are the
+arcs connecting the actors in the bottom of the figure.
+
+\subsection{PREESM Platform Representation}
 
 \section{Development with PREESM}
 \label{sec:preesmdev}
