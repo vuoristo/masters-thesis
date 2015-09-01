@@ -66,6 +66,18 @@ the input and output interfaces of the actors. The actual data paths are the
 arcs connecting the actors in the bottom of the figure.
 
 \subsection{PREESM Platform Representation}
+The PREESM code generation is aware of the target hardware platform. PREESM
+uses System-Level Architecture Model (S-LAM) \cite{pelcat2009system} to
+describe the target architecture. S-LAM is designed specifically to provide
+architecture models of high asbtraction level for rapid prototyping purposes.
+S-LAM is suitable for modeling heterogeneous architectures as a S-LAM can
+contain different types of computational resources and communication links.  In
+PREESM the speeds of the connections in the S-LAM are calculated and taken into
+account when creating a static schedule. \cite{pelcat2009system}
+
+PREESM provides graphical tools for editing the S-LAM. For example the S-LAM
+representing the TMS320C6678 used in experiment \ref{sec:firstexperiment} is
+quite simple consisting of eight c6678 cores connected through shared memory.
 
 \section{Development with PREESM}
 \label{sec:preesmdev}
