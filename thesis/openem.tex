@@ -1,2 +1,38 @@
 \chapter{Open Event Machine}
 \label{chapter:openem}
+This thesis investigates the suitability of Open Event Machine (OpenEM) for
+real-time stream processing. OpenEM is a programming framework for event-driven
+multicore applications.
+
+\section{OpenEM Framework}
+\subsection{Overview}
+OpenEM is an event-driven programming framework originally developed for the
+networking data plane by Nokia Solutions and Networks. The OpenEM framework
+provides a programming model for scalable and dynamically load balanced
+applications. The key components of the OpenEM programming model are events,
+execution objects, queues and the scheduler. OpenEM works with
+run-to-completion principle which means once an event begins to execute it will
+not be interrupted by the runtime. The run-to-completion principle implies
+limitations within which well performing applications must be designed, the
+main limitation being the required small granule size for computations.
+\cite{openempage}
+
+The unit of communication in OpenEM is the Event described in
+\ref{subsec:event}. Events are sent to Queues (\ref{subsec:queues}). Queues are
+connected to Execution Objects (\ref{subsec:eos}). The scheduler
+(\ref{subsec:schedule}) chooses an event from a suitable queue based on
+scheduling rules and schedules it on a core.
+\subsection{Events}
+\label{subsec:event}
+\subsection{Execution Objects}
+\label{subsec:eos}
+\subsection{Queues}
+\label{subsec:queues}
+\subsection{Scheduling}
+\label{subsec:schedule}
+
+\section{Texas Instruments Implementation of OpenEM}
+\subsection{Multicore Navigator and OpenEM}
+\subsection{State of TI OpenEM Implementation}
+
+
