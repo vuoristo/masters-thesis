@@ -106,6 +106,19 @@ dynamically.
 
 \subsection{Scheduling}
 \label{subsec:schedule}
+OpenEM does not define queue scheduling disciplines in detail
+\cite{openempage}. The \textbf{scheduler} is implemented in hardware or
+software and is specific to the OpenEM implementation. The purpose of the
+scheduler across the OpenEM implementations is to dequeue events from the
+queues according to its scheduling rules. \cite{openemintro} Queue types and
+queue groups affect the scheduling as described in \ref{subsec:queues}.
+
+Each core executes the dispatcher which will be called by the scheduler
+whenever an event is scheduled on the core. The dispatcher can run either in an
+OS thread or on bare metal. Dispatcher checks which queue the event was
+dequeued from and calls the receive function of the EO associated with that
+queue. \cite{openemintro}
+
 \subsection{An Illustrative Example}
 \label{subsec:example}
 Present a graphical representation of a simple OpenEM application\\
@@ -117,6 +130,7 @@ Explain the execution of the application
 Centralized Scheduler on a PDSP core\\
 Hardware queues\\
 \subsection{Other TI Specific OpenEM features}
+Scheduling\\
 Tracing\\
 Event Preloading??\\
 Initialization of OpenEM\\
