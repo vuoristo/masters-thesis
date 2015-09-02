@@ -215,4 +215,28 @@ Queue Group limitations\\
 Execution Object context\\
 Parallel Ordered Queue\\
 
+\begin{itemize}
+    \item \textbf{Event Groups},
+        The TI implementation of event groups is otherwise complete but it lacks
+        em\_event\_group\_delete function.
+    \item \textbf{Distributed Scheduling},
+        A synchronous scheduler is mentioned in \cite{openemwhite}. In
+        synchronous mode the scheduler is distributed on the cores and executes
+        synchronously after the end of event processing on that core. The
+        distributed scheduling is not implemented. Distributed Scheduling is not
+        part of the NSN specification of OpenEM.
+    \item \textbf{Execution Object context},
+        Execution Object context as described in \ref{subsec:eos} is not
+        implemented.
+    \item \textbf{Parallel Ordered Queue},
+        Parallel Ordered Queue type is not implemented.
+    \item \textbf{Unscheduled Queue},
+        Unscheduled Queue type is not implemented.
+\end{itemize}
 
+In addition to the limitations listed above the Queue Group implementation
+appears incomplete in the version 1.0.0.2. Queue Groups can be defined and
+modified as described in \ref{subsec:queues} but only one queue group can exist
+at any given time. This could be a limitation of the hardware platform but there
+is not mention of the limitation in the TI OpenEM implementation documentation
+or the header files.
