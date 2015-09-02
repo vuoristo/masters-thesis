@@ -4,26 +4,27 @@ This thesis investigates the suitability of Open Event Machine (OpenEM) for
 real-time stream processing. OpenEM is a programming framework for event-driven
 multicore applications.
 
-At the time of writing there are no public documentation resources for the NSN
-OpenEM other than the documentation included in the OpenEM source files
-available at \cite{openempage} and the introductory slides at
-\cite{openemintro}. Hardware vendor implementations of OpenEM exist and may
-have more complete documentation available as is the case for the Texas
-Instruments OpenEM implementation introduced in section \ref{sec:tiopenem}.
+At the time of writing there are no public documentation resources for the Nokia
+Solutions and Networks (NSN) implementation of OpenEM other than the
+documentation included in the OpenEM source files available at \cite{openempage}
+and the introductory slides at \cite{openemintro}. Hardware vendor
+implementations of OpenEM exist and may have more complete documentation
+available as is the case for the Texas Instruments OpenEM implementation
+introduced in section \ref{sec:tiopenem}.
 
 \section{OpenEM Framework}
+\label{sec:emframework}
 \subsection{Overview}
 OpenEM is an event-driven programming framework originally developed for the
-networking data plane by Nokia Solutions and Networks. The OpenEM framework
-provides a programming model for scalable and dynamically load balanced
-applications. The key components of the OpenEM programming model are events,
-execution objects, queues and the scheduler. OpenEM works with
-run-to-completion principle which means once an event begins to execute it will
-not be interrupted but will run until completed. The run-to-completion
-principle implies limitations within which well performing applications must be
-designed, the main limitations being the required small granule size for
-computations and the lock-free implementation of the application.
-\cite{openempage}
+networking data plane by NSN. The OpenEM framework provides a programming model
+for scalable and dynamically load balanced applications. The key components of
+the OpenEM programming model are events, execution objects, queues and the
+scheduler. OpenEM works with run-to-completion principle which means once an
+event begins to execute it will not be interrupted but will run until completed.
+The run-to-completion principle implies limitations within which well performing
+applications must be designed, the main limitations being the required small
+granule size for computations and the lock-free implementation of the
+application. \cite{openempage}
 
 The OpenEM design principles are explained in the OpenEM source files available
 at \cite{openempage}. Many of the OpenEM features described in the following
@@ -49,12 +50,21 @@ The following list is not in any particular order.
         performance.
 \end{itemize}
 
-The next sections will introduce the key concepts of OpenEM framework. The unit
-of communication in OpenEM is the Event described in \ref{subsec:event}. Events
-are sent to Queues (\ref{subsec:queues}). Queues are connected to Execution
-Objects (\ref{subsec:eos}). The scheduler (\ref{subsec:schedule}) chooses an
-event from a suitable queue based on scheduling rules and schedules it on a
-core.
+Another factor explaining the loose definitions is how NSN views the status of
+its own public OpenEM implementation targeted for Intel DPDK. The disclaimer in
+the NSN source distribution at \cite{openempage} states:
+``The implementation of OpenEM for Intel CPUs in this package should
+NOT be considered a `Reference OpenEM implementation', but rather an `Example of
+an all-SW implementation of OpenEM for Intel CPUs'.'' This helps put the
+differences between the OpenEM API specification and the TI OpenEM
+implementation introduced in \ref{sec:tiopenem} in context.
+
+The next sections will introduce the key concepts of OpenEM framework as
+described in the OpenEM source distribution at \cite{openempage}. The unit of
+communication in OpenEM is the Event described in \ref{subsec:event}. Events are
+sent to Queues (\ref{subsec:queues}). Queues are connected to Execution Objects
+(\ref{subsec:eos}). The scheduler (\ref{subsec:schedule}) chooses an event from
+a suitable queue based on scheduling rules and schedules it on a core.
 
 \subsection{Events}
 \label{subsec:event}
