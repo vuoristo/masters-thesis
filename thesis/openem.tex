@@ -18,6 +18,13 @@ designed, the main limitations being the required small granule size for
 computations and the lock-free implementation of the application.
 \cite{openempage}
 
+At the time of writing there are no public documentation resources for the NSN
+OpenEM other than the documentation included in the OpenEM source files
+available at \cite{openempage} and the introductory slides at
+\cite{openemintro}. Hardware vendor implementations of OpenEM exist and may
+have more complete documentation available as is the case for the Texas
+Instruments OpenEM implementation introduced in section \ref{sec:tiopenem}.
+
 The unit of communication in OpenEM is the Event described in
 \ref{subsec:event}. Events are sent to Queues (\ref{subsec:queues}). Queues are
 connected to Execution Objects (\ref{subsec:eos}). The scheduler
@@ -39,6 +46,25 @@ from OpenEM and freeing events returns the control of the memory to OpenEM
 \cite{openemintro}.
 \subsection{Execution Objects}
 \label{subsec:eos}
+The work to be done is described by the events but they don't describe how it
+is done. For that purpose there are Execution Objects (EO), which contain the
+application logic. The application is built from EOs connected by queues.
+Multiple queues can be connected to an EO and an EO may execute on multiple
+cores if the queue types of the connected queues allow for it.
+\cite{openemintro}
+
+The application logic for each EO is contained in three functions, namely
+start, receive and stop, which will get called in different phases of the EO
+lifecycle. EO construction and destruction are handled through the application
+defined start and stop functions. The receive function will be called whenever
+the EO has received an event and is scheduled on a core. \cite{openemintro}
+
+OpenEM implementations will pass a pointer to an user defined context when
+calling the receive function. The application designer has complete freedom
+over the EO context contents as the OpenEM runtime only passes an user defined
+pointer. \cite{openemintro} The application designer should note that as
+locking is discouraged and the EO may execute on multiple cores simultaneously,
+care must be exercised when accessing the EO context.
 \subsection{Queues}
 \label{subsec:queues}
 \subsection{Scheduling}
@@ -49,6 +75,7 @@ Present a graphical representation of a simple OpenEM application\\
 Explain the execution of the application
 
 \section{Texas Instruments Implementation of OpenEM}
+\label{sec:tiopenem}
 \subsection{Multicore Navigator and OpenEM}
 Centralized Scheduler on a PDSP core\\
 Hardware queues\\
