@@ -4,6 +4,13 @@ This thesis investigates the suitability of Open Event Machine (OpenEM) for
 real-time stream processing. OpenEM is a programming framework for event-driven
 multicore applications.
 
+At the time of writing there are no public documentation resources for the NSN
+OpenEM other than the documentation included in the OpenEM source files
+available at \cite{openempage} and the introductory slides at
+\cite{openemintro}. Hardware vendor implementations of OpenEM exist and may
+have more complete documentation available as is the case for the Texas
+Instruments OpenEM implementation introduced in section \ref{sec:tiopenem}.
+
 \section{OpenEM Framework}
 \subsection{Overview}
 OpenEM is an event-driven programming framework originally developed for the
@@ -18,18 +25,36 @@ designed, the main limitations being the required small granule size for
 computations and the lock-free implementation of the application.
 \cite{openempage}
 
-At the time of writing there are no public documentation resources for the NSN
-OpenEM other than the documentation included in the OpenEM source files
-available at \cite{openempage} and the introductory slides at
-\cite{openemintro}. Hardware vendor implementations of OpenEM exist and may
-have more complete documentation available as is the case for the Texas
-Instruments OpenEM implementation introduced in section \ref{sec:tiopenem}.
+The OpenEM design principles are explained in the OpenEM source files available
+at \cite{openempage}. Many of the OpenEM features described in the following
+sections are loosely defined and leave some details unspecified. A selection of
+the design principles is presented here to help understand the lack of detail.
+The following list is not in any particular order.
+\begin{itemize}
+    \item OpenEM has been designed to be \emph{easy to implement on different
+        multicore SoCs}.
+    \item \emph{Easy integration with modern hardware accelerators} is stated
+        to have been a major driver in the OpenEM concept design.
+    \item \emph{All of the calls in the OpenEM API are multicore safe} meaning
+        no data structure gets broken if multiple cores make calls
+        simultaneously. However the application designer needs to take the
+        parallelism into consideration with regards to the application data
+        structures and execution order.
+    \item \emph{The API attempts to guide the application designer towards
+        portable architecture.}
+    \item \emph{The API is not defined for portability through recompilation.}
+    \item \emph{OpenEM does not implement a full software platform or a
+        middleware solution.} OpenEM implements a driver-level layer of such a
+        solution but can be used by the application directly for best
+        performance.
+\end{itemize}
 
-The unit of communication in OpenEM is the Event described in
-\ref{subsec:event}. Events are sent to Queues (\ref{subsec:queues}). Queues are
-connected to Execution Objects (\ref{subsec:eos}). The scheduler
-(\ref{subsec:schedule}) chooses an event from a suitable queue based on
-scheduling rules and schedules it on a core.
+The next sections will introduce the key concepts of OpenEM framework. The unit
+of communication in OpenEM is the Event described in \ref{subsec:event}. Events
+are sent to Queues (\ref{subsec:queues}). Queues are connected to Execution
+Objects (\ref{subsec:eos}). The scheduler (\ref{subsec:schedule}) chooses an
+event from a suitable queue based on scheduling rules and schedules it on a
+core.
 
 \subsection{Events}
 \label{subsec:event}
