@@ -44,6 +44,12 @@ arriving packet could be converted to or encapsulated by an event.
 Event memory is managed by OpenEM, meaning the application allocates events
 from OpenEM and freeing events returns the control of the memory to OpenEM
 \cite{openemintro}.
+
+OpenEM includes a fork-join helper called \textbf{Event Groups}. Event groups
+track the completion of the events sent to the group and send a notification
+event once a predetermined number of events have completed. The events belonging
+to an event group execute independently of each other and depending on other
+scheduling rules may execute on different cores. \cite{openemintro}
 \subsection{Execution Objects}
 \label{subsec:eos}
 The work to be done is described by the events but they don't describe how it
