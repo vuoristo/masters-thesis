@@ -80,7 +80,7 @@ Event memory is managed by OpenEM, meaning the application allocates events
 from OpenEM and freeing events returns the control of the memory to OpenEM
 \cite{openemintro}.
 
-OpenEM includes a fork-join helper called \textbf{Event Groups}. Event groups
+OpenEM includes a fork-join helper called \textbf{event groups}. Event groups
 track the completion of the events sent to the group and send a notification
 event once a predetermined number of events have completed. The events belonging
 to an event group execute independently of each other and depending on other
@@ -174,12 +174,12 @@ handler is an application specified function which will be called by the OpenEM
 implementation when an error happens or the application calls
 \texttt{em\_error}. The error handler can be used to centralize error
 management. The application can register a global error handler and additionally
-one error handler per EO. If an error occurs in the scope of an EO and there is
-an error handler registered with that EO, the runtime will call the error
-handler. If there is no error handler registered with the EO, the runtime will
-check if there is a global error handler registered. If there is no applicable
-error handler registered, the runtime just returns an error status code from the
-API functions. \cite{openempage}
+one error handler for each EO. If an error occurs in the scope of an EO and
+there is an error handler registered with that EO, the runtime will call the
+error handler. If there is no error handler registered with the EO, the runtime
+will check if there is a global error handler registered. If there is no
+applicable error handler registered, the runtime just returns an error status
+code from the API functions. \cite{openempage}
 
 The error handler can modify the return value of the original API call. This can
 be useful if a centralized error handling is desired. The error handler can free
@@ -235,12 +235,15 @@ DMA engine when the scheduler has scheduled the event. Using preloading results
 in fewer write stalls. \cite{openemwhite}
 
 \subsection{Hardware Acceleration in TI OpenEM}
+check the ti openem files cppi\_device.c and qmss\_device.c to get a clue.
 HW Queues, PDSP cores
 
 \subsection{Error Handling}
+The TI OpenEM implements the error handling mechanisms shared between the OpenEM
+implementations described in \ref{subsec:error}.
 
 \subsection{Cache Coherency}
-OpenEM white paper explains the caching in detail
+OpenEM white paper explains the caching in some detail
 
 \subsection{Programming with TI OpenEM}
 Initialization, Example\_0
