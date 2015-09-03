@@ -166,21 +166,46 @@ queue. \cite{openemintro}
 TODO: Present a graphical representation of a simple OpenEM application\\
 TODO: Explain the execution of the application
 
-\section[Texas Instruments Implementation of OpenEM]{Texas Instruments Implementation \\ of OpenEM}
+\section[Texas Instruments Implementation of OpenEM]{Texas Instruments
+Implementation \\ of OpenEM}
 \label{sec:tiopenem}
 This section describes the Texas Instruments OpenEM implementation version
 1.0.0.2. The TI OpenEM library is delivered as a part of the TI Multicore
 Software Development Kit (MCSDK), which is available for download at
-\cite{mcsdkdown}.\\
+\cite{mcsdkdown}. MCSDK distribution contains source files for the OpenEM
+components defined in the OpenEM API but no source code is available for the
+scheduler. The components for which source code is available all execute on the
+DSP cores whereas the scheduler executes on a PDSP core. \\
 TODO: Hardware queues\\
 TODO: Initialization of OpenEM\\
 TODO: Cache Coherency\\
 TODO: Error Handling, both in TI and general
 
 \subsection{Scheduling}
-The TI OpenEM scheduler is running on a separate PDSP core. Unfortunately no
-source code or assembly for the scheduler is available in the MCSDK distribution.\\
-TODO: Explain this
+The TI OpenEM documentation specifies two alternative scheduling modes, namely
+synchronous and asynchronous scheduling. This section describes only the
+asynchronous scheduling as the synchronous scheduler is not available in the
+version 1.0.0.2. The asynchronous scheduler is deployed on the PDSP cores of the
+Multicore Navigator described in \ref{subsec:multicorenav}. The synchronous
+scheduler is deployed on the c66x cores described in \ref{subsec:c66x}.
+
+The scheduler running on a PDSP core considers four scheduling criteria:
+Priority, Atomicity, Locality and Order. Each queue has a priority. The
+scheduler will always select events from the queues which have the highest
+priority. Queues are either atomic or parallel. The atomic and parallel queues
+function as described in \ref{subsec:queues}. Locality criterion means that the
+scheduler tries to schedule consecutive events from any given queue on the same
+core if possible. The last criterion for scheduling is order. If multiple events
+are eligible for scheduling, the event that has been in a queue longest will be
+scheduled. \cite{openemwhite}
+
+Unlike the scheduler, the dispatcher is deployed on the c66x cores. The
+dispatcher checks if there are events scheduled for execution on the core it was
+called from. The calls to the dispatcher are non-blocking and are made from the
+application code, typically from within a dispatch loop. The dispatcher returns
+immediately if no events are available for dispatching. If an event is available
+the dispatcher will call the receive function of the EO connected to the queue
+the event was received from. \cite{openemwhite}
 
 \subsection{OpenEM Tracing}
 TI OpenEM includes a built-in tracing feature that provides useful data about
@@ -211,7 +236,7 @@ The TI OpenEM library version 1.0.0.2 does not implement the complete OpenEM API
 as specified by the NSN implementation of OpenEM described in
 \ref{sec:emframework}. The following listing presents the unimplemented features
 as listed in the OpenEM library version 1.0.0.2 release notes
-\cite{openemnotes}.
+\cite{openemnotes} and the TI OpenEM white paper \cite{openemwhite}.
 
 \begin{itemize}
     \item \textbf{Event Groups},
@@ -223,6 +248,10 @@ as listed in the OpenEM library version 1.0.0.2 release notes
         synchronously after the end of event processing on that core. The
         distributed scheduling is not implemented. Distributed Scheduling is not
         part of the NSN specification of OpenEM.
+    \item \textbf{Co-operative dispatcher},
+        The co-operative dispatcher described in \cite{openemwhite} provides
+        services for suspending and resuming events. The co-operative dispatcher
+        only works with the synchronous scheduler.
     \item \textbf{Execution Object context},
         Execution Object context as described in \ref{subsec:eos} is not
         implemented.
