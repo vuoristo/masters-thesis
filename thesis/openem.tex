@@ -91,7 +91,7 @@ scheduling rules may execute on different cores. \cite{openemintro}
 The work to be done is described by the events but they don't describe how it
 is done. For that purpose there are \textbf{Execution Objects} (EO), which
 contain the application logic. The application is built from EOs connected by
-queues.  Multiple queues can be connected to an EO and an EO may execute on
+queues. Multiple queues can be connected to an EO and an EO may execute on
 multiple cores if the queue types of the connected queues allow for it.
 \cite{openemintro}
 
@@ -115,7 +115,7 @@ always attached to a single EO but an EO can have multiple queues attached.
 Events are sent to queues and scheduled for execution based on queue scheduling
 properties: priority, type and queue group. \cite{openemintro}
 
-There are for types of queues: atomic, parallel, parallel ordered and
+There are four types of queues: atomic, parallel, parallel ordered and
 unscheduled \cite{openemintro}. The programming construct representing the
 queues is the same type for all queues but here a queue which type is atomic
 will be called an atomic queue for simplicity, this applies to other queues as
@@ -143,8 +143,8 @@ can be used for example to separate application layers, control load balancing
 or help guarantee that quality of service or latency targets are reached.
 \cite{openemintro} Queue groups can be modified at initialization of the queues
 or later during the execution \cite{openempage}. Possibility for modifying the
-queue groups during execution can help in load balancing the application
-dynamically.
+queue groups during execution can be used to implement dynamic load balancing
+in the application.
 
 \subsection{Scheduling}
 \label{subsec:schedule}
