@@ -161,6 +161,9 @@ OS thread or on bare metal. Dispatcher checks which queue the event was
 dequeued from and calls the receive function of the EO associated with that
 queue. \cite{openemintro}
 
+\subsection{Error Handling}
+\label{subsec:error}
+
 \subsection{An Illustrative Example}
 \label{subsec:example}
 TODO: Present a graphical representation of a simple OpenEM application\\
@@ -175,11 +178,7 @@ Software Development Kit (MCSDK), which is available for download at
 \cite{mcsdkdown}. MCSDK distribution contains source files for the OpenEM
 components defined in the OpenEM API but no source code is available for the
 scheduler. The components for which source code is available all execute on the
-DSP cores whereas the scheduler executes on a PDSP core. \\
-TODO: Hardware queues\\
-TODO: Initialization of OpenEM\\
-TODO: Cache Coherency\\
-TODO: Error Handling, both in TI and general
+DSP cores whereas the scheduler executes on a PDSP core.
 
 \subsection{Scheduling}
 The TI OpenEM documentation specifies two alternative scheduling modes, namely
@@ -207,6 +206,23 @@ immediately if no events are available for dispatching. If an event is available
 the dispatcher will call the receive function of the EO connected to the queue
 the event was received from. \cite{openemwhite}
 
+\subsection{Event Preloading}
+OpenEM provides an option for event preloading. For events with the event
+preloading enabled the event buffers are moved to local L1/L2 ram by the Packet
+DMA engine when the scheduler has scheduled the event. Using preloading results
+in fewer write stalls. \cite{openemwhite}
+
+\subsection{Hardware Acceleration in TI OpenEM}
+HW Queues, PDSP cores
+
+\subsection{Error Handling}
+
+\subsection{Cache Coherency}
+OpenEM white paper explains the caching in detail
+
+\subsection{Programming with TI OpenEM}
+Initialization, Example\_0
+
 \subsection{OpenEM Tracing}
 TI OpenEM includes a built-in tracing feature that provides useful data about
 the runtime behaviour. To enable the trace capabilities of the OpenEM runtime the
@@ -225,12 +241,6 @@ overlapping times and therefore race conditions are possible.
 Tracing can be used for example to track the number of events in each queue.
 This type of tracking may help debug problems with congestion and many other
 types of problems with OpenEM.
-
-\subsection{Event Preloading}
-OpenEM provides an option for event preloading. For events with the event
-preloading enabled the event buffers are moved to local L1/L2 ram by the Packet
-DMA engine when the scheduler has scheduled the event. Using preloading results
-in fewer write stalls. \cite{openemwhite}
 
 \subsection{State of TI OpenEM Implementation}
 The TI OpenEM library version 1.0.0.2 does not implement the complete OpenEM API
