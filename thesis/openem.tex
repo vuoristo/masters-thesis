@@ -214,12 +214,13 @@ programmer has to link the application with a specific trace enabled version of
 the runtime library. \cite{openemapi}
 
 The trace API is quite simple. The application has to register a trace handler,
-which is a function pointer to a function that takes one ti\_em\_scope\_t and
-variable number of other arguments, with the OpenEM runtime. The trace handler
-will be called every time the runtime or the application makes calls to OpenEM
-functions such as em\_alloc, em\_send, ti\_em\_dispatch\_once etc.
-\cite{openemapi} The programmer should note that the handler may be called by
-multiple cores at overlapping times and therefore race conditions are possible.
+which is a function pointer to a function that takes one
+\texttt{ti\_em\_scope\_t} and variable number of other arguments, with the
+OpenEM runtime. The trace handler will be called every time the runtime or the
+application makes calls to OpenEM functions such as \texttt{em\_alloc},
+\texttt{em\_send}, \texttt{ti\_em\_dispatch\_once} etc. \cite{openemapi} The
+programmer should note that the handler may be called by multiple cores at
+overlapping times and therefore race conditions are possible.
 
 Tracing can be used for example to track the number of events in each queue.
 This type of tracking may help debug problems with congestion and many other
@@ -241,7 +242,7 @@ as listed in the OpenEM library version 1.0.0.2 release notes
 \begin{itemize}
     \item \textbf{Event Groups},
         The TI implementation of event groups is otherwise complete but it lacks
-        em\_event\_group\_delete function.
+        \texttt{em\_event\_group\_delete} function.
     \item \textbf{Distributed Scheduling},
         A synchronous scheduler is mentioned in \cite{openemwhite}. In
         synchronous mode the scheduler is distributed on the cores and executes
