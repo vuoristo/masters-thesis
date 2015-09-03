@@ -163,7 +163,29 @@ queue. \cite{openemintro}
 
 \subsection{Error Handling}
 \label{subsec:error}
+OpenEM provides two mechanisms for handling errors and exceptions. 1. Return
+values 2. Error handler.
 
+Most of the OpenEM API functions return status codes which can be checked by the
+application. \cite{openempage}
+
+Optionally an error handler can be registered with the OpenEM runtime. The error
+handler is an application specified function which will be called by the OpenEM
+implementation when an error happens or the application calls
+\texttt{em\_error}. The error handler can be used to centralize error
+management. The application can register a global error handler and additionally
+one error handler per EO. If an error occurs in the scope of an EO and there is
+an error handler registered with that EO, the runtime will call the error
+handler. If there is no error handler registered with the EO, the runtime will
+check if there is a global error handler registered. If there is no applicable
+error handler registered, the runtime just returns an error status code from the
+API functions. \cite{openempage}
+
+The error handler can modify the return value of the original API call. This can
+be useful if a centralized error handling is desired. The error handler can free
+the reserved memory, do the book keeping for the error and return
+\texttt{EM\_OK}, leaving no need for the application code outside the error
+handler to check for OpenEM errors. \cite{openempage}
 \subsection{An Illustrative Example}
 \label{subsec:example}
 TODO: Present a graphical representation of a simple OpenEM application\\
