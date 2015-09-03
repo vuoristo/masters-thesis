@@ -39,10 +39,10 @@ implementation a different, simpler mechanism was used.
 
 The TI implementation of event groups lacks \texttt{em\_event\_group\_delete}
 function which makes it necessary to reuse the existing event groups. The
-example applications which are included in the NSN OpenEM distribution described
-in \ref{openemframework} demonstrate reuse of event groups, but it was estimated
-that the programming overhead resulting from the reuse of the groups would be
-larger than implementing the fork-join in a simpler manner.
+example applications which are included in the NSN OpenEM distribution
+described in \ref{sec:emframework} demonstrate reuse of event groups, but it
+was estimated that the programming overhead resulting from the reuse of the
+groups would be larger than implementing the fork-join in a simpler manner.
 
 In the final implementation the frames are accumulated simply in a merge buffer
 located in shared memory which is referenced through queue context pointers. The
