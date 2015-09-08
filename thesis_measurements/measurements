@@ -1,19 +1,10 @@
-openem_cifcif
-    Standard measurements
-    Sobel cif 352 x 288
-    Gauss cif 352 x 288
-    1000 frames
-    no coremasks
-    4 slices
-    OpenEM_workload commit 0ceab7f
-
 openem_sobel4cif_gausscif
     Sobel 4cif 704 x 576
     Gauss cif 352 x 288
     1000 frames
     no coremasks
     4 slices
-    OpenEM_workload commit 0ceab7f
+    OpenEM_workload commit 7e3e976
 
 openem_sobelcif_gauss4cif
     Sobel cif 352 x 288
@@ -21,7 +12,7 @@ openem_sobelcif_gauss4cif
     1000 frames
     no coremasks
     4 slices
-    OpenEM_workload commit 0ceab7f
+    OpenEM_workload commit 7e3e976
 
 openem_sobelqcif_gaussqcif
     Sobel qcif 176 x 144
@@ -29,7 +20,7 @@ openem_sobelqcif_gaussqcif
     1000 frames
     no coremasks
     4 slices
-    OpenEM_workload commit 0ceab7f
+    OpenEM_workload commit 7e3e976
 
 openem_cifcif_1core
     Sobel cif 352 x 288
@@ -37,7 +28,7 @@ openem_cifcif_1core
     1000 frames
     1 core used
     4 slices
-    OpenEM_workload commit 20acfd9
+    OpenEM_workload commit 7e3e976
 
 openem_cifcif_Ncores
     Sobel cif 352 x 288
@@ -45,7 +36,7 @@ openem_cifcif_Ncores
     1000 frames
     N core used
     4 slices
-    OpenEM_workload commit 20acfd9
+    OpenEM_workload commit 7e3e976
 
 preesm_cifcif
     Sobel cif 352 x 288
