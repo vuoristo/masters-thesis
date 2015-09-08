@@ -1,6 +1,6 @@
 close all;
 clear all;
-filename = 'openem_cifcif.csv';
+filename = 'openem_cifcif_8cores';
 mdata = readtable(filename);
 
 
@@ -42,12 +42,14 @@ mergeEoSobelStartIndex = 35;
 mergeEoGaussStartIndex = 39;
 
 for i=1:8
-    % delete first 20 rows
-    coreTables{i}(1:20,:) = [];
-    % delete last 5 rows
-    coreTables{i}(end-4:end,:) = [];
-    % convert each i to matrix
     coreArray = table2array(coreTables{i});
+    % this is a hack for getting a reasonable total cycle count
+    maxCycleRows2(:,i) = coreArray(:,totalCyclesIndex);
+    % delete first 20 rows
+    coreArray(1:20,:) = [];
+    % delete last 5 rows
+    coreArray(end-4:end,:) = [];
+    
     % find max cycle counts
     maxCycleRows(:,i) = coreArray(:,totalCyclesIndex);
     sobelStartCycles(:,i) = coreArray(:,sobelStartCyclesIndex);
@@ -83,7 +85,13 @@ gaussFrameCycles = bsxfun(@minus, totalCycles(all(gaussCycles,2)),gaussCycles(al
 sobelLatency = mean(sobelFrameCycles)/10^6
 gaussLatency = mean(gaussFrameCycles)/10^6
 
-cyclesSpent = totalCycles(end) - totalCycles(1);
+
+sortedCycles = sort(max(maxCycleRows2,[],2));
+% the best approximation for the cycle count before execution is the 
+% cycle count from the last frame before actual measurements
+% this is because the TOTAL cycle count is saved after the merge EO
+% finishes
+cyclesSpent = sortedCycles(end-5) - sortedCycles(19);
 
 numFrames = size(maxCycleRows,1);
 fps = numFrames / (cyclesSpent / 10^9)
