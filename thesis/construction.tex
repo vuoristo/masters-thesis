@@ -5,15 +5,48 @@ experiments. The experiments and their results are described in
 \ref{chapter:experiments}. First the common idea behind the video filtering
 applications is explained and the filters used are described. After that the
 PREESM and OpenEM filter applications are introduced and last the PSE model of
-the OpenEM filter application is explained. This chapter focuses on the design
-and implementation of the applications.
+the OpenEM filter application is explained. This chapter is focused on the
+design and implementation of the applications.
 
 \section{Filter Application}
 \label{sec:filterapp}
+Edge detection is an important tool in image processing and computer vision.
+Many image processing and computer vision algorithms operate on detected edges.
+There is a growing interest in the industry to use DSP platforms for edge
+detection based algorithms. In this thesis two filters used in Canny edge
+detector are implemented as a part of a image processing application for Texas
+Instruments TMS320C6678 DSP. In this section an overview of the Canny edge
+detector is given. After that Sobel and Gaussian filter which are both used in
+Canny edge detectors and are implemented in this thesis are introduced.\\
 
+TODO: improve intro and find sources for claims. wikipedia on edge detection has
+about the same stuff as above.\\
+TODO: Explain the why the streams are separate and the frames are not processed
+by both of the filters.
 \subsection{Canny edge detector}
-\subsection{Sobel filter}
+In his 1986 paper John F. Canny \cite{canny1985computational} lays out the
+mathematical criteria for successful edge detection and presents an algorithm,
+which is suitable for implementation on DSP platforms and achieves decent edge
+detection performance. The Canny Edge Detection consists of five steps
+represented in the following list.
+
+\begin{enumerate}
+\item{Gaussian filtering}
+\item{Sobel filtering}
+\item{Non-maximum supression}
+\item{Double tresholding}
+\item{Edge tracking by hysteresis}
+\end{enumerate}
+
+The steps 1. and 2. are implemented in the thesis experiment. Gaussian filtering
+is discussed in \ref{subsec:gauss} and sobel filtering in \ref{subsec:sobel}.
+The rest of the steps are not implemented in this thesis and thus are only
+briefly discussed here.
+
 \subsection{Gaussian filter}
+\label{subsec:gauss}
+\subsection{Sobel filter}
+\label{subsec:gauss}
 \section{PREESM Filter Application}
 \label{sec:preesmapp}
 An actor network is constructed in PREESM that represents the video filter
