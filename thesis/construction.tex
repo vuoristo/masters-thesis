@@ -103,7 +103,7 @@ processed images. The gaussian filter works by convolving a gaussian function
 with the input signal. Gaussian function is non-zero everywhere which means it
 would theoretically require an infinite convolution window. Since the function
 decays rapidly it is often reasonable to truncate the function and use small
-windows. \cite{gonzalez2008digital} In the thesis experiment a window size of
+windows. \cite{gonzalez2008digital} In the thesis experiment a kernel size of
 5x5 is used. In practice every pixel in the filtered image has an intensity
 value computed by taking a weighted average of the neighboring pixels in the
 input image. The weights are precalculated from the gaussian function, giving
@@ -113,6 +113,11 @@ appearance compared to the original image.
 
 \subsection{Sobel filter}
 \label{subsec:sobel}
+The actual edge detection in the canny edge detector starts with applying the
+sobel operator on the input image. The sobel operator is a discrete
+differentiation operator. It consists of two 3x3 kernels which are convolved
+with the image. At each point in the image the resulting gradient approximations
+are combined giving an approximate gradient magnitude. \cite{gonzales2008digital}
 
 \section{PREESM Filter Application}
 \label{sec:preesmapp}
