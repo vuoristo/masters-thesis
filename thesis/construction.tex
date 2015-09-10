@@ -90,16 +90,30 @@ gradient value above the high threshold are marked strong pixels and the pixels
 with gradient value below the low threshold are supressed. In the fifth step the
 remaining weak pixels with gradient values below the high threshold are
 preserved or supressed according to the presence of strong pixels in their
-neighborhood. Detailed description of the algorithm is presented in the
-original paper by Canny \cite{canny1986computational} and information about
-implementing a canny edge detector and comparison of its performace to other
-edge detectors can be found in \cite{maini2009study}.
+neighborhood. Detailed description of the algorithm is presented in the original
+paper by Canny \cite{canny1986computational}, information about implementing a
+canny edge detector is available in \cite{gonzalez2008digital} and comparison of
+its performace to other edge detectors can be found in \cite{maini2009study}.
 
 \subsection{Gaussian filter}
 \label{subsec:gauss}
+Gaussian filtering is used for multiple purposes in digital image processing.
+In canny edge detector the gaussian filter is used to reduce noise in the
+processed images. The gaussian filter works by convolving a gaussian function
+with the input signal. Gaussian function is non-zero everywhere which means it
+would theoretically require an infinite convolution window. Since the function
+decays rapidly it is often reasonable to truncate the function and use small
+windows. \cite{gonzalez2008digital} In the thesis experiment a window size of
+5x5 is used. In practice every pixel in the filtered image has an intensity
+value computed by taking a weighted average of the neighboring pixels in the
+input image. The weights are precalculated from the gaussian function, giving
+the highest weight to the pixel in the center of the window. The gaussian
+function was calculated with \sigma = 1.3. The filtered image has a smoothed
+appearance compared to the original image.
 
 \subsection{Sobel filter}
 \label{subsec:sobel}
+
 \section{PREESM Filter Application}
 \label{sec:preesmapp}
 An actor network is constructed in PREESM that represents the video filter
