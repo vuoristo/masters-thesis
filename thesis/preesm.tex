@@ -19,9 +19,9 @@ generated and manually created code into a multicore executable
 \cite{pelcat2014preesm}. The code generation can be configured through graphical
 tools that provide hints to the schedule generation about the execution time of
 different actors and rules on which cores they can be executed. A PREESM
-dataflow diagram is presented in figure \ref{preesm_example}.
+dataflow diagram is presented in figure \ref{fig:preesm_example}.
 
-\begin{figure}[h!] \label{preesm_example} \begin{center}
+\begin{figure}[h!] \label{fig:preesm_example} \begin{center}
     \includegraphics[width=0.99\textwidth]{images/example_preesm_diagram.png}
     \caption{A simple dataflow diagram used by PREESM} \end{center}
 \end{figure}
@@ -59,11 +59,11 @@ subgraph, which has input and output interfaces. The interfaces insulate the
 hierarchy levels in terms of schedulability analysis. The parameters are used
 to reconfigure the production and consumption rates of the actors.
 \cite{desnos2013pimm} An example of a PiSDF graph is presented in figure
-\ref{preesm_example}. The parameters of the PiSDF model are presented at the
-top of the figure as pentagons connected to the actors with dashed lines. The
-actors have input and output ports for parameters and data. The ports define
-the input and output interfaces of the actors. The actual data paths are the
-arcs connecting the actors in the bottom of the figure.
+\ref{fig:preesm_example}. The parameters of the PiSDF model are presented at
+the top of the figure as pentagons connected to the actors with dashed lines.
+The actors have input and output ports for parameters and data. The ports
+define the input and output interfaces of the actors. The actual data paths are
+the arcs connecting the actors in the bottom of the figure.
 
 \subsection{PREESM Platform Representation}
 The PREESM code generation is aware of the target hardware platform. PREESM
@@ -94,7 +94,7 @@ PREESM scheduler. \cite{pelcat2014preesm} An example of the intra-iteration
 interleaving is given in the software pipelining tutorial available at
 \cite{preesm}. The estimated execution times for each actor are provided by the
 user. PREESM framework visualizes the generated schedule with a gantt chart. An
-example gantt chart is presented in figure \ref{preesm_gantt}.\\
+example gantt chart is presented in figure \ref{fig:preesm_gantt}.\\
 TODO: This doesn't need to be so condensed, make it more verbose.\\
 TODO: explain wtf is going on with the explode and implode stuff \\
 TODO: how does the preesm inter actor communication work in detail \\
