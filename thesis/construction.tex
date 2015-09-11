@@ -10,12 +10,12 @@ design and implementation of the applications.
 
 \section{Filter Application}
 \label{sec:filterapp}
-The objective of this thesis is to study the suitability of OpenEM framework for
-stream processing. Today many different types of data can be streamed, for
-example audio and video. Video was chosen as the type of the streams used in the
-the experiments because its applications are interesting for the industry and
-because there are many known image processing algorithms to use as the basis for
-the study.
+The objective of this thesis is to study the suitability of OpenEM framework
+for stream processing. Today many different types of data can be streamed, for
+example audio and video. Video was chosen to be the type of the streams used in
+the experiments because there are many known image processing algorithms to use
+as the basis for the study and there are many applications for video stream
+processing in the context of industrial internet. TODO: ????
 
 Three requirements for the workload applications were specified to guide the
 design. The requirements are presented in the following list.
@@ -116,8 +116,10 @@ appearance compared to the original image.
 The actual edge detection in the canny edge detector starts with applying the
 sobel operator on the input image. The sobel operator is a discrete
 differentiation operator. It consists of two 3x3 kernels which are convolved
-with the image. At each point in the image the resulting gradient approximations
-are combined giving an approximate gradient magnitude. \cite{gonzalez2008digital}
+with the image to approximate the derivatives. The two kernels represent
+horizontal and vertical changes. At each point in the image the resulting
+gradient approximations are combined giving an approximate gradient magnitude.
+\cite{gonzalez2008digital}
 
 \section{PREESM Filter Application}
 \label{sec:preesmapp}
