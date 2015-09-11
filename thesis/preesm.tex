@@ -71,7 +71,7 @@ uses System-Level Architecture Model (S-LAM) \cite{pelcat2009system} to
 describe the target architecture. S-LAM is designed specifically to provide
 architecture models of high asbtraction level for rapid prototyping purposes.
 S-LAM is suitable for modeling heterogeneous architectures as a S-LAM can
-contain different types of computational resources and communication links.  In
+contain different types of computational resources and communication links. In
 PREESM the speeds of the connections in the S-LAM are calculated and taken into
 account when creating a static schedule. \cite{pelcat2009system}
 
@@ -79,3 +79,19 @@ PREESM provides graphical tools for editing the S-LAM. For example the S-LAM
 representing the TMS320C6678 used in experiment \ref{sec:firstexperiment} is
 quite simple consisting of eight c6678 cores connected through shared memory.
 
+\section{PREESM Scheduling}
+\label{sec:preesmsched}
+A general problem in the design of multicore applications is efficient
+scheduling. The PREESM framework generates a schedule for multicore platforms
+using the \textit{List} and \textit{Fast} scheduling methods explained in
+\cite{kwok1997high}. The PREESM framework focuses on latency dominated systems
+where respecting the latency constraints guarantees fulfilment of the throughput
+constraint \cite{pelcat2014preesm, ghamarian2006throughput}. Because the
+scheduler only considers the latency of the execution, the iterations of the
+algorithm are not interleaved. Instead, all cores are synchronized between the
+iterations with a barrier. Intra-iteration interleaving is supported by the
+PREESM scheduler. \cite{pelcat2014preesm} An example of the intra-iteration
+interleaving is given in the software pipelining tutorial available at
+\cite{preesm}. The estimated execution times for each actor are provided by the
+user. PREESM framework visualizes the generated schedule with a gantt chart. An
+example gantt chart is presented in figure \ref{preesm_gantt}.
