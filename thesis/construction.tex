@@ -36,7 +36,12 @@ baseline implementation. Last requirement for the applications was that they
 needed to be \textbf{highly analyzable} in order to enable the study of OpenEM
 performance. An application satisfying these requirements was designed using the
 PREESM sobel example at \cite{preesmtut} as the starting point and adding
-another processing component to it.
+another processing component to it. It is important to notice that the actual
+performance of the filter application in its nominal video filtering task was
+mostly disregarded. For example the data is copied to a new buffer in every
+processing stage and the filter algorithms are not optimized for the specific
+platform. Therefore comparing the performance of the implemented applications to
+real world implementations of similar applications is not useful.
 
 The idea for using sobel and gauss filters in the same application came from
 the canny edge detector, which is briefly discussed in \ref{subsec:canny}. The
@@ -174,8 +179,6 @@ to the shared parts of the application.
     \caption{The PiSDF graph of the PREESM filter application} \end{center}
 \end{figure}
 
-In this section first the actor model is explained, next the schedule generated
-from the 
 \subsection{The Actor Model}
 \label{subsec:actors}
 To keep the model simple and the program well analyzable both of the processing
@@ -247,12 +250,14 @@ copied for example to a network packet.
 As there is no I/O the display actors don't do any computations. In the
 experiments the display actor is used as the endpoint of the processing and it
 starts the data export.
-TODO: explain scheduling
-\subsection{PREESM Scheduling}
+
+\subsection{The PREESM Schedule}
+\label{subsec:preesmsched}
 
 \begin{figure}[h!] \label{preesm_gantt} \begin{center}
     \includegraphics[width=0.99\textwidth]{images/gantt_preesm_cifcif.png}
-    \caption{Gantt chart of a PREESM Filter Application.} \end{center}
+    \caption{Gantt chart representing the schedule of a PREESM Filter
+    Application.} \end{center}
 \end{figure}
 
 \section{OpenEM Filter Application}
