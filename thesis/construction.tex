@@ -157,7 +157,7 @@ gradient approximations are combined giving an approximate gradient magnitude.
         \end{bmatrix} \ast A
     \end{displaymath}
     \caption{The Sobel Kernels used in the application to compute the gradient
-    approximation.}
+    approximation. The asterisk denotes the convolution operation.}
 \end{figure}
 
 \section{PREESM Filter Application}
@@ -165,25 +165,88 @@ gradient approximations are combined giving an approximate gradient magnitude.
 An actor network is constructed in PREESM that represents the video filter
 application. The final PiSDF model of the PREESM video filter application is
 presented in figure \ref{preesm_actors}. The PREESM filter application is
-adapted from the PREESM tutorial at \cite{preesmtut} by adding another
-processing path for gaussian filter and making the necessary modifications to
-the shared parts of the application.
+adapted from the PREESM example at \cite{preesmtut} by adding another
+processing path for the gaussian filter and making the necessary modifications
+to the shared parts of the application.
 
 \begin{figure}[h!] \label{preesm_actors} \begin{center}
     \includegraphics[width=0.99\textwidth]{images/preesm_diagram.png}
     \caption{The PiSDF graph of the PREESM filter application} \end{center}
 \end{figure}
 
+In this section first the actor model is explained, next the schedule generated
+from the 
+\subsection{The Actor Model}
+\label{subsec:actors}
 To keep the model simple and the program well analyzable both of the processing
 paths in the network are independent.
 
-The first actor on both of the processing paths loads the video frames from
-memory and passes them to splitting actors. The splitting actor splits the
-frames to a suitable number of splices to enable processing of the same video
-stream on multiple cores. The filter actor follows the splitting actor. Partial
-frames filtered in the filter actor are merged back to whole frames in the merge
-actors. The last actors on both of the processing paths are dummy actors.\\
+The first actor on both of the processing paths, the Read\_YUV and the Read\_YUV
+actors in the figure \ref{preesm_actors}, loads the video frames from memory and
+passes them to splitting actors. The splitting actors split the frames to a
+suitable number of splices to enable processing of the same video stream on
+multiple cores. The filter actors, Sobel and Gauss actors in the figure, follow
+the splitting actors. Partial frames filtered in the filter actor are merged
+back to whole frames in the merge actors. The last actors on both of the
+processing paths are dummy actors. The pentagons in the top and the bottom of
+the figure represent the parameters of the application. The xsize, ysize, xsize2
+and ysize2 parameters specify the size of the input frames. nbSlice and
+gaussNbSlice determine the numbers of slices the frames are split to. The
+sobel\_ysize and gauss\_ysize are the heights of the slices after splitting.
 
+The first actors Read\_YUV and Read\_YUV2 call the \texttt{readYUV} function
+defined in the PREESM example at \cite{preesmtut}. As I/O is not in the scope of
+the experiments it is omitted from the application. The processing starts with
+loading the frames from memory. In a real world application the frames would be
+written in the memory for example with DMA by a packet processor processing a
+stream of network packets. The \texttt{readYUV} function copies the Y component
+of the input frame to the output address while the U and V components are
+ignored. The U and V are omitted because the sobel and gauss actors only operate
+on the Y channel. TODO: explain YUV format and how it's used here.
+
+The split actor operates on the output of the Read\_YUV actor. The split actor
+preprocesses the frame for the sobel and gauss actors. Since the sobel and gauss
+filters involve convolution with 3x3 and 5x5 matrices respectively, they will
+need to access image data outside the part of the image they are processing. To
+enable parallel processing of a single frame on multiple cores, the frame is
+split in to slices. These slices will also need to contain a bit of extra data
+so that the filters can operate correctly. Black lines, or lines with the Y
+value of 0 are added to the top and the bottom of the frame. One black line is
+enough for the sobel frames but two black lines are needed for the gaussian
+frames, corresponding to the filter kernel sizes.  With the black lines added
+the frame is then copied to the output buffer one slice at a time. The slices
+overlap each other for one or two lines again corresponding to the size of the
+filter kernel.
+
+The sobel actor calculates the convolution of the sobel kernels in presented in
+\ref{fig:sobelmat} with the Y component of the input frame. The sobel actor is
+copied as is from the PREESM example at \cite{preesmtut}. The convolution is
+computed by looping over the pixels in the input frame, calculating the $G_{x}$
+and $G_{y}$ components of the sobel operator in one line expressions and
+combining them by taking the absolute values of $G_{x}$ and $G_{y}$ and dividing
+the sum by eight. After looping over the image the actor sets the leftmost and
+rightmost columns to 0.
+
+The gauss actor operates similarly to the sobel actor but instead of one line
+expressions the value of the filter function at each points is calculated by
+looping over the neighboring pixels and multiplying the intensity values by the
+corresponding weight from the gaussian kernel presented in \ref{fig:gaussmat}.
+The Texas Instruments compiler transforms the innermost loops in a loop
+optimization pass resulting in less branches in the executable code than the
+multi-leveled loop structure would suggest. The weighted average is calculated
+simply by division. Finally the leftmost and rightmost columns are set to 0 as
+in the sobel actor.
+
+The last actor processing the frame is the merge actor. The merge actor copies
+the processed data from its input buffer to its output buffer, overlaying the
+slices so that the output frame doesn't contain the extra lines created in the
+split actor. Since there is no real I/O in the application, the merged frame is
+not processed further. In a real world application the processed frame would be
+copied for example to a network packet.
+
+As there is no I/O the display actors don't do any computations. In the
+experiments the display actor is used as the endpoint of the processing and it
+starts the data export.
 TODO: explain scheduling
 
 \section{OpenEM Filter Application}
