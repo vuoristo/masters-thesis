@@ -169,12 +169,12 @@ gradient approximations are combined giving an approximate gradient magnitude.
 \label{sec:preesmapp}
 An actor network is constructed in PREESM that represents the video filter
 application. The final PiSDF model of the PREESM video filter application is
-presented in figure \ref{preesm_actors}. The PREESM filter application is
+presented in figure \ref{fig:preesm_actors}. The PREESM filter application is
 adapted from the PREESM example at \cite{preesmtut} by adding another
 processing path for the gaussian filter and making the necessary modifications
 to the shared parts of the application.
 
-\begin{figure}[h!] \label{preesm_actors} \begin{center}
+\begin{figure}[h!] \label{fig:preesm_actors} \begin{center}
     \includegraphics[width=0.99\textwidth]{images/preesm_diagram.png}
     \caption{The PiSDF graph of the PREESM filter application} \end{center}
 \end{figure}
@@ -184,18 +184,19 @@ to the shared parts of the application.
 To keep the model simple and the program well analyzable both of the processing
 paths in the network are independent.
 
-The first actor on both of the processing paths, the Read\_YUV and the Read\_YUV
-actors in the figure \ref{preesm_actors}, loads the video frames from memory and
-passes them to splitting actors. The splitting actors split the frames to a
-suitable number of splices to enable processing of the same video stream on
-multiple cores. The filter actors, Sobel and Gauss actors in the figure, follow
-the splitting actors. Partial frames filtered in the filter actor are merged
-back to whole frames in the merge actors. The last actors on both of the
-processing paths are dummy actors. The pentagons in the top and the bottom of
-the figure represent the parameters of the application. The xsize, ysize, xsize2
-and ysize2 parameters specify the size of the input frames. nbSlice and
-gaussNbSlice determine the numbers of slices the frames are split to. The
-sobel\_ysize and gauss\_ysize are the heights of the slices after splitting.
+The first actor on both of the processing paths, the Read\_YUV and the
+Read\_YUV actors in the figure \ref{fig:preesm_actors}, loads the video frames
+from memory and passes them to splitting actors. The splitting actors split the
+frames to a suitable number of splices to enable processing of the same video
+stream on multiple cores. The filter actors, Sobel and Gauss actors in the
+figure, follow the splitting actors. Partial frames filtered in the filter
+actor are merged back to whole frames in the merge actors. The last actors on
+both of the processing paths are dummy actors. The pentagons in the top and the
+bottom of the figure represent the parameters of the application. The xsize,
+ysize, xsize2 and ysize2 parameters specify the size of the input frames.
+nbSlice and gaussNbSlice determine the numbers of slices the frames are split
+to. The sobel\_ysize and gauss\_ysize are the heights of the slices after
+splitting.
 
 The first actors Read\_YUV and Read\_YUV2 call the \texttt{readYUV} function
 defined in the PREESM example at \cite{preesmtut}. As I/O is not in the scope of
@@ -254,7 +255,53 @@ starts the data export.
 \subsection{The PREESM Schedule}
 \label{subsec:preesmsched}
 
-\begin{figure}[h!] \label{preesm_gantt} \begin{center}
+The scheduler in the PREESM framework is described in \ref{sec:preesmsched}.
+The scheduler creates a block schedule from the actor model using user provided
+estimates for the actor durations. To get reasonably accurate estimates, the
+application was first scheduled with the default values and the actor durations
+were measured on the target device. The resulting timings are presented in the
+table \ref{tab:preesm_times}. The timings from the measurements were approximately
+the same for all the actors except for the gauss actor. A gantt
+chart representing the schedule created using the values in the table is
+presented in figure \ref{fig:preesm_gantt}. The mutable parameters in the graph
+\ref{fig:preesm_actors} affect the static memory allocations of the PREESM
+application and the PREESM codegen workflow needs to be executed every time the
+parameters are changed. Because of this the PREESM schedules of the different
+measurement setups are slightly different.
+
+\begin{table}
+    \label{tab:preesm_times}
+    \begin{center}
+        \begin{tabular}{| c | c |}
+
+            \hline
+            Actor & Cycles \\ \hline
+            600 & Gauss \\ \hline
+            150 & Merge \\ \hline
+            150 & Merge2 \\ \hline
+            150 & Read\_YUV \\ \hline
+            150 & Read\_YUV2 \\ \hline
+            150 & Sobel \\ \hline
+            150 & Split \\ \hline
+            150 & Split2 \\ \hline
+            1 & display \\ \hline
+            1 & display2 \\ \hline
+        \end{tabular}
+        \caption{PREESM Actor Timings.}
+    \end{center}
+\end{table}
+
+The PREESM framework doesn't support changing the timing of the implode and
+explode operations which started affecting the schedule considerably with larger
+frame sizes. The duration estimates used by PREESM for the implode and explode
+operations are very short compared to durations of the actors measured from the
+application. The explode operations for both streams are represented in the
+gantt chart by the small time slices predecing gauss actors on cores 4 and 7.
+The implode operation for gauss stream follows the gauss actor execution on core
+7 and the implode operation of sobel stream follows the latter sobel actor on
+core 5.
+
+\begin{figure}[h!] \label{fig:preesm_gantt} \begin{center}
     \includegraphics[width=0.99\textwidth]{images/gantt_preesm_cifcif.png}
     \caption{Gantt chart representing the schedule of a PREESM Filter
     Application.} \end{center}
