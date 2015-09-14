@@ -1,0 +1,31 @@
+\usetikzlibrary{chains}
+
+\begin{tikzpicture}[>=latex,node distance=0pt, scale=0.7, every node/.style={transform shape}]
+    % the rectangular shape with vertical lines
+    \node[rectangle split, rectangle split parts=6,
+    draw, rectangle split horizontal,text height=0.5cm,text depth=0.5cm,inner sep=0pt, text width=0.0cm] (atomic1) {};
+    \fill[white] ([xshift=-\pgflinewidth,yshift=-\pgflinewidth]atomic1.north west) rectangle ([xshift=-5pt,yshift=\pgflinewidth]atomic1.south);
+
+    \node[draw,ellipse,right= 0pt of atomic1,minimum height=1.0cm,inner xsep=5pt] (readEO) {Read EO};
+
+    \node at (5, 0)[rectangle split, rectangle split parts=6,
+    draw, rectangle split horizontal,text height=0.5cm,text depth=0.5cm,inner sep=0pt, text width=0.0cm ] (parallel) {};
+    \fill[white] ([xshift=-\pgflinewidth,yshift=-\pgflinewidth]parallel.north west) rectangle ([xshift=-5pt,yshift=\pgflinewidth]parallel.south);
+
+    \node[draw,ellipse,right= 0pt of parallel,minimum height=1.0cm,inner xsep=5pt] (filterEO) {Filter EO};
+
+    \node at (10, 0)[rectangle split, rectangle split parts=6,
+    draw, rectangle split horizontal,text height=0.5cm,text depth=0.5cm,inner sep=0pt, text width=0.0cm] (atomic2) {};
+    \fill[white] ([xshift=-\pgflinewidth,yshift=-\pgflinewidth]atomic2.north west) rectangle ([xshift=-5pt,yshift=\pgflinewidth]atomic2.south);
+
+    \node[draw,ellipse,right= 0pt of atomic2,minimum height=1.0cm,inner xsep=5pt] (mergeEO) {Merge EO};
+
+    % the arrows and labels
+    \draw [->](readEO) to (parallel);
+    \draw [->](filterEO) to (atomic2);
+    \draw [->](mergeEO) .. controls (16,0) and (15, 2) .. (6, 2) .. controls (-2, 2) and (-3, 0) .. (atomic1);
+
+    \node[align=center,below] at (atomic1.south) {Atomic Queue};
+    \node[align=center,below] at (parallel.south) {Parallel Queue};
+    \node[align=center,below] at (atomic2.south) {Atomic Queue};
+\end{tikzpicture}
