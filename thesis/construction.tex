@@ -308,38 +308,72 @@ core 5.
 \end{figure}
 
 \section{OpenEM Filter Application}
-The OpenEM implementation of the filter application was heavily influenced by
-the PREESM filter application described in \ref{sec:preesmapp}. Specifically the
-OpenEM application has to process the frames in similar manner so that only the
-scheduling policies between the two programming models should differ. The PREESM
-application splits the frames into slices and processes the slices separately
-before merging them back into one frame. Similar fork-join mechanism was
-implemented in the OpenEM application.
+\label{sec:oemapp}
+The OpenEM implementation of the filter application was designed using the
+PREESM filter application described in \ref{sec:preesmapp} as the starting
+point. Specifically the OpenEM application has to process the frames in similar
+manner so that only the scheduling policies between the two programming models
+should differ. The high-level structure of the OpenEM filter application is
+presented in the figure \ref{fig:openem_flow}. The application consists of two
+atomic queues, a parallel queue and three execution objects. Each queue is
+connected to only one execution object. In this text the queues are referred to
+by the execution objects they are connected to, for example the atomic queue
+connected to the merge eo will be referred to as the merge queue. The execution
+runs in cycles. A new cycle is started every time a cycle finishes. There are
+multiple cycles running in parallel, but since the read and merge EOs are
+atomic, only filter EO is running on multiple cores in parallel.
 
+The design principles introduced in the beginning of this chapter apply to the
+OpenEM application as well. The OpenEM application was not designed for maximum
+performance but to demonstrate the suitability of OpenEM as a platform for
+stream processing applications. The performance of the application could be
+improved in many ways, for example by minimizing the amount of redundant copying
+of the frame slices and introducing parallelism to frame reading and merging.
 
 \begin{figure}[h!]
     \label{fig:openem_flow}
     \begin{center}
         \input{openem_flowchart.tex}
-        \caption{OpenEM filter application.}
+        \caption{The OpenEM filter application.}
     \end{center}
 \end{figure}
 
-Event groups were first planned to be used as the fork-join mechanism in the
-filter application but in the final implementation a different, simpler
-mechanism was used. The TI implementation of event groups lacks
-\texttt{em\_event\_group\_delete} function which makes it necessary to reuse
-the existing event groups. The example applications which are included in the
-NSN OpenEM distribution described in \ref{sec:emframework} demonstrates the
-reuse of event groups, but it was estimated that the programming overhead
-resulting from the reuse of the groups would be larger than implementing the
-fork-join in a simpler manner.
+The application execution starts with initializing the OpenEM framework and the
+application data structures. The OpenEM initialization is explained in
+\ref{subsec:ti_init_layer}. After the queues and the execution objects have been
+initialized the application creates a number of initial events that are sent to
+the the read queue. Once the events have been queued the application
+synchronizes all cores and the actual execution starts.
 
-In the final implementation the frames are accumulated simply in a merge buffer
-located in shared memory which is referenced through queue context pointers. The
-book keeping for frame completion is handled in the same location. The cache
-coherency for the book keeping was handled by marking the memory area the merge
-buffer resides in as non-cacheable.
+The Read EO combines the functionality of the read and split actors of the
+PREESM filter application presented in \ref{fig:preesm_actors}. A frame is read
+from the input video memory and split in to a number of slices. The functions
+called are exactly the same as in the PREESM application. The frame slices are
+copied to event buffers of new events. The new events are then sent to the
+filter queue. There is only one filter queue and one filter execution object.
+The same execution object will compute either sobel or gauss filter on the
+frame slice according to its type.
+
+The PREESM application splits the frames into slices and processes the slices
+separately before merging them back into one frame. Similar fork-join mechanism
+was implemented in the OpenEM application. Event groups were first planned to be
+used as the fork-join mechanism in the filter application but in the final
+implementation a different, simpler mechanism was used. The TI implementation of
+event groups lacks \texttt{em\_event\_group\_delete} function which makes it
+necessary to reuse the existing event groups. The example applications which are
+included in the NSN OpenEM distribution described in \ref{sec:emframework}
+demonstrates the reuse of event groups, but it was estimated that the
+programming overhead resulting from the reuse of the groups would be larger than
+implementing the fork-join in a simpler manner. In the final implementation the
+frames are accumulated simply in a merge buffer located in shared memory which
+is referenced through queue context pointers. The bookkeeping for frame
+completion is handled in the same location.
+
+The filtered frame slices are accumulated in the merge buffer, which is accessed
+through the merge queue context. The merge queue is atomic to avoid need for
+synchronization between the cores. After a frame has been merged the merge EO
+creates a new event which is sent to the read queue. The ratio of sobel filtered
+frames to gauss filtered frames is always one to one.
 
 \section{PSE Model of OpenEM Filter Application}
 \section{Instrumentation}
