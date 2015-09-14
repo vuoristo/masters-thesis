@@ -314,16 +314,26 @@ OpenEM application has to process the frames in similar manner so that only the
 scheduling policies between the two programming models should differ. The PREESM
 application splits the frames into slices and processes the slices separately
 before merging them back into one frame. Similar fork-join mechanism was
-implemented in the OpenEM application. Event groups were first planned to be
-used as the fork-join mechanism in the filter application but in the final
-implementation a different, simpler mechanism was used.
+implemented in the OpenEM application.
 
-The TI implementation of event groups lacks \texttt{em\_event\_group\_delete}
-function which makes it necessary to reuse the existing event groups. The
-example applications which are included in the NSN OpenEM distribution
-described in \ref{sec:emframework} demonstrate reuse of event groups, but it
-was estimated that the programming overhead resulting from the reuse of the
-groups would be larger than implementing the fork-join in a simpler manner.
+
+\begin{figure}[h!]
+    \label{fig:openem_flow}
+    \begin{center}
+        \input{openem_flowchart.tex}
+        \caption{OpenEM filter application.}
+    \end{center}
+\end{figure}
+
+Event groups were first planned to be used as the fork-join mechanism in the
+filter application but in the final implementation a different, simpler
+mechanism was used. The TI implementation of event groups lacks
+\texttt{em\_event\_group\_delete} function which makes it necessary to reuse
+the existing event groups. The example applications which are included in the
+NSN OpenEM distribution described in \ref{sec:emframework} demonstrates the
+reuse of event groups, but it was estimated that the programming overhead
+resulting from the reuse of the groups would be larger than implementing the
+fork-join in a simpler manner.
 
 In the final implementation the frames are accumulated simply in a merge buffer
 located in shared memory which is referenced through queue context pointers. The
