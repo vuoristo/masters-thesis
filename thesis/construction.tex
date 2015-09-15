@@ -382,4 +382,71 @@ creates a new event which is sent to the read queue. The ratio of sobel filtered
 frames to gauss filtered frames is always one to one.
 
 \section{PSE Model of OpenEM Filter Application}
-\section{Instrumentation}
+\label{sec:pse_model}
+A PSE model of the OpenEM filter application was constructed. The OpenEM filter
+application was modeled to identify the most important factors of performance of
+the OpenEM framework. To fulfill the objective the application model had to be
+kept simple but still capable of explaining runtime behavior. The construction
+of the model is explained in this section. The PSE tool is described in chapter
+\ref{chapter:pse}. The top-level software model is presented in the figure
+\ref{fig:pse_application} and the hardware model in figure
+\ref{fig:pse_hardware}.
+
+\begin{figure}[h!]
+    \begin{center}
+        \includegraphics[width=0.99\textwidth]{images/pse_filterapp.png}
+        \caption{The top-level PSE task graph of the OpenEM filter app PSE
+        model.}
+        \label{fig:pse_application}
+    \end{center}
+\end{figure}
+
+The software model presented in figure \ref{fig:pse_application} has the same
+structural elements as the OpenEM filter application described in section
+\ref{sec:oemapp}. The most important distinction between the structure of the
+OpenEM application and the PSE model is that the PSE model does not process
+frames in cycles where a new frame is taken into processing every time another
+frame finishes. Instead the application is loaded by generating work in a
+simple workload model, which enqueues a new frame for processing periodically.
+The nodes titled read job, filter job and merge job correspond to execution
+objects in the filter application. The create job does not correspond to an EO
+in the OpenEM application but a regular function called in the beginning of
+processing each frame.
+
+\begin{table}
+    \begin{center}
+        \begin{tabular}{| c | c | c |}
+            \hline
+            Quantity & Resource & Node \\ \hline
+        \end{tabular}
+        \caption{PSE software model resource usage.}
+        \label{tab:pse_resources}
+    \end{center}
+\end{table}
+
+\begin{figure}[h!]
+    \begin{center}
+        \includegraphics[width=0.99\textwidth]{images/pse_hardware.png}
+        \caption{The PSE resource network of the OpenEM filter app PSE
+        model.}
+        \label{fig:pse_hardware}
+    \end{center}
+\end{figure}
+
+The jobs in the application model use the hardware resources presented in figure
+\ref{fig:pse_hardware}. The resource usage is controlled by the software
+submodels and the usage quantities are based on measurements of the OpenEM
+filter application. The resource usage is presented in table
+\ref{tab:pse_resources}. The processing in each node of the software model
+follows a simple approximation of the OpenEM filter application execution. First
+the software model requests a queue resource to simulate queueing in the real
+OpenEM application. There are one of each atomic queue resources and eight of
+parallel queue resources. Once the process gets a queue resource it requests a
+core resource. To this point no hardware delays have been accounted for in the
+simulation. After getting a core token, the process proceeds to execution. As
+the OpenEM scheduler doesn't support pre-emption, the core token can be held by
+each EO for the full time of its execution. The delays of the software models
+are approximated to be mostly caused by the memory except for the filtering
+nodes where the computation of the filter is assumed to be limited by the cpu
+speed. After the processing completes in each software node the hardware
+resources are released in the release nodes.
