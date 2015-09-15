@@ -119,7 +119,6 @@ figure \ref{fig:gaussmat} was calculated with $\sigma$ = 1.3. The filtered
 image has a smoothed appearance compared to the original image.
 
 \begin{figure}
-    \label{fig:gaussmat}
     \begin{displaymath}
         B = \frac{1}{159}\begin{bmatrix}
              2 & 4 & 5 & 4 & 2 \\
@@ -131,6 +130,7 @@ image has a smoothed appearance compared to the original image.
     \end{displaymath}
     \caption{The gaussian filter used in the filter applications. The
     convolution operation is denoted by the asterisk.}
+    \label{fig:gaussmat}
 \end{figure}
 
 \subsection{Sobel filter}
@@ -145,7 +145,6 @@ gradient approximations are combined giving an approximate gradient magnitude.
 \ref{fig:sobelmat}.
 
 \begin{figure}
-    \label{fig:sobelmat}
     \begin{displaymath}
         G_{x} = \begin{bmatrix}
             -1 & 0 & +1 \\
@@ -163,6 +162,7 @@ gradient approximations are combined giving an approximate gradient magnitude.
     \end{displaymath}
     \caption{The Sobel Kernels used in the application to compute the gradient
     approximation. The asterisk denotes the convolution operation.}
+    \label{fig:sobelmat}
 \end{figure}
 
 \section{PREESM Filter Application}
@@ -174,9 +174,12 @@ adapted from the PREESM example at \cite{preesmtut} by adding another
 processing path for the gaussian filter and making the necessary modifications
 to the shared parts of the application.
 
-\begin{figure}[h!] \label{fig:preesm_actors} \begin{center}
-    \includegraphics[width=0.99\textwidth]{images/preesm_diagram.png}
-    \caption{The PiSDF graph of the PREESM filter application} \end{center}
+\begin{figure}[h!]
+    \begin{center}
+        \includegraphics[width=0.99\textwidth]{images/preesm_diagram.png}
+        \caption{The PiSDF graph of the PREESM filter application}
+        \label{fig:preesm_actors}
+    \end{center}
 \end{figure}
 
 \subsection{The Actor Model}
@@ -270,7 +273,6 @@ parameters are changed. Because of this the PREESM schedules of the different
 measurement setups are slightly different.
 
 \begin{table}
-    \label{tab:preesm_times}
     \begin{center}
         \begin{tabular}{| c | c |}
 
@@ -288,6 +290,7 @@ measurement setups are slightly different.
             1 & display2 \\ \hline
         \end{tabular}
         \caption{PREESM Actor Timings.}
+        \label{tab:preesm_times}
     \end{center}
 \end{table}
 
@@ -301,10 +304,13 @@ The implode operation for gauss stream follows the gauss actor execution on core
 7 and the implode operation of sobel stream follows the latter sobel actor on
 core 5.
 
-\begin{figure}[h!] \label{fig:preesm_gantt} \begin{center}
-    \includegraphics[width=0.99\textwidth]{images/gantt_preesm_cifcif.png}
-    \caption{Gantt chart representing the schedule of a PREESM Filter
-    Application.} \end{center}
+\begin{figure}[h!]
+    \begin{center}
+        \includegraphics[width=0.99\textwidth]{images/gantt_preesm_cifcif.png}
+        \caption{Gantt chart representing the schedule of a PREESM Filter
+        Application.}
+        \label{fig:preesm_gantt}
+    \end{center}
 \end{figure}
 
 \section{OpenEM Filter Application}
