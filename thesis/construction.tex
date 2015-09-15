@@ -450,3 +450,9 @@ are approximated to be mostly caused by the memory except for the filtering
 nodes where the computation of the filter is assumed to be limited by the cpu
 speed. After the processing completes in each software node the hardware
 resources are released in the release nodes.
+
+In the simulation model the frame is only split to two slices due to the limited
+forking capabilities of the PSE framework. This limits the potential for
+parallelism especially with workloads that don't require a lot of processing in
+the filter nodes. The effects of this and other simplifications to the
+predictivity of the model are explored in the experiments.
