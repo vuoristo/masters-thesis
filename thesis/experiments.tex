@@ -1,4 +1,5 @@
-\chapter{Characterizing Open Event Machine Performance Through Experiments}
+\chapter [OpenEM Experiments] {Characterizing Open Event Machine Performance
+Through Experiments}
 \label{chapter:experiments}
 The objective of these experiments is to understand the behavior and
 performance of the Texas Instruments implementation of Open Event Machine in
@@ -21,8 +22,49 @@ in \ref{sec:secondexperiment}.
 \section{Comparison of PREESM and OpenEM Filter Applications}
 \label{sec:firstexperiment}
 In the first experiment the OpenEM and PREESM filter applications were loaded
-with similar workloads and their execution was measured.
+with similar workloads and their execution was measured. The idea of the first
+experiment is to examine the dynamic scheduling capabilities of the OpenEM
+scheduler and the overhead of the OpenEM framework in stream processing. The
+OpenEM scheduler is hardware accelerated, running on a separate processor in the
+TMS320C6678 chip. The scheduling is explained in detail in chapter
+\ref{chapter:openem}. To achieve this objective the OpenEM filter application
+introduced in chapter \ref{chapter:construction} was measured under different
+loads and compared to a similar application implemented using PREESM. The
+applications are not comparable in terms of throughput and latency, because the
+runtime systems are designed for different purposes. The PREESM application
+should be considered a baseline, which demonstrates how a statically scheduled
+application behaves under dynamic workload.
+
+The static schedule of the PREESM application was regenerated between every
+measurement setup due to the limitations of the code generation in PREESM
+framework. The specific limitation was that the parameters of the actor model
+were translated to static memory allocations in the code generator, and manually
+changing the generate allocations would've been complicated and prone to error.
+As a result of this the actors are scheduled slightly differently between each
+scenario. To demonstrate the effect of static scheduling, the estimated actor
+timings of the PREESM application were not modified when changing the frame
+size.
+
+In this experiment the applications are loaded with three different workloads
+and measured. In addition the OpenEM application is measured under the same load
+but different numbers of available cores. The experiment is explained in the
+following subsections. In the first subsection the parameters and factors of the
+experiment are introduced. Second the different measurement setups are described
+and third the results of the experiment are presented.
+
 \subsection{Parameters and Factors}
+Dynamic workload conditions are emulated by repeating the measurements with
+different factors. To keep things simple the video streams are not dynamically
+switched at runtime. The measurement parameters are presented in the following
+listing.
+
+\begin{itemize}
+    \item \textbf{Video Frame Size} - The workloads are differentiated by
+        changing the frame sizes of the video streams.
+    \item \textbf{OpenEM Core Masks} - The OpenEM application is measured
+        with different core masks of the Execution Objects.
+\end{itemize}
+
 \subsection{Measurement Setups}
 \subsection{Results}
 \section{Comparison of Simulated OpenEM Performance and Real OpenEM Performance}
