@@ -1,7 +1,27 @@
 \chapter{Characterizing Open Event Machine Performance Through Experiments}
 \label{chapter:experiments}
+The objective of these experiments is to understand the behavior and
+performance of the Texas Instruments implementation of Open Event Machine in
+realtime stream processing. The objective is achieved by comparing the behavior
+of an application implemented using OpenEM to the behavior of a similar
+application implemented using a simpler multicore runtime system (PREESM) in the
+first part of the experiment. The second part of the experiment is the
+construction of a simulation model. The performance predictions from the
+simulation model will be compared to the performance of the real world
+application. The objective of the comparison is to help better understand the
+OpenEM platform.
+
+Both of the experiments are described in a similar manner. First the parameters
+and factors of the experiments are explained, second the different measurement
+setups are introduced and third the results of the measurements are presented.
+The comparison of the PREESM and OpenEM applications is described in the section
+\ref{sec:firstexperiment}. The performance of the simulation model is described
+in \ref{sec:secondexperiment}.
+
 \section{Comparison of PREESM and OpenEM Filter Applications}
 \label{sec:firstexperiment}
+In the first experiment the OpenEM and PREESM filter applications were loaded
+with similar workloads and their execution was measured.
 \subsection{Parameters and Factors}
 \subsection{Measurement Setups}
 \subsection{Results}
@@ -10,4 +30,4 @@
 \subsection{Parameters and Factors}
 \subsection{Measurement Setups}
 \subsection{Results}
- 
+
