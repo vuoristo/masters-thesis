@@ -66,7 +66,66 @@ listing.
 \end{itemize}
 
 \subsection{Measurement Setups}
+The the configurations of the OpenEM and PREESM applications for the different
+measurement setups are presented here. The frame sizes used are from the CIF
+standard TODO: reference. The CIF frame sizes are presented in the following
+table.
+
+\begin{table}
+    \begin{center}
+        \begin{tabular}{ c c c }
+            Name  & x resolution  & y resolution \\ \hline
+            QCIF  & 176           & 144          \\ \hline
+            CIF   & 352           & 288          \\ \hline
+            4CIF  & 704           & 576          \\ \hline
+        \end{tabular}
+        \caption{CIF frame sizes}
+        \label{tab:cif_frames}
+    \end{center}
+\end{table}
+
+The applications were measured in setups presented in table
+\ref{tab:preesm_setups}. In addition to the measurement setups presented in the
+table, the OpenEM application was measured with one to eight cores at use at
+fime with both streams at CIF resolution.
+
+\begin{table}
+    \begin{center}
+        \begin{tabular}{ c c }
+            Sobel Resolution & Gauss Resolution \\ \hline
+            CIF              & CIF              \\ \hline
+            4CIF             & CIF              \\ \hline
+            CIF              & 4CIF             \\ \hline
+            QCIF             & QCIF             \\ \hline
+        \end{tabular}
+        \caption{PREESM and OpenEM measurement setups}
+        \label{tab:preesm_setups}
+    \end{center}
+\end{table}
+
+\newcommand{\head}[2]{\multicolumn{1}{>{\centering\arraybackslash}p{#1}}{#2}}
+
 \subsection{Results}
+\begin{table}
+    \begin{center}
+        \begin{tabular}{ c c c c }
+            \head{1.5cm}{Sobel latency} & \head{1.5cm}{Gauss latency} &
+            \head{1.5cm}{FPS} & \head{1.5cm}{Number of cores} \\
+            \hline
+            57,05 & 57,11 & 263 & 1 \\ \hline
+            22,59 & 23,15 & 510 & 2 \\ \hline
+            15,09 & 15,84 & 768 & 3 \\ \hline
+            10,91 & 11,85 & 1014 & 4 \\ \hline
+            8,41 & 9,53 & 1268 & 5 \\ \hline
+            7,05 & 8,07 & 1500 & 6 \\ \hline
+            5,74 & 6,83 & 1731 & 7 \\ \hline
+            4,91 & 5,96 & 1955 & 8 \\ \hline
+        \end{tabular}
+        \caption{OpenEM measurements with number of cores varied} 
+        \label{tab:m_}
+    \end{center}
+\end{table}
+
 \section{Comparison of Simulated OpenEM Performance and Real OpenEM Performance}
 \label{sec:secondexperiment}
 \subsection{Parameters and Factors}
