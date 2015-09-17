@@ -1,6 +1,6 @@
 clear all;
 close all;
-filename = 'preesm_cifcif.csv';
+filename = 'preesm_sobelqcif_gaussqcif';
 mdata = readtable(filename);
 
 
@@ -96,8 +96,11 @@ funcBarData = [funcBarData funcOverhead];
 hdataseries = bar(funcBarData, 'stacked');
 hlegend = legend(hdataseries, {'Read Sobel', 'Read Gauss', 'Split Sobel', 'Split Gauss', 'Sobel', 'Gauss', 'Merge Sobel', 'Merge Gauss', 'Busy', 'Overhead'}, 'Location','eastoutside');
 set(hlegend, 'Fontsize', 12);
-title('CPU Utilization, Open Event Machine, Sobel CIF, Gauss CIF');
 set(gca,'XTickLabel',{'Core 0','Core 1','Core 2','Core 3','Core 4','Core 5','Core 6','Core 7'});
 set(gca,'YLim',[0 cyclesSpent]);
 set(gca,'YTick', linspace(0,cyclesSpent,11));
 set(gca,'YTickLabel',{'0%','10%','20%','30%','40%','50%','60%','70%','80%','90%','100%'});
+
+
+ffilename = strcat(filename, '.eps');
+saveas(gcf,ffilename,'eps2c');
