@@ -1,10 +1,11 @@
 close all;
 clear all;
-filename = 'openem_sobelqcif_gaussqcif';
+filename = 'openem_cifcif_7cores';
 mdata = readtable(filename);
 
-
 corewidth = 42;
+
+numCores = 7;
 
 core0 = mdata(:,1:corewidth);
 core1 = mdata(:,corewidth+1:corewidth*2);
@@ -17,7 +18,7 @@ core7 = mdata(:,corewidth*7+1:corewidth*8);
 
 coreTables = {core0, core1, core2, core3, core4, core5, core6, core7};
 
-totalCyclesIndex = 2;
+totalCyclesIndex = 2
 sobelStartCyclesIndex = 3;
 gaussStartCyclesIndex = 4;
 sobelReadIndex = 5;
@@ -117,15 +118,16 @@ mergeEOGaussPerCore = sum(mergeEOGauss,1);
 
 funcBarData = [readSobelPerCore ; readGaussPerCore ; splitSobelPerCore ; splitGaussPerCore ; sobelPerCore ; gaussPerCore ; mergeSobelPerCore ; mergeGaussPerCore]';
 
-funcOverhead = ones(8,1) * cyclesSpent - sum(funcBarData,2);
+funcOverhead = [ones(numCores,1) ; zeros(8-numCores,1)] * cyclesSpent - sum(funcBarData,2);
 
 funcBarData = [funcBarData funcOverhead];
 
+coreTitles = {'Core 0','Core 1','Core 2','Core 3','Core 4','Core 5','Core 6','Core 7'};
 ffig = figure;
 hdataseries = bar(funcBarData, 'stacked');
 hlegend = legend(hdataseries, {'Read Sobel', 'Read Gauss', 'Split Sobel', 'Split Gauss', 'Sobel', 'Gauss', 'Merge Sobel', 'Merge Gauss', 'Overhead'}, 'Location','eastoutside');
 set(hlegend, 'Fontsize', 12);
-set(gca,'XTickLabel',{'Core 0','Core 1','Core 2','Core 3','Core 4','Core 5','Core 6','Core 7'});
+set(gca,'XTickLabel',coreTitles);
 set(gca,'YLim',[0 cyclesSpent]);
 set(gca,'YTick', linspace(0,cyclesSpent,11));
 set(gca,'YTickLabel',{'0%','10%','20%','30%','40%','50%','60%','70%','80%','90%','100%'});
@@ -134,14 +136,14 @@ ffilename = strcat(filename, '_func.eps');
 saveas(gcf,ffilename,'eps2c');
 
 eoBarData = [readEOSobelPerCore ; readEOGaussPerCore ; filterEOSobelPerCore ; filterEOGaussPerCore ; mergeEOSobelPerCore ; mergeEOGaussPerCore]';
-eoOverhead = ones(8,1) * cyclesSpent - sum(eoBarData,2);
+eoOverhead = [ones(numCores,1) ; zeros(8-numCores,1)] * cyclesSpent - sum(eoBarData,2);
 eoBarData = [eoBarData eoOverhead];
 
 efig = figure;
 hdataseries = bar(eoBarData, 'stacked');
 hlegend = legend(hdataseries, {'Read Sobel', 'Read Gauss', 'Filter Sobel', 'Filter Gauss', 'Merge Sobel', 'Merge Gauss', 'Overhead'}, 'Location','eastoutside');
 set(hlegend, 'Fontsize', 12);
-set(gca,'XTickLabel',{'Core 0','Core 1','Core 2','Core 3','Core 4','Core 5','Core 6','Core 7'});
+set(gca,'XTickLabel',coreTitles);
 set(gca,'YLim',[0 cyclesSpent]);
 set(gca,'YTick', linspace(0,cyclesSpent,11));
 set(gca,'YTickLabel',{'0%','10%','20%','30%','40%','50%','60%','70%','80%','90%','100%'});
