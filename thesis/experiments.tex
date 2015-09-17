@@ -121,8 +121,38 @@ fime with both streams at CIF resolution.
             5,74 & 6,83 & 1731 & 7 \\ \hline
             4,91 & 5,96 & 1955 & 8 \\ \hline
         \end{tabular}
-        \caption{OpenEM measurements with number of cores varied} 
+        \caption{OpenEM measurements with number of cores varied}
         \label{tab:m_}
+    \end{center}
+\end{table}
+
+\begin{table}
+    \begin{center}
+        \begin{tabular}{ c c c c c }
+            \head{1.5cm}{Sobel latency} & \head{1.5cm}{Gauss latency} &
+            \head{1.5cm}{FPS} & \head{1.5cm}{Sobel frame size} &
+            \head{1.5cm}{Gauss frame size} \\ \hline
+            15,82 & 22,85 & 599 & CIF & 4CIF \\ \hline
+            4,85 & 3,67 & 895 & 4CIF & CIF \\ \hline
+            4,91 & 5,96 & 1955 & CIF & CIF \\ \hline
+            1,33 & 1,62 & 7819 & QCIF & QCIF \\ \hline
+        \end{tabular}
+        \caption{OpenEM latency and throughput}
+    \end{center}
+\end{table}
+
+\begin{table}
+    \begin{center}
+        \begin{tabular}{ c c c c c }
+            \head{1.5cm}{Sobel latency} & \head{1.5cm}{Gauss latency} &
+            \head{1.5cm}{FPS} & \head{1.5cm}{Sobel frame size} &
+            \head{1.5cm}{Gauss frame size} \\ \hline
+            5,41 & 8,78 & 223 & CIF & 4CIF \\ \hline
+            4,65 & 3,54 & 334 & 4CIF & CIF \\ \hline
+            2,15 & 2,51 & 668 & CIF & CIF \\ \hline
+            0,61 & 0,71 & 2004 & QCIF & QCIF \\ \hline
+        \end{tabular}
+        \caption{PREESM latency and throughput}
     \end{center}
 \end{table}
 
