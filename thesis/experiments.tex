@@ -163,8 +163,8 @@ events for better latency.\\
     \begin{center}
         \begin{tabular}{ c c c c c }
             \head{1.5cm}{Sobel latency} & \head{1.5cm}{Gauss latency} &
-            \head{1.5cm}{FPS} & \head{1.5cm}{Sobel frame size} &
-            \head{1.5cm}{Gauss frame size} \\ \hline
+            \head{1.5cm}{FPS} & \head{1.5cm}{Sobel frame} &
+            \head{1.5cm}{Gauss frame} \\ \hline
             5,41 & 8,78 & 223 & CIF & 4CIF \\ \hline
             4,65 & 3,54 & 334 & 4CIF & CIF \\ \hline
             2,15 & 2,51 & 668 & CIF & CIF \\ \hline
@@ -180,8 +180,8 @@ events for better latency.\\
     \begin{center}
         \begin{tabular}{ c c c c c }
             \head{1.5cm}{Sobel latency} & \head{1.5cm}{Gauss latency} &
-            \head{1.5cm}{FPS} & \head{1.5cm}{Sobel frame size} &
-            \head{1.5cm}{Gauss frame size} \\ \hline
+            \head{1.5cm}{FPS} & \head{1.5cm}{Sobel frame} &
+            \head{1.5cm}{Gauss frame} \\ \hline
             15,82 & 22,85 & 599 & CIF & 4CIF \\ \hline
             4,85 & 3,67 & 895 & 4CIF & CIF \\ \hline
             4,91 & 5,96 & 1955 & CIF & CIF \\ \hline
@@ -210,6 +210,28 @@ percentage of cycles spent in the synchronization varies from 16\% on Core 7
 to 45\% on Core 0. Comparing the core utilization of the PREESM application to
 the core utilization of the OpenEM application presented in the figure
 \ref{fig:oem8corefunc} the differences in the schedulers start to become apparent.
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[t]{0.49\textwidth}
+        \centering
+        \includegraphics[width=0.99\linewidth]{images/preesm_cifcif.eps}
+        \caption{PREESM}
+        \label{fig:preesmcif}
+    \end{subfigure}
+    \begin{subfigure}[t]{0.49\textwidth}
+        \centering
+        \includegraphics[width=0.99\linewidth]{images/openem_cifcif_8cores_func.eps}
+        \caption{OpenEM}
+        \label{fig:oem8corefunc}
+    \end{subfigure}
+    \caption{In the PREESM graph the busy portion of the bars correspond to the
+        cycles spent synchronizing the cores between the repetitions of the
+        block schedule. The overhead corresponds to cycles spent outside the
+        measured functions and the busy cycles. In the OpenEM graph the overhead
+        corresponds to cycles spent outside the listed functions, which includes
+    the communication overhead and the copying of the data between the buffers.}
+\end{figure}
 
 One to one comparison of the cpu utilization of the applications is difficult
 due to the differences in the runtime systems. The overhead portions in the
@@ -246,6 +268,25 @@ figure \ref{fig:oem8coreeosobel4cif} where seven cores need to wait for the read
 operations on the Core 2 and the overall overhead is increased. The other cores
 do not receive any events from the OpenEM scheduler while waiting.
 
+\begin{figure}
+    \centering
+    \begin{subfigure}[t]{0.49\textwidth}
+        \centering
+        \includegraphics[width=0.99\linewidth]{images/openem_cifcif_8cores_eo.eps}
+        \caption{Sobel CIF, Gauss CIF}
+        \label{fig:oem8coreeo}
+    \end{subfigure}
+    \begin{subfigure}[t]{0.49\textwidth}
+        \centering
+        \includegraphics[width=0.99\linewidth]{images/openem_sobel4cif_gausscif_eo.eps}
+        \caption{Sobel 4CIF, Gauss Cif}
+        \label{fig:oem8coreeosobel4cif}
+    \end{subfigure}
+    \caption{The bottleneck forming due to the atomic read operation can be
+    observed by comparing the core utilization when both of the streams are at
+    CIF resolution to the case where sobel resolution is increased to 4CIF.}
+\end{figure}
+
 When the gauss stream is increased to 4CIF and the sobel stream is kept at CIF
 the bottleneck does not form because computing the gaussian filter for the 4CIF
 frames is consuming approximately 80\% of the cycles on all cores. In this case
@@ -255,63 +296,14 @@ increased by factors of approximately 3 and 4 for sobel and gauss
 correspondingly. The resulting core utilization graph is presented in figure
 \ref{fig:oem8coreeogauss4cif}.
 
-\begin{figure}
+\begin{figure}[h]
     \begin{center}
-        \includegraphics[width=0.99\textwidth]{images/preesm_cifcif.eps}
-        \captionof{figure}{PREESM cycles spent per function for CIF sobel frames
-            and CIF gauss frames. The busy portion of the bars correspond to the
-            cycles spent synchronizing the cores between the repetitions of the
-            block schedule. The overhead corresponds to cycles spent outside the
-            measured functions and the busy cycles.} \label{fig:preesmcif}
-    \end{center}
-\end{figure}
-
-\begin{figure}
-    \begin{center}
-        \includegraphics[width=0.99\textwidth]{images/openem_cifcif_8cores_func.eps}
-        \captionof{figure}{OpenEM cycles spent per function for CIF sobel frames
-        and CIF gauss frames. The overhead corresponds to cycles spent outside
-        the listed functions, which includes the communication overhead and the
-        copying of the data between the buffers.}
-        \label{fig:oem8corefunc}
-    \end{center}
-\end{figure}
-
-\begin{figure}[h!]
-    \begin{center}
-        \includegraphics[width=0.99\textwidth]{images/openem_cifcif_8cores_eo.eps}
-        \caption{OpenEM cycles spent per execution object for CIF sobel frames
-        and CIF gauss frames. The overhead corresponds to cycles spent outside
-        the execution objects.}
-        \label{fig:oem8coreeo}
-    \end{center}
-\end{figure}
-
-\begin{figure}[h!]
-    \begin{center}
-        \includegraphics[width=0.99\textwidth]{images/openem_sobel4cif_gausscif_eo.eps}
-        \caption{OpenEM cycles spent per execution object for 4CIF sobel frames
-        and CIF gauss frames. Core 2 only executes the read EO and other cores
-        have to wait for the read operations to complete which results in
-        increased overhead.}
-        \label{fig:oem8coreeosobel4cif}
-    \end{center}
-\end{figure}
-
-\begin{figure}[h!]
-    \begin{center}
-        \includegraphics[width=0.99\textwidth]{images/openem_sobelcif_gauss4cif_eo.eps}
+        \includegraphics[width=0.49\textwidth]{images/openem_sobelcif_gauss4cif_eo.eps}
         \caption{OpenEM cycles spent per execution object for CIF sobel frames
         and 4CIF gauss frames}
         \label{fig:oem8coreeogauss4cif}
     \end{center}
 \end{figure}
-
-The second part of this experiment was to limit the number of cores available
-for the OpenEM application. The resulting latencies and throughputs are
-presented in the table \ref{tab:oemcoremasks}. The increase of the throughput of
-the OpenEM application is presented in graph \ref{fig:fpsvcores}. The actual FPS
-measured with eight cores is approximately 90\% of the linear growth.
 
 \begin{table}
     \begin{center}
@@ -333,9 +325,15 @@ measured with eight cores is approximately 90\% of the linear growth.
     \end{center}
 \end{table}
 
+The second part of this experiment was to limit the number of cores available
+for the OpenEM application. The resulting latencies and throughputs are
+presented in the table \ref{tab:oemcoremasks}. The increase of the throughput of
+the OpenEM application is presented in graph \ref{fig:fpsvcores}. The actual FPS
+measured with eight cores is approximately 90\% of the linear growth.
+
 \begin{figure}[h!]
     \begin{center}
-        \includegraphics[width=0.99\textwidth]{images/coremask_fps.eps}
+        \includegraphics[width=0.7\textwidth]{images/coremask_fps.eps}
         \caption{FPS increase as the function of cores vs. linear growth}
         \label{fig:fpsvcores}
     \end{center}
