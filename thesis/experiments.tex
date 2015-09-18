@@ -263,7 +263,8 @@ correspondingly. The resulting core utilization graph is presented in figure
             cycles spent synchronizing the cores between the repetitions of the
             block schedule. The overhead corresponds to cycles spent outside the
             measured functions and the busy cycles.} \label{fig:preesmcif}
-    \end{center} \end{figure}
+    \end{center}
+\end{figure}
 
 \begin{figure}
     \begin{center}
@@ -306,6 +307,12 @@ correspondingly. The resulting core utilization graph is presented in figure
     \end{center}
 \end{figure}
 
+The second part of this experiment was to limit the number of cores available
+for the OpenEM application. The resulting latencies and throughputs are
+presented in the table \ref{tab:oemcoremasks}. The increase of the throughput of
+the OpenEM application is presented in graph \ref{fig:fpsvcores}. The actual FPS
+measured with eight cores is approximately 90\% of the linear growth.
+
 \begin{table}
     \begin{center}
         \begin{tabular}{ c c c c }
@@ -325,6 +332,15 @@ correspondingly. The resulting core utilization graph is presented in figure
         \label{tab:oemcoremasks}
     \end{center}
 \end{table}
+
+\begin{figure}[h!]
+    \begin{center}
+        \includegraphics[width=0.99\textwidth]{images/coremask_fps.eps}
+        \caption{FPS increase as the function of cores vs. linear growth}
+        \label{fig:fpsvcores}
+    \end{center}
+\end{figure}
+
 \section{Comparison of Simulated OpenEM Performance and Real OpenEM Performance}
 \label{sec:secondexperiment}
 \subsection{Parameters and Factors}
