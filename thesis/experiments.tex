@@ -63,18 +63,23 @@ listing.
         changing the frame sizes of the video streams.
     \item \textbf{OpenEM Core Masks} - The OpenEM application is measured
         with different core masks of the Execution Objects.
+    \item \textbf{Number of Frames Processed Simultaneously} - The OpenEM
+        application processes variable number of frames simultaneously, which
+        affects the latency and throughput of the application.
 \end{itemize}
 
-\subsection{Measurement Setups}
-The the configurations of the OpenEM and PREESM applications for the different
-measurement setups are presented here. The frame sizes used are from the CIF
-standard TODO: reference. The CIF frame sizes are presented in the following
-table.
+The different video frame sizes used are presented in table
+\ref{tab:cif_frames}. The frame sizes used are selected from among the Common
+Intermediate Format frame sizes. TODO: find a reference for CIF. YUV video
+format is used in the applications, but only the Y channel is processed by the
+applications. The Y channel in the YUV frame contains $R_{x} * R_{y}$ bytes
+where $R$ is the resolution. In the YUV format used the U and V channels have
+reduced bitrates of $\frac{1}{4} * R_{x} * R_{y}$ per frame.
 
 \begin{table}
     \begin{center}
         \begin{tabular}{ c c c }
-            Name  & x resolution  & y resolution \\ \hline
+            Name  & X resolution  & Y resolution \\ \hline
             QCIF  & 176           & 144          \\ \hline
             CIF   & 352           & 288          \\ \hline
             4CIF  & 704           & 576          \\ \hline
@@ -84,10 +89,31 @@ table.
     \end{center}
 \end{table}
 
-The applications were measured in setups presented in table
-\ref{tab:preesm_setups}. In addition to the measurement setups presented in the
-table, the OpenEM application was measured with one to eight cores at use at
-fime with both streams at CIF resolution.
+In the second part of this experiment OpenEM core masks are used to limit the
+number of cores available to the filter application. The behavior of OpenEM is
+examined under limited resources. The core masks in Texas Instruments
+implementation of OpenEM are limited so that only one core mask can be active in
+the application as discussed in \ref{chapter:openem}, therefore the core masks
+always apply to all execution objects of the application.
+
+\subsection{Measurement Setups}
+The filter applications process two video streams simultaneously as described in
+chapter \ref{chapter:construction}. One video stream is processed with a sobel
+filter and the other is processed with a gaussian filter. The dynamic behavior
+of the applications is investigated using different workloads. The workloads
+used are presented in the table \ref{tab:preesm_setups}. The purpose of the
+different bitrates used for each video stream is to expose the behavior of the
+OpenEM scheduler in handling dynamic workloads. The static schedule in the
+PREESM application will provide a baseline to reflect the OpenEM performance to,
+but again the performance of the applications should not be directly compared
+due to the difference in the runtime systems.
+
+In addition to comparing the PREESM and OpenEM applications the OpenEM
+application is measured with different core masks to investigate the dynamic
+scheduling with different limitations. Both filters of the OpenEM application
+are loaded with CIF streams and different numbers of cores are used. The
+experiment is run with core masks allowing one to eight cores being used for
+processing the streams.
 
 \begin{table}
     \begin{center}
@@ -103,9 +129,132 @@ fime with both streams at CIF resolution.
     \end{center}
 \end{table}
 
-\newcommand{\head}[2]{\multicolumn{1}{>{\centering\arraybackslash}p{#1}}{#2}}
-
 \subsection{Results}
+In this subsection first the results of the measurements of the OpenEM and
+PREESM applications are presented and next the results of measuring the OpenEM
+application limited with core masks are presented. The latency and throughput of
+the OpenEM application measurements are summarized in the table
+\ref{tab:oemthrough} and in table \ref{tab:preesmthrough} of the PREESM
+application. The summary of latency and throughtput of the OpenEM application
+with limited number of cores is presented in table \ref{tab:oemcoremasks}.
+
+The latency of both of the filters is measured from the time the frame is loaded
+from the memory to the time the frame is merged after filtering. The throughput
+is measured as frames per second processed in total by the application. Since
+both of the applications process frames at the same rate from both streams,
+there is only one FPS measurement for each of the measurement setups.
+
+The PREESM latencies in the table \ref{tab:preesmthrough} are consistently
+smaller than the latencies of the OpenEM application in the table
+\ref{tab:oemthrough}. This corresponds to the difference of the block schedule
+used in the PREESM application to the dynamic schedule used in the OpenEM
+application. The OpenEM schedule is more optimized for throughput which is
+readily observed from the difference of the FPS metrics for both applications.
+The throughput versus latency balance in the OpenEM application is controlled
+through the number of frames processed simultaneously. In this set of
+measurements the OpenEM application is configured to process 16 frames
+simultaneously to maximize throughput. \\
+
+TODO: Add another set of OpenEM measurements using smaller number of initial
+events for better latency.\\
+
+\newcommand{\head}[2]{\multicolumn{1}{>{\centering\arraybackslash}p{#1}}{#2}}
+\begin{table}
+    \begin{center}
+        \begin{tabular}{ c c c c c }
+            \head{1.5cm}{Sobel latency} & \head{1.5cm}{Gauss latency} &
+            \head{1.5cm}{FPS} & \head{1.5cm}{Sobel frame size} &
+            \head{1.5cm}{Gauss frame size} \\ \hline
+            5,41 & 8,78 & 223 & CIF & 4CIF \\ \hline
+            4,65 & 3,54 & 334 & 4CIF & CIF \\ \hline
+            2,15 & 2,51 & 668 & CIF & CIF \\ \hline
+            0,61 & 0,71 & 2004 & QCIF & QCIF \\ \hline
+        \end{tabular}
+        \caption{PREESM latency and throughput. The unit the latencies are
+        measured is in milliseconds.}
+        \label{tab:preesmthrough}
+    \end{center}
+\end{table}
+
+\begin{table}
+    \begin{center}
+        \begin{tabular}{ c c c c c }
+            \head{1.5cm}{Sobel latency} & \head{1.5cm}{Gauss latency} &
+            \head{1.5cm}{FPS} & \head{1.5cm}{Sobel frame size} &
+            \head{1.5cm}{Gauss frame size} \\ \hline
+            15,82 & 22,85 & 599 & CIF & 4CIF \\ \hline
+            4,85 & 3,67 & 895 & 4CIF & CIF \\ \hline
+            4,91 & 5,96 & 1955 & CIF & CIF \\ \hline
+            1,33 & 1,62 & 7819 & QCIF & QCIF \\ \hline
+        \end{tabular}
+        \caption{OpenEM latency and throughput. The unit the latencies are
+        measured in is milliseconds.}
+        \label{tab:oemthrough}
+    \end{center}
+\end{table}
+
+A block schedule could be generated that would yield a higher throughput by
+introducing multiple instances of the actors for each repetition of the
+schedule. The successive repetitions of the schedule would be interleaved and
+the overhead of synchronizing the cores would be reduced. The current version of
+PREESM does not support the described interleaving of the repetitions
+\cite{pelcat2014preesm}.
+
+The throughput of the application is determined by how much time the application
+spends processing the streams versus the time spent doing something else. For
+example the synchronization of all cores before each repetition of the PREESM
+schedule consumes a lot of cpu cycles as is readily observed from the figure
+\ref{fig:preesmcif}. The portion of the bars marked as busy corresponds to the
+cycles spent in the synchronization between the repetitions of the schedule. The
+percentage of cycles spent in the synchronization varies from 16\% on Core 7
+to 45\% on Core 0. Comparing the core utilization of the PREESM application to
+the core utilization of the OpenEM application presented in the figure
+\ref{fig:oem8corefunc} the differences in the schedulers start to become apparent.
+
+One to one comparison of the cpu utilization of the applications is difficult
+due to the differences in the runtime systems. The overhead portions in the
+figures \ref{fig:preesmcif} and \ref{fig:oem8corefunc} contain all of the data
+copying from buffer to buffer outside the measured functions, but they also
+contain different amounts of cycles spent in communications between the cores. A
+more revealing view at the overhead of the OpenEM runtime is found by looking at
+the cycles spent per execution object in the OpenEM application in figure
+\ref{fig:oem8coreeo}, where the overhead corresponds to cycles spent outside the
+execution objects. The cycles spent outside the execution objects are maximum of
+3\% on all cores.
+
+\begin{figure}
+    \begin{center}
+        \includegraphics[width=0.99\textwidth]{images/preesm_cifcif.eps}
+        \captionof{figure}{PREESM cycles spent per function for CIF sobel frames and CIF
+            gauss frames. The busy portion of the bars correspond to the cycles
+            spent synchronizing the cores between the repetitions of the block
+            schedule. The overhead corresponds to cycles spent outside the
+            measured functions and the busy cycles.}
+        \label{fig:preesmcif}
+    \end{center}
+\end{figure}
+
+\begin{figure}
+    \begin{center}
+        \includegraphics[width=0.99\textwidth]{images/openem_cifcif_8cores_func.eps}
+        \captionof{figure}{OpenEM cycles spent per function for CIF sobel frames and CIF
+            gauss frames. The overhead corresponds to cycles spent outside the
+            listed functions, which includes the communication overhead and the copying
+            of the data between the buffers.}
+        \label{fig:oem8corefunc}
+    \end{center}
+\end{figure}
+
+\begin{figure}[h!]
+    \begin{center}
+        \includegraphics[width=0.99\textwidth]{images/openem_cifcif_8cores_eo.eps}
+        \caption{OpenEM cycles spent per execution object for CIF sobel frames
+        and CIF gauss frames. The overhead corresponds to cycles spent outside
+        the execution objects.}
+        \label{fig:oem8coreeo}
+    \end{center}
+\end{figure}
+
 \begin{table}
     \begin{center}
         \begin{tabular}{ c c c c }
@@ -122,43 +271,16 @@ fime with both streams at CIF resolution.
             4,91 & 5,96 & 1955 & 8 \\ \hline
         \end{tabular}
         \caption{OpenEM measurements with number of cores varied}
-        \label{tab:m_}
+        \label{tab:oemcoremasks}
     \end{center}
 \end{table}
-
-\begin{table}
-    \begin{center}
-        \begin{tabular}{ c c c c c }
-            \head{1.5cm}{Sobel latency} & \head{1.5cm}{Gauss latency} &
-            \head{1.5cm}{FPS} & \head{1.5cm}{Sobel frame size} &
-            \head{1.5cm}{Gauss frame size} \\ \hline
-            15,82 & 22,85 & 599 & CIF & 4CIF \\ \hline
-            4,85 & 3,67 & 895 & 4CIF & CIF \\ \hline
-            4,91 & 5,96 & 1955 & CIF & CIF \\ \hline
-            1,33 & 1,62 & 7819 & QCIF & QCIF \\ \hline
-        \end{tabular}
-        \caption{OpenEM latency and throughput}
-    \end{center}
-\end{table}
-
-\begin{table}
-    \begin{center}
-        \begin{tabular}{ c c c c c }
-            \head{1.5cm}{Sobel latency} & \head{1.5cm}{Gauss latency} &
-            \head{1.5cm}{FPS} & \head{1.5cm}{Sobel frame size} &
-            \head{1.5cm}{Gauss frame size} \\ \hline
-            5,41 & 8,78 & 223 & CIF & 4CIF \\ \hline
-            4,65 & 3,54 & 334 & 4CIF & CIF \\ \hline
-            2,15 & 2,51 & 668 & CIF & CIF \\ \hline
-            0,61 & 0,71 & 2004 & QCIF & QCIF \\ \hline
-        \end{tabular}
-        \caption{PREESM latency and throughput}
-    \end{center}
-\end{table}
-
 \section{Comparison of Simulated OpenEM Performance and Real OpenEM Performance}
 \label{sec:secondexperiment}
 \subsection{Parameters and Factors}
 \subsection{Measurement Setups}
 \subsection{Results}
+
+
+
+
 
