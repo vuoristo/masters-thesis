@@ -1,234 +1,244 @@
 \chapter{First appendix: OpenEM and PREESM comparison}
 \label{chapter:first-appendix}
-
-\begin{figure}[h!]
-    \begin{center}
-        \includegraphics[width=0.99\textwidth]{images/openem_cifcif_8cores_eo.eps}
-        \caption{OpenEM cycles spent per execution object for CIF sobel frames and CIF gauss frames}
-        \label{fig:oem8coreeo}
-    \end{center}
+\begin{figure}
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.99\linewidth]{images/openem_cifcif_8cores_eo.eps}
+        \captionof{figure}{OpenEM cycles spent per execution object for CIF sobel frames and CIF gauss frames}
+        %        \label{fig:oem8coreeo}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.99\linewidth]{images/openem_cifcif_8cores_func.eps}
+        \captionof{figure}{OpenEM cycles spent per function for CIF sobel frames and CIF gauss frames}
+        %        \label{fig:oem8corefunc}
+    \end{minipage}%
 \end{figure}
-
-\begin{figure}[h!]
-    \begin{center}
-        \includegraphics[width=0.99\textwidth]{images/openem_cifcif_8cores_func.eps}
-        \caption{OpenEM cycles spent per function for CIF sobel frames and CIF gauss frames}
-        \label{fig:oem8corefunc}
-    \end{center}
-\end{figure}
-
-\begin{figure}[h!]
-    \begin{center}
-        \includegraphics[width=0.99\textwidth]{images/openem_sobel4cif_gausscif_eo.eps}
-        \caption{OpenEM cycles spent per execution object for 4CIF sobel frames and CIF gauss frames}
-        \label{fig:oem8coreeosobel4cif}
-    \end{center}
-\end{figure}
-
-\begin{figure}[h!]
-    \begin{center}
-        \includegraphics[width=0.99\textwidth]{images/openem_sobel4cif_gausscif_func.eps}
-        \caption{OpenEM cycles spent per function for 4CIF sobel frames and CIF gauss frames}
+\begin{figure}
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.99\linewidth]{images/openem_sobel4cif_gausscif_eo.eps}
+        \captionof{figure}{OpenEM cycles spent per execution object for 4CIF sobel frames and CIF gauss frames}
+        %        \label{fig:oem8coreeosobel4cif}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.99\linewidth]{images/openem_sobel4cif_gausscif_func.eps}
+        \captionof{figure}{OpenEM cycles spent per function for 4CIF sobel frames and CIF gauss frames}
         \label{fig:oem8corefuncsobel4cif}
-    \end{center}
+    \end{minipage}%
 \end{figure}
-
-\begin{figure}[h!]
-    \begin{center}
-        \includegraphics[width=0.99\textwidth]{images/openem_sobelcif_gauss4cif_eo.eps}
-        \caption{OpenEM cycles spent per execution object for CIF sobel frames and 4CIF gauss frames}
-        \label{fig:oem8coreeogauss4cif}
-    \end{center}
-\end{figure}
-
-\begin{figure}[h!]
-    \begin{center}
-        \includegraphics[width=0.99\textwidth]{images/openem_sobelcif_gauss4cif_func.eps}
-        \caption{OpenEM cycles spent per function for CIF sobel frames and 4CIF gauss frames}
+\begin{figure}
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.99\linewidth]{images/openem_sobelcif_gauss4cif_eo.eps}
+        \captionof{figure}{OpenEM cycles spent per execution object for CIF sobel frames and 4CIF gauss frames}
+        %        \label{fig:oem8coreeogauss4cif}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.99\linewidth]{images/openem_sobelcif_gauss4cif_func.eps}
+        \captionof{figure}{OpenEM cycles spent per function for CIF sobel frames and 4CIF gauss frames}
         \label{fig:oem8corefuncgauss4cif}
-    \end{center}
+    \end{minipage}%
 \end{figure}
-
-\begin{figure}[h!]
-    \begin{center}
-        \includegraphics[width=0.99\textwidth]{images/openem_sobelqcif_gaussqcif_eo.eps}
-        \caption{OpenEM cycles spent per execution object for QCIF sobel frames and QCIF gauss frames}
+\begin{figure}
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.99\linewidth]{images/openem_sobelqcif_gaussqcif_eo.eps}
+        \captionof{figure}{OpenEM cycles spent per execution object for QCIF sobel frames and QCIF gauss frames}
         \label{fig:oem8coreeoqcif}
-    \end{center}
-\end{figure}
-
-\begin{figure}[h!]
-    \begin{center}
-        \includegraphics[width=0.99\textwidth]{images/openem_sobelqcif_gaussqcif_func.eps}
-        \caption{OpenEM cycles spent per function for CIF sobel frames and 4CIF gauss frames}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.99\linewidth]{images/openem_sobelqcif_gaussqcif_func.eps}
+        \captionof{figure}{OpenEM cycles spent per function for CIF sobel frames and 4CIF gauss frames}
         \label{fig:oem8corefuncqcif}
-    \end{center}
+    \end{minipage}%
 \end{figure}
-
-\begin{figure}[h!]
-    \begin{center}
-        \includegraphics[width=0.99\textwidth]{images/preesm_cifcif.eps}
-        \caption{PREESM cycles spent per function for CIF sobel frames and CIF gauss frames}
-        \label{fig:preesmcif}
-    \end{center}
-\end{figure}
-
-\begin{figure}[h!]
-    \begin{center}
-        \includegraphics[width=0.99\textwidth]{images/preesm_sobel4cif_gausscif.eps}
-        \caption{PREESM cycles spent per function for 4CIF sobel frames and CIF gauss frames}
+\begin{figure}
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.99\linewidth]{images/preesm_cifcif.eps}
+        \captionof{figure}{PREESM cycles spent per function for CIF sobel frames and CIF gauss frames}
+        %        \label{fig:preesmcif}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.99\linewidth]{images/preesm_sobel4cif_gausscif.eps}
+        \captionof{figure}{PREESM cycles spent per function for 4CIF sobel frames and CIF gauss frames}
         \label{fig:preesmsobel4cif}
-    \end{center}
+    \end{minipage}%
 \end{figure}
-
-\begin{figure}[h!]
-    \begin{center}
-        \includegraphics[width=0.99\textwidth]{images/preesm_sobelcif_gauss4cif.eps}
-        \caption{PREESM cycles spent per function for CIF sobel frames and 4CIF gauss frames}
+\begin{figure}
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.99\linewidth]{images/preesm_sobelcif_gauss4cif.eps}
+        \captionof{figure}{PREESM cycles spent per function for CIF sobel frames and 4CIF gauss frames}
         \label{fig:preesmgauss4cif}
-    \end{center}
-\end{figure}
-
-\begin{figure}[h!]
-    \begin{center}
-        \includegraphics[width=0.99\textwidth]{images/preesm_sobelqcif_gaussqcif.eps}
-        \caption{PREESM cycles spent per function for QCIF sobel frames and QCIF gauss frames}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.99\linewidth]{images/preesm_sobelqcif_gaussqcif.eps}
+        \captionof{figure}{PREESM cycles spent per function for QCIF sobel frames and QCIF gauss frames}
         \label{fig:preesmgauss4cif}
-    \end{center}
+    \end{minipage}%
 \end{figure}
-
-
 \chapter{Second Appendix: OpenEM coremasks}
-
-\begin{figure}[h!]
-    \begin{center}
-        \includegraphics[width=0.99\textwidth]{images/openem_cifcif_1cores_eo.eps}
-        \caption{OpenEM cycles spent per execution object for CIF sobel frames and CIF gauss frames using 1 core.}
+\begin{figure}
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.99\linewidth]{images/openem_cifcif_1cores_eo.eps}
+        \captionof{figure}{OpenEM cycles spent per execution object for CIF sobel frames and CIF gauss frames using 1 core.}
         \label{fig:oem1coreeo}
-    \end{center}
-\end{figure}
-
-\begin{figure}[h!]
-    \begin{center}
-        \includegraphics[width=0.99\textwidth]{images/openem_cifcif_1cores_func.eps}
-        \caption{OpenEM cycles spent per function for CIF sobel frames and CIF gauss frames using 1 core.}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.99\linewidth]{images/openem_cifcif_1cores_func.eps}
+        \captionof{figure}{OpenEM cycles spent per function for CIF sobel frames and CIF gauss frames using 1 core.}
         \label{fig:oem1corefunc}
-    \end{center}
+    \end{minipage}%
 \end{figure}
-
-
-\begin{figure}[h!]
-    \begin{center}
-        \includegraphics[width=0.99\textwidth]{images/openem_cifcif_2cores_eo.eps}
-        \caption{OpenEM cycles spent per execution object for CIF sobel frames and CIF gauss frames using 2 cores.}
+\begin{figure}
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.99\linewidth]{images/openem_cifcif_2cores_eo.eps}
+        \captionof{figure}{OpenEM cycles spent per execution object for CIF sobel frames and CIF gauss frames using 2 cores.}
         \label{fig:oem2coreeo}
-    \end{center}
-\end{figure}
-
-\begin{figure}[h!]
-    \begin{center}
-        \includegraphics[width=0.99\textwidth]{images/openem_cifcif_2cores_func.eps}
-        \caption{OpenEM cycles spent per function for CIF sobel frames and CIF gauss frames using 2 cores.}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.99\linewidth]{images/openem_cifcif_2cores_func.eps}
+        \captionof{figure}{OpenEM cycles spent per function for CIF sobel frames and CIF gauss frames using 2 cores.}
         \label{fig:oem2corefunc}
-    \end{center}
+    \end{minipage}%
 \end{figure}
-
-
-\begin{figure}[h!]
-    \begin{center}
-        \includegraphics[width=0.99\textwidth]{images/openem_cifcif_3cores_eo.eps}
-        \caption{OpenEM cycles spent per execution object for CIF sobel frames and CIF gauss frames using 3 cores.}
+\begin{figure}
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.99\linewidth]{images/openem_cifcif_3cores_eo.eps}
+        \captionof{figure}{OpenEM cycles spent per execution object for CIF sobel frames and CIF gauss frames using 3 cores.}
         \label{fig:oem3coreeo}
-    \end{center}
-\end{figure}
-
-\begin{figure}[h!]
-    \begin{center}
-        \includegraphics[width=0.99\textwidth]{images/openem_cifcif_3cores_func.eps}
-        \caption{OpenEM cycles spent per function for CIF sobel frames and CIF gauss frames using 3 cores.}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.99\linewidth]{images/openem_cifcif_3cores_func.eps}
+        \captionof{figure}{OpenEM cycles spent per function for CIF sobel frames and CIF gauss frames using 3 cores.}
         \label{fig:oem3corefunc}
-    \end{center}
+    \end{minipage}%
 \end{figure}
-
-
-\begin{figure}[h!]
-    \begin{center}
-        \includegraphics[width=0.99\textwidth]{images/openem_cifcif_4cores_eo.eps}
-        \caption{OpenEM cycles spent per execution object for CIF sobel frames and CIF gauss frames using 4 cores.}
+\begin{figure}
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.99\linewidth]{images/openem_cifcif_4cores_eo.eps}
+        \captionof{figure}{OpenEM cycles spent per execution object for CIF sobel frames and CIF gauss frames using 4 cores.}
         \label{fig:oem4coreeo}
-    \end{center}
-\end{figure}
-
-\begin{figure}[h!]
-    \begin{center}
-        \includegraphics[width=0.99\textwidth]{images/openem_cifcif_4cores_func.eps}
-        \caption{OpenEM cycles spent per function for CIF sobel frames and CIF gauss frames using 4 cores.}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.99\linewidth]{images/openem_cifcif_4cores_func.eps}
+        \captionof{figure}{OpenEM cycles spent per function for CIF sobel frames and CIF gauss frames using 4 cores.}
         \label{fig:oem3corefunc}
-    \end{center}
+    \end{minipage}%
 \end{figure}
-
-
-\begin{figure}[h!]
-    \begin{center}
-        \includegraphics[width=0.99\textwidth]{images/openem_cifcif_5cores_eo.eps}
-        \caption{OpenEM cycles spent per execution object for CIF sobel frames and CIF gauss frames using 5 cores.}
+\begin{figure}
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.99\linewidth]{images/openem_cifcif_5cores_eo.eps}
+        \captionof{figure}{OpenEM cycles spent per execution object for CIF sobel frames and CIF gauss frames using 5 cores.}
         \label{fig:oem5coreeo}
-    \end{center}
-\end{figure}
-
-\begin{figure}[h!]
-    \begin{center}
-        \includegraphics[width=0.99\textwidth]{images/openem_cifcif_5cores_func.eps}
-        \caption{OpenEM cycles spent per function for CIF sobel frames and CIF gauss frames using 5 cores.}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.99\linewidth]{images/openem_cifcif_5cores_func.eps}
+        \captionof{figure}{OpenEM cycles spent per function for CIF sobel frames and CIF gauss frames using 5 cores.}
         \label{fig:oem5corefunc}
-    \end{center}
+    \end{minipage}%
 \end{figure}
-
-
-\begin{figure}[h!]
-    \begin{center}
-        \includegraphics[width=0.99\textwidth]{images/openem_cifcif_6cores_eo.eps}
-        \caption{OpenEM cycles spent per execution object for CIF sobel frames and CIF gauss frames using 6 cores.}
+\begin{figure}
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.99\linewidth]{images/openem_cifcif_6cores_eo.eps}
+        \captionof{figure}{OpenEM cycles spent per execution object for CIF sobel frames and CIF gauss frames using 6 cores.}
         \label{fig:oem6coreeo}
-    \end{center}
-\end{figure}
-
-\begin{figure}[h!]
-    \begin{center}
-        \includegraphics[width=0.99\textwidth]{images/openem_cifcif_6cores_func.eps}
-        \caption{OpenEM cycles spent per function for CIF sobel frames and CIF gauss frames using 6 cores.}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.99\linewidth]{images/openem_cifcif_6cores_func.eps}
+        \captionof{figure}{OpenEM cycles spent per function for CIF sobel frames and CIF gauss frames using 6 cores.}
         \label{fig:oem2corefunc}
-    \end{center}
+    \end{minipage}%
 \end{figure}
-
-\begin{figure}[h!]
-    \begin{center}
-        \includegraphics[width=0.99\textwidth]{images/openem_cifcif_7cores_eo.eps}
-        \caption{OpenEM cycles spent per execution object for CIF sobel frames and CIF gauss frames using 7 cores.}
+\begin{figure}
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.99\linewidth]{images/openem_cifcif_7cores_eo.eps}
+        \captionof{figure}{OpenEM cycles spent per execution object for CIF sobel frames and CIF gauss frames using 7 cores.}
         \label{fig:oem7coreeo}
-    \end{center}
-\end{figure}
-
-\begin{figure}[h!]
-    \begin{center}
-        \includegraphics[width=0.99\textwidth]{images/openem_cifcif_7cores_func.eps}
-        \caption{OpenEM cycles spent per function for CIF sobel frames and CIF gauss frames using 7 cores.}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.99\linewidth]{images/openem_cifcif_7cores_func.eps}
+        \captionof{figure}{OpenEM cycles spent per function for CIF sobel frames and CIF gauss frames using 7 cores.}
         \label{fig:oem7corefunc}
-    \end{center}
+    \end{minipage}%
 \end{figure}
-
-\begin{figure}[h!]
-    \begin{center}
-        \includegraphics[width=0.99\textwidth]{images/openem_cifcif_8cores_eo.eps}
-        \caption{OpenEM cycles spent per execution object for CIF sobel frames and CIF gauss frames using 8 cores.}
+\begin{figure}
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.99\linewidth]{images/openem_cifcif_8cores_eo.eps}
+        \captionof{figure}{OpenEM cycles spent per execution object for CIF sobel frames and CIF gauss frames using 8 cores.}
         \label{fig:oem8coreeo2}
-    \end{center}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.99\linewidth]{images/openem_cifcif_8cores_func.eps}
+        \captionof{figure}{OpenEM cycles spent per function for CIF sobel frames and CIF gauss frames using 8 cores.}
+        \label{fig:oem8corefunc2}
+    \end{minipage}%
+\end{figure}
+\begin{figure}
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.99\linewidth]{images/coremask_fps.eps}
+        \captionof{figure}{FPS increase as the function of cores vs. linear growth}
+        %        \label{fig:fpsvcores}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=0.99\linewidth]{images/coremask_latencies.eps}
+        \captionof{figure}{Latency decrease as the function of cores}
+        \label{fig:latencyvcores}
+    \end{minipage}%
 \end{figure}
 
-\begin{figure}[h!]
-    \begin{center}
-        \includegraphics[width=0.99\textwidth]{images/openem_cifcif_8cores_func.eps}
-        \caption{OpenEM cycles spent per function for CIF sobel frames and CIF gauss frames using 8 cores.}
-        \label{fig:oem8corefunc2}
-    \end{center}
-\end{figure}
