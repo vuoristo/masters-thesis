@@ -91,6 +91,9 @@ reduced bitrates of $\frac{1}{4} * R_{x} * R_{y}$ per frame.
     \end{center}
 \end{table}
 
+The OpenEM measurements are run with different numbers of frames processed
+simultaneously to examine the balancing between throughput and latency.
+
 In the second part of this experiment OpenEM core masks are used to limit the
 number of cores available to the filter application. The behavior of OpenEM is
 examined under limited resources. The core masks in Texas Instruments
@@ -135,16 +138,18 @@ processing the streams.
 In this subsection first the results of the measurements of the OpenEM and
 PREESM applications are presented and next the results of measuring the OpenEM
 application limited with core masks are presented. The latency and throughput of
-the OpenEM application measurements are summarized in the table
-\ref{tab:oemthrough} and in table \ref{tab:preesmthrough} of the PREESM
-application. The summary of latency and throughtput of the OpenEM application
-with limited number of cores is presented in table \ref{tab:oemcoremasks}.
+the OpenEM application measurements are summarized in the tables
+\ref{tab:oemthrough} and \ref{tab:oemthrough2}. The corresponding summaries for
+the PREESM application are presented in the table \ref{tab:preesmthrough} The
+summary of latency and throughtput of the OpenEM application with limited number
+of cores is presented in table \ref{tab:oemcoremasks}.
 
 The latency of both of the filters is measured from the time the frame is loaded
 from the memory to the time the frame is merged after filtering. The throughput
 is measured as frames per second processed in total by the application. Since
 both of the applications process frames at the same rate from both streams,
 there is only one FPS measurement for each of the measurement setups.
+
 
 The PREESM latencies in the table \ref{tab:preesmthrough} are consistently
 smaller than the latencies of the OpenEM application in the table
@@ -156,9 +161,6 @@ The throughput versus latency balance in the OpenEM application is controlled
 through the number of frames processed simultaneously. In this set of
 measurements the OpenEM application is configured to process 16 frames
 simultaneously to maximize throughput. \\
-
-TODO: Add another set of OpenEM measurements using smaller number of initial
-events for better latency.\\
 
 \newcommand{\head}[2]{\multicolumn{1}{>{\centering\arraybackslash}p{#1}}{#2}}
 \begin{table}
@@ -177,7 +179,22 @@ events for better latency.\\
         \label{tab:preesmthrough}
     \end{center}
 \end{table}
-
+\begin{table}
+    \begin{center}
+        \begin{tabular}{ c c c c c }
+            \head{1.5cm}{Sobel latency} & \head{1.5cm}{Gauss latency} &
+            \head{1.5cm}{FPS} & \head{1.5cm}{Sobel frame} &
+            \head{1.5cm}{Gauss frame} \\ \hline
+            3,59 & 10,93 & 256 & CIF & 4CIF \\ \hline
+            3,75 & 2,95 & 527 & 4CIF & CIF \\ \hline
+            1,42 & 2,80 & 889 & CIF & CIF \\ \hline
+            0,32 & 0,71 & 3534 & QCIF & QCIF \\ \hline
+        \end{tabular}
+        \caption{OpenEM latency and throughput with 2 frames processed
+        simultaneously. The latencies are measured in milliseconds.}
+        \label{tab:oemthrough2}
+    \end{center}
+\end{table}
 \begin{table}
     \begin{center}
         \begin{tabular}{ c c c c c }
@@ -189,12 +206,11 @@ events for better latency.\\
             4,91 & 5,96 & 1955 & CIF & CIF \\ \hline
             1,33 & 1,62 & 7819 & QCIF & QCIF \\ \hline
         \end{tabular}
-        \caption{OpenEM latency and throughput. The latencies are measured in
-        milliseconds.}
+        \caption{OpenEM latency and throughput with 16 frames processed
+        simultaneously. The latencies are measured in milliseconds.}
         \label{tab:oemthrough}
     \end{center}
 \end{table}
-
 A block schedule could be generated, which would yield a higher throughput by
 introducing multiple instances of the actors for each repetition of the
 schedule. The successive repetitions of the schedule would be interleaved and
@@ -342,6 +358,23 @@ measured with eight cores is approximately 90\% of the linear growth.
     \end{center}
 \end{figure}
 
+\begin{table}
+    \begin{center}
+        \begin{tabular}{ c c c c }
+            \head{1.5cm}{Sobel latency} & \head{1.5cm}{Gauss latency} &
+            \head{1.5cm}{FPS} & \head{1.5cm}{Simultaneous Frames} \\
+            \hline
+            1.42 & 2.80 & 889  & 2 \\ \hline
+            1.72 & 3.22 & 1371 & 4 \\ \hline
+            2.26 & 3.59 & 1655 & 6 \\ \hline
+            2.67 & 3.96 & 1825 & 8 \\ \hline
+            3.13 & 4.37 & 1880 & 10 \\ \hline
+        \end{tabular}
+        \caption{OpenEM measurements with different numbers of frames in
+        processed simultaneously.}
+        \label{tab:oemintialframes}
+    \end{center}
+\end{table}
 \section{Comparison of Simulated OpenEM Performance and Real OpenEM Performance}
 \label{sec:secondexperiment}
 \subsection{Parameters and Factors}
