@@ -38,12 +38,14 @@ application behaves under dynamic workload.
 The static schedule of the PREESM application was regenerated between every
 measurement setup due to the limitations of the code generation in PREESM
 framework. The specific limitation was that the parameters of the actor model
-were translated to static memory allocations in the code generator, and manually
-changing the generate allocations would've been complicated and prone to error.
-As a result of this the actors are scheduled slightly differently between each
-scenario. To demonstrate the effect of static scheduling, the estimated actor
-timings of the PREESM application were not modified when changing the frame
-size.
+were translated in to static memory allocations in the code generator, and
+manually changing the generated allocations would have been complicated and
+prone to error. As a result the actors are scheduled slightly differently
+between each scenario. The schedules differ in the mapping of actors to cores
+but not in ordering of the actors. The actor ordering is defined by the
+dependencies between the actors and availability of computing resources. To
+demonstrate the effect of static scheduling, the estimated actor timings of the
+PREESM application were not modified when changing the frame size.
 
 In this experiment the applications are loaded with three different workloads
 and measured. In addition the OpenEM application is measured under the same load
@@ -93,8 +95,8 @@ In the second part of this experiment OpenEM core masks are used to limit the
 number of cores available to the filter application. The behavior of OpenEM is
 examined under limited resources. The core masks in Texas Instruments
 implementation of OpenEM are limited so that only one core mask can be active in
-the application as discussed in \ref{chapter:openem}, therefore the core masks
-always apply to all execution objects of the application.
+the application as discussed in chapter \ref{chapter:openem}, therefore the core
+masks always apply to all execution objects of the application.
 
 \subsection{Measurement Setups}
 The filter applications process two video streams simultaneously as described in
@@ -198,7 +200,7 @@ introducing multiple instances of the actors for each repetition of the
 schedule. The successive repetitions of the schedule would be interleaved and
 the overhead of synchronizing the cores would be reduced. The current version of
 PREESM does not support the described interleaving of the repetitions
-\cite{pelcat2014preesm}.
+\cite{pelcat2014preesm}. TODO: this belongs to discussion / conclusions.
 
 The throughput of the application is determined by how much time the application
 spends processing the streams versus the time spent doing something else. For
@@ -266,7 +268,8 @@ frame. The formation of the bottleneck can be observed by comparing the core
 utilization in the figure \ref{fig:oem8coreeo} to the core utilization in the
 figure \ref{fig:oem8coreeosobel4cif} where seven cores need to wait for the read
 operations on the Core 2 and the overall overhead is increased. The other cores
-do not receive any events from the OpenEM scheduler while waiting.
+do not receive any events from the OpenEM scheduler while waiting. TODO:
+discussion/ conclusions
 
 \begin{figure}
     \centering
