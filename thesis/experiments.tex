@@ -150,17 +150,16 @@ is measured as frames per second processed in total by the application. Since
 both of the applications process frames at the same rate from both streams,
 there is only one FPS measurement for each of the measurement setups.
 
-
-The PREESM latencies in the table \ref{tab:preesmthrough} are consistently
-smaller than the latencies of the OpenEM application in the table
-\ref{tab:oemthrough}. This corresponds to the difference of the block schedule
-used in the PREESM application to the dynamic schedule used in the OpenEM
-application. The OpenEM schedule is more optimized for throughput which is
-readily observed from the difference of the FPS metrics for both applications.
-The throughput versus latency balance in the OpenEM application is controlled
-through the number of frames processed simultaneously. In this set of
-measurements the OpenEM application is configured to process 16 frames
-simultaneously to maximize throughput. \\
+The latencies of the two streams of the PREESM application in all measurement
+setups in the table \ref{tab:preesmthrough} are similar. The largest difference
+in the latencies is in the case where sobel filter filters a CIF stream and
+gauss filter filters a 4CIF stream, where gauss latency is 60\% higher than the
+sobel latency. Much larger differences in the latencies are observed with the
+OpenEM application with two initial events presented in table
+\ref{tab:oemthrough2} where the largest difference in latencies is also measured
+between the CIF sobel stream and 4CIF gauss stream. The gauss latency in the
+particular OpenEM measurement is 200\% higher than the sobel latency. The other
+OpenEM measurements show larger differences as well compared to PREESM.
 
 \newcommand{\head}[2]{\multicolumn{1}{>{\centering\arraybackslash}p{#1}}{#2}}
 \begin{table}
@@ -211,12 +210,42 @@ simultaneously to maximize throughput. \\
         \label{tab:oemthrough}
     \end{center}
 \end{table}
-A block schedule could be generated, which would yield a higher throughput by
-introducing multiple instances of the actors for each repetition of the
-schedule. The successive repetitions of the schedule would be interleaved and
-the overhead of synchronizing the cores would be reduced. The current version of
-PREESM does not support the described interleaving of the repetitions
-\cite{pelcat2014preesm}. TODO: this belongs to discussion / conclusions.
+
+The PREESM latencies in the table \ref{tab:preesmthrough} are consistently
+smaller than the latencies of the throughput optimized OpenEM application in the
+table \ref{tab:oemthrough}. The throughput versus latency balance in the OpenEM
+application is controlled through the number of frames processed simultaneously.
+In this set of measurements the OpenEM application is configured to process 16
+frames simultaneously to maximize throughput. The effect of increasing the
+number of simultaneous frames was examined by measuring the application with
+two CIF streams using 2 to 24 initial events. The results of the measurements
+are presented in table \ref{tab:oeminitialframes}. The latencies get worse and
+the throughput gets better when the number of frames processed simultaneously
+increases. This behavior is visualized in figures \ref{fig:oeminitialframesfps}
+and \ref{fig:oeminitialframeslat}. The throughput grows rapidly up to 8
+simultaneous frames after which the growth slows down. The latencies grow with
+each added frame steadily.
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[t]{0.49\textwidth}
+        \centering
+        \includegraphics[width=0.99\linewidth]{images/simultaneous_frames_fps.eps}
+        \caption{FPS as a function of simultaneous frames.}
+        \label{fig:oeminitialframesfps}
+    \end{subfigure}
+    \begin{subfigure}[t]{0.49\textwidth}
+        \centering
+        \includegraphics[width=0.99\linewidth]{images/simultaneous_frames_latency.eps}
+        \caption{Latencies as functions of simultaneous frames. The latencies
+        are measured in millisecods.}
+        \label{fig:oeminitialframeslat}
+    \end{subfigure}
+    \caption{The effect of increasing the number of frames processed
+    simultaneously is presented in the figures. The throughput increases rapdily
+    up to 8 simultaneous frames after which the growth slows down. The latency grows
+    more steadily across all measured setups.}
+\end{figure}
 
 The throughput of the application is determined by how much time the application
 spends processing the streams versus the time spent doing something else. For
@@ -225,9 +254,11 @@ schedule consumes a lot of cpu cycles as is readily observed from the figure
 \ref{fig:preesmcif}. The portion of the bars marked as busy corresponds to the
 cycles spent in the synchronization between the repetitions of the schedule. The
 percentage of cycles spent in the synchronization varies from 16\% on Core 7
-to 45\% on Core 0. Comparing the core utilization of the PREESM application to
-the core utilization of the OpenEM application presented in the figure
-\ref{fig:oem8corefunc} the differences in the schedulers start to become apparent.
+to 45\% on Core 0. The OpenEM dynamic scheduler seems to spread out the work
+more evenly in this case where the total overhead cycles are approximately 60\%
+for all cores. The core utilization per function is presented in figure
+\ref{fig:oem8corefunc}. Most of the overhead cycles in the OpenEM application
+are spent waiting for more frames for processing.
 
 \begin{figure}
     \centering
@@ -239,90 +270,26 @@ the core utilization of the OpenEM application presented in the figure
     \end{subfigure}
     \begin{subfigure}[t]{0.49\textwidth}
         \centering
-        \includegraphics[width=0.99\linewidth]{images/openem_cifcif_8cores_func.eps}
+        \includegraphics[width=0.99\linewidth]{images/openem_cifcif_2initial_func.eps}
         \caption{OpenEM}
         \label{fig:oem8corefunc}
     \end{subfigure}
     \caption{In the PREESM graph the busy portion of the bars correspond to the
         cycles spent synchronizing the cores between the repetitions of the
         block schedule. The overhead corresponds to cycles spent outside the
-        measured functions and the busy cycles. In the OpenEM graph the overhead
-        corresponds to cycles spent outside the listed functions, which includes
-    the communication overhead and the copying of the data between the buffers.}
+        measured functions and the synchronization. In the OpenEM application
+        the overhead cycles are the cycles spent outside the compared
+    functions.}
 \end{figure}
 
-One to one comparison of the cpu utilization of the applications is difficult
-due to the differences in the runtime systems. The overhead portions in the
-figures \ref{fig:preesmcif} and \ref{fig:oem8corefunc} contain all of the data
-copying from buffer to buffer outside the measured functions, but they also
-contain different amounts of cycles spent in communications between the cores. A
-more revealing view at the overhead of the OpenEM runtime is found by looking at
-the cycles spent per execution object in the OpenEM application in figure
-\ref{fig:oem8coreeo}, where the overhead corresponds to cycles spent outside the
-execution objects. The cycles spent outside the execution objects are maximum of
-3\% on all cores.
+The overhead portions in the figures \ref{fig:preesmcif} and
+\ref{fig:oem8corefunc} contain all of the data copying from buffer to buffer
+outside the measured functions, but they also contain different amounts of
+cycles spent in communications between the cores. The measured functions are the
+functions which are explicitly called in the PREESM actor model. Other functions
+not included in the measured functions contain runtime specific communication
+and some copying of buffers.
 
-The throughput of both of the applications scales roughly in proportion to each
-other across the different workloads in tables \ref{tab:preesmthrough} and
-\ref{tab:oemthrough}. However the latencies of the OpenEM application show more
-variable behavior. The latencies of both applications are roughly the same in
-the case of two CIF streams and are improved roughly by a factor of 3.5 when the
-bitrates are decreased in the case of two QCIF streams. The latencies of the
-PREESM application grow steadily as the load of the application is increased.
-The latencies of the OpenEM application actually improve when the resolution of
-the sobel stream is increased to 4CIF and then drastically grow in the heaviest
-workload case with sobel resolution of CIF and gauss resolution of 4CIF.
-
-The probable cause of the improvement of the latencies when the workload is made
-heavier by increasing the sobel stream resolution is the reduced interleaving of
-the processing of the subsequent frames. The reduction in the interleaving is
-caused by the read execution object which is only connected to an atomic queue.
-When the frame size of the sobel stream is increased the read EO starts limiting
-the throughput of the application. Fewer frames are processed in parallel which
-decreases the time from reading each individual frame to the completion of that
-frame. The formation of the bottleneck can be observed by comparing the core
-utilization in the figure \ref{fig:oem8coreeo} to the core utilization in the
-figure \ref{fig:oem8coreeosobel4cif} where seven cores need to wait for the read
-operations on the Core 2 and the overall overhead is increased. The other cores
-do not receive any events from the OpenEM scheduler while waiting. TODO:
-discussion/ conclusions
-
-\begin{figure}
-    \centering
-    \begin{subfigure}[t]{0.49\textwidth}
-        \centering
-        \includegraphics[width=0.99\linewidth]{images/openem_cifcif_8cores_eo.eps}
-        \caption{Sobel CIF, Gauss CIF}
-        \label{fig:oem8coreeo}
-    \end{subfigure}
-    \begin{subfigure}[t]{0.49\textwidth}
-        \centering
-        \includegraphics[width=0.99\linewidth]{images/openem_sobel4cif_gausscif_eo.eps}
-        \caption{Sobel 4CIF, Gauss Cif}
-        \label{fig:oem8coreeosobel4cif}
-    \end{subfigure}
-    \caption{The bottleneck forming due to the atomic read operation can be
-    observed by comparing the core utilization when both of the streams are at
-    CIF resolution to the case where sobel resolution is increased to 4CIF.}
-\end{figure}
-
-When the gauss stream is increased to 4CIF and the sobel stream is kept at CIF
-the bottleneck does not form because computing the gaussian filter for the 4CIF
-frames is consuming approximately 80\% of the cycles on all cores. In this case
-the read EO only consumes approximately 5\% to 13\% of the cycles on all cores.
-Compared to the case of two CIF streams, the latencies in this case are
-increased by factors of approximately 3 and 4 for sobel and gauss
-correspondingly. The resulting core utilization graph is presented in figure
-\ref{fig:oem8coreeogauss4cif}.
-
-\begin{figure}[h]
-    \begin{center}
-        \includegraphics[width=0.49\textwidth]{images/openem_sobelcif_gauss4cif_eo.eps}
-        \caption{OpenEM cycles spent per execution object for CIF sobel frames
-        and 4CIF gauss frames}
-        \label{fig:oem8coreeogauss4cif}
-    \end{center}
-\end{figure}
 
 \begin{table}
     \begin{center}
@@ -364,17 +331,89 @@ measured with eight cores is approximately 90\% of the linear growth.
             \head{1.5cm}{Sobel latency} & \head{1.5cm}{Gauss latency} &
             \head{1.5cm}{FPS} & \head{1.5cm}{Simultaneous Frames} \\
             \hline
-            1.42 & 2.80 & 889  & 2 \\ \hline
-            1.72 & 3.22 & 1371 & 4 \\ \hline
-            2.26 & 3.59 & 1655 & 6 \\ \hline
-            2.67 & 3.96 & 1825 & 8 \\ \hline
-            3.13 & 4.37 & 1880 & 10 \\ \hline
+            1,42  &  2,80  &  889   &  2 \\ \hline
+            1,72  &  3,22  &  1371  &  4 \\ \hline
+            2,26  &  3,59  &  1655  &  6 \\ \hline
+            2,67  &  3,96  &  1825  &  8 \\ \hline
+            3,13  &  4,37  &  1880  &  10 \\ \hline
+            3,68  &  4,89  &  1921  &  12 \\ \hline
+            4,27  &  5,40  &  1940  &  14 \\ \hline
+            4,73  &  5,88  &  1958  &  16 \\ \hline
+            5,43  &  6,52  &  1976  &  18 \\ \hline
+            6,22  &  7,21  &  1983  &  20 \\ \hline
+            6,83  &  7,80  &  1981  &  22 \\ \hline
+            7,41  &  8,45  &  1992  &  24 \\ \hline
         \end{tabular}
         \caption{OpenEM measurements with different numbers of frames in
         processed simultaneously.}
-        \label{tab:oemintialframes}
+        \label{tab:oeminitialframes}
     \end{center}
 \end{table}
+
+\subsection{Discussion on Results}
+This section discusses the results of the first experiment. TODO: This is
+probably not part of the results chapter.
+
+A block schedule could be generated, which would yield a higher throughput by
+introducing multiple instances of the actors for each repetition of the
+schedule. The successive repetitions of the schedule would be interleaved and
+the overhead of synchronizing the cores would be reduced. The current version of
+PREESM does not support the described interleaving of the repetitions
+\cite{pelcat2014preesm}.
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[t]{0.49\textwidth}
+        \centering
+        \includegraphics[width=0.99\linewidth]{images/openem_cifcif_8cores_eo.eps}
+        \caption{Sobel CIF, Gauss CIF}
+        \label{fig:oem8coreeo}
+    \end{subfigure}
+    \begin{subfigure}[t]{0.49\textwidth}
+        \centering
+        \includegraphics[width=0.99\linewidth]{images/openem_sobel4cif_gausscif_eo.eps}
+        \caption{Sobel 4CIF, Gauss Cif}
+        \label{fig:oem8coreeosobel4cif}
+    \end{subfigure}
+    \caption{The bottleneck forming due to the atomic read operation can be
+    observed by comparing the core utilization when both of the streams are at
+    CIF resolution to the case where sobel resolution is increased to 4CIF.}
+\end{figure}
+
+In the table \ref{tab:oemthrough} an improvement of latencies is observed when
+the workload is made heavier by moving 4CIF stream from gauss filter to the
+sobel filter while the other stream is held at CIF resolution. The probable
+cause of the improvement of the latencies when the workload is made heavier by
+increasing the sobel stream resolution is the reduced interleaving of the
+processing of the subsequent frames. The reduction in the interleaving is caused
+by the read execution object which is only connected to an atomic queue. When
+the frame size of the sobel stream is increased the read EO starts limiting the
+throughput of the application. Fewer frames are processed in parallel which
+decreases the time from reading each individual frame to the completion of that
+frame. The formation of the bottleneck can be observed by comparing the core
+utilization in the figure \ref{fig:oem8coreeo} to the core utilization in the
+figure \ref{fig:oem8coreeosobel4cif} where seven cores need to wait for the read
+operations on the Core 2 and the overall overhead is increased. The other cores
+do not receive any events from the OpenEM scheduler while waiting.
+
+When the gauss stream is increased to 4CIF and the sobel stream is kept at CIF
+the bottleneck does not form because computing the gaussian filter for the 4CIF
+frames is consuming approximately 80\% of the cycles on all cores. In this case
+the read EO only consumes approximately 5\% to 13\% of the cycles on all cores.
+Compared to the case of two CIF streams, the latencies in this case are
+increased by factors of approximately 3 and 4 for sobel and gauss
+correspondingly. The resulting core utilization graph is presented in figure
+\ref{fig:oem8coreeogauss4cif}.
+
+\begin{figure}[h]
+    \begin{center}
+        \includegraphics[width=0.49\textwidth]{images/openem_sobelcif_gauss4cif_eo.eps}
+        \caption{OpenEM cycles spent per execution object for CIF sobel frames
+        and 4CIF gauss frames}
+        \label{fig:oem8coreeogauss4cif}
+    \end{center}
+\end{figure}
+
 \section{Comparison of Simulated OpenEM Performance and Real OpenEM Performance}
 \label{sec:secondexperiment}
 \subsection{Parameters and Factors}
