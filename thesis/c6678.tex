@@ -29,15 +29,18 @@ experiments is the support for the platform in PREESM \cite{pelcat2014preesm}.
 
 \section{TMS320C6678 Overview}
 
-\begin{figure}[h!] \label{arch_overview} \begin{center}
-    \includegraphics[width=0.99\textwidth]{images/fbd_SPRS691e.png}
-    \caption{Overview of the TMS320C6678 architecture.} \end{center}
+\begin{figure}[h!]
+    \begin{center}
+        \includegraphics[width=0.99\textwidth]{images/fbd_SPRS691e.png}
+        \caption{Overview of the TMS320C6678 architecture.}
+        \label{fig:arch_overview}
+    \end{center}
 \end{figure}
 
 The Keystone I architecture the TMS320C6678 is based on specifies a set of
 hardware elements which enable integration of DSP cores, application specific
 co-processors and IO \cite{tmsdatasheet}. The Keystone I hardware modules and
-their connections are presented in figure \ref{arch_overview}. In the Keystone
+their connections are presented in figure \ref{fig:arch_overview}. In the Keystone
 I architecture there are multiple ways for the C66x cores to communicate with
 each other, the memory and the peripherals. The methods of communication of
 specific interest for the experiments in this thesis are communication through
