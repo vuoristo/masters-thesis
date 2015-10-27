@@ -24,7 +24,8 @@ dataflow diagram is presented in figure \ref{fig:preesm_example}.
 \begin{figure}[h!]
     \begin{center}
         \includegraphics[width=0.99\textwidth]{images/example_preesm_diagram.png}
-        \caption{A simple dataflow diagram used by PREESM}
+        \caption{A simple dataflow diagram used by PREESM \fixme{is this too
+        simple?}}
         \label{fig:preesm_example}
     \end{center}
 \end{figure}
@@ -44,6 +45,7 @@ PiSDF and second the PREESM hardware model.
 \subsection{PREESM Algorithm Representation}
 The PREESM applications are defined using the Parameterized and Interfaced
 Synchronous Dataflow Model of Computation (PiSDF)\cite{pelcat2014preesm}.
+\fixme{detached}
 
 Dataflow Model of Computation (MoC) is a directed graph where each node
 represents a function and the arcs are the only possible paths the data can
@@ -74,8 +76,8 @@ uses System-Level Architecture Model (S-LAM) \cite{pelcat2009system} to
 describe the target architecture. S-LAM is designed specifically to provide
 architecture models of high asbtraction level for rapid prototyping purposes.
 S-LAM is suitable for modeling heterogeneous architectures as a S-LAM can
-contain different types of computational resources and communication links. In
-PREESM the speeds of the connections in the S-LAM are calculated and taken into
+contain different types of computational resources and communication links.
+PREESM calculates the speeds of the connections in the S-LAM and takes them into
 account when creating a static schedule. \cite{pelcat2009system}
 
 PREESM provides graphical tools for editing the S-LAM. For example the S-LAM
@@ -98,7 +100,7 @@ interleaving is given in the software pipelining tutorial available at
 \cite{preesm}. The estimated execution times for each actor are provided by the
 user. PREESM framework visualizes the generated schedule with a gantt chart. An
 example gantt chart is presented in figure \ref{fig:preesm_gantt}.\\
-TODO: This doesn't need to be so condensed, make it more verbose.\\
-TODO: explain wtf is going on with the explode and implode stuff \\
-TODO: how does the preesm inter actor communication work in detail \\
-TODO: explain preesm memory usage
+\fixme{This doesn't need to be so condensed, make it more verbose.\\
+explain wtf is going on with the explode and implode stuff \\
+how does the preesm inter actor communication work in detail \\
+explain preesm memory usage}
