@@ -15,7 +15,7 @@ for stream processing. Today many different types of data can be streamed, for
 example audio and video. Video was chosen to be the type of the streams used in
 the experiments because there are many known image processing algorithms to use
 as the basis for the study and there are many applications for video stream
-processing in the context of industrial internet. TODO: ????
+processing in the context of industrial internet. \fixme{very crappy}
 
 Three requirements for the workload applications were specified to guide the
 design. The requirements are presented in the following list.
@@ -53,11 +53,12 @@ and the canny edge detector the filter components implemented in this thesis are
 introduced in \ref{subsec:gauss} introducing the gaussian filter and
 \ref{subsec:sobel} providing an overview on the sobel filter.\\
 
-TODO: improve intro and find sources for claims. wikipedia on edge detection has
-about the same stuff as above.
+\fixme{TODO: improve intro and find sources for claims. wikipedia on edge detection has
+about the same stuff as above.}
 
 \subsection{Canny edge detector}
 \label{subsec:canny}
+\fixme{this shouldn't probably be in construction chapter}
 Edge detection is an important tool in image processing and computer vision.
 Many image processing and computer vision algorithms operate on detected edges.
 There is a growing interest in the industry to use DSP platforms for edge
@@ -81,8 +82,9 @@ The noise reduction in step one can be implemented with gaussian filtering.
 Finding the intensity gradient of the image in step two can be implemented using
 a sobel filter. Gauss and sobel filters are implemented in the thesis
 experiment. Gaussian filtering is discussed in \ref{subsec:gauss} and sobel
-filtering in \ref{subsec:sobel}.  The rest of the steps are not implemented in
-this thesis and thus are only briefly discussed here.
+filtering in \ref{subsec:sobel}. The rest of the steps are not implemented in
+this thesis and thus are only briefly discussed here \fixme{is this ok to just
+disregard stuff that's not going to be implemented?}.
 
 In the canny edge detector the image is first filtered with gaussian filter to
 reduce the amount of noise in the image. Second the changes in the intensity in
@@ -116,7 +118,8 @@ by taking a weighted average of the neighboring pixels in the input image. The
 weights are precalculated from the gaussian function, giving the highest weight
 to the pixel in the center of the window. The gaussian filter displayed in
 figure \ref{fig:gaussmat} was calculated with $\sigma$ = 1.3. The filtered
-image has a smoothed appearance compared to the original image.
+image has a smoothed appearance compared to the original image. \fixme{maybe add
+a filtered image?}
 
 \begin{figure}
     \begin{displaymath}
@@ -161,7 +164,8 @@ gradient approximations are combined giving an approximate gradient magnitude.
         \end{bmatrix} \ast A
     \end{displaymath}
     \caption{The Sobel Kernels used in the application to compute the gradient
-    approximation. The asterisk denotes the convolution operation.}
+    approximation. The asterisk denotes the convolution operation. \fixme{figure
+    or formula or what?}}
     \label{fig:sobelmat}
 \end{figure}
 
@@ -185,16 +189,18 @@ to the shared parts of the application.
 \subsection{The Actor Model}
 \label{subsec:actors}
 To keep the model simple and the program well analyzable both of the processing
-paths in the network are independent.
+paths in the network are independent. \fixme{does this need more reasoning?}
 
 The first actor on both of the processing paths, the Read\_YUV and the
-Read\_YUV actors in the figure \ref{fig:preesm_actors}, loads the video frames
+Read\_YUV2 actors in the figure \ref{fig:preesm_actors}, loads the video frames
 from memory and passes them to splitting actors. The splitting actors split the
 frames to a suitable number of splices to enable processing of the same video
 stream on multiple cores. The filter actors, Sobel and Gauss actors in the
 figure, follow the splitting actors. Partial frames filtered in the filter
 actor are merged back to whole frames in the merge actors. The last actors on
-both of the processing paths are dummy actors. The pentagons in the top and the
+both of the processing paths are dummy actors \fixme{should these dummy actors
+be killed? it's not negilible amount of work, because the preesm
+measurements should be redone...}. The pentagons in the top and the
 bottom of the figure represent the parameters of the application. The xsize,
 ysize, xsize2 and ysize2 parameters specify the size of the input frames.
 nbSlice and gaussNbSlice determine the numbers of slices the frames are split
@@ -209,7 +215,8 @@ written in the memory for example with DMA by a packet processor processing a
 stream of network packets. The \texttt{readYUV} function copies the Y component
 of the input frame to the output address while the U and V components are
 ignored. The U and V are omitted because the sobel and gauss actors only operate
-on the Y channel. TODO: explain YUV format and how it's used here.
+on the Y channel. \fixme{explain YUV format and how it's used here including the
+omission of U and V}
 
 The split actor operates on the output of the Read\_YUV actor. The split actor
 preprocesses the frame for the sobel and gauss actors. Since the sobel and gauss
@@ -220,10 +227,10 @@ split in to slices. These slices will also need to contain a bit of extra data
 so that the filters can operate correctly. Black lines, or lines with the Y
 value of 0 are added to the top and the bottom of the frame. One black line is
 enough for the sobel frames but two black lines are needed for the gaussian
-frames, corresponding to the filter kernel sizes.  With the black lines added
-the frame is then copied to the output buffer one slice at a time. The slices
-overlap each other for one or two lines again corresponding to the size of the
-filter kernel.
+frames, corresponding to the filter kernel sizes.\fixme{why?} With the black
+lines added the frame is then copied to the output buffer one slice at a time.
+The slices overlap each other for one or two lines again corresponding to the
+size of the filter kernel.
 
 The sobel actor calculates the convolution of the sobel kernels in presented in
 \ref{fig:sobelmat} with the Y component of the input frame. The sobel actor is
@@ -240,9 +247,9 @@ looping over the neighboring pixels and multiplying the intensity values by the
 corresponding weight from the gaussian kernel presented in \ref{fig:gaussmat}.
 The Texas Instruments compiler transforms the innermost loops in a loop
 optimization pass resulting in less branches in the executable code than the
-multi-leveled loop structure would suggest. The weighted average is calculated
-simply by division. Finally the leftmost and rightmost columns are set to 0 as
-in the sobel actor.
+multi-leveled loop structure would suggest \fixme{ref to comp manual}. The
+weighted average is calculated simply by division. Finally the leftmost and
+rightmost columns are set to 0 as in the sobel actor.
 
 The last actor processing the frame is the merge actor. The merge actor copies
 the processed data from its input buffer to its output buffer, overlaying the
@@ -253,18 +260,17 @@ copied for example to a network packet.
 
 As there is no I/O the display actors don't do any computations. In the
 experiments the display actor is used as the endpoint of the processing and it
-starts the data export.
+starts the data export. \fixme{move up where there is talk about dummy actors?}
 
 \subsection{The PREESM Schedule}
 \label{subsec:preesmsched}
-
 The scheduler in the PREESM framework is described in \ref{sec:preesmsched}.
 The scheduler creates a block schedule from the actor model using user provided
 estimates for the actor durations. To get reasonably accurate estimates, the
 application was first scheduled with the default values and the actor durations
 were measured on the target device. The resulting timings are presented in the
-table \ref{tab:preesm_times}. The timings from the measurements were approximately
-the same for all the actors except for the gauss actor. A gantt
+table \ref{tab:preesm_times}. The timings from the measurements were
+approximately the same for all the actors except for the gauss actor. A gantt
 chart representing the schedule created using the values in the table is
 presented in figure \ref{fig:preesm_gantt}. The mutable parameters in the graph
 \ref{fig:preesm_actors} affect the static memory allocations of the PREESM
@@ -322,12 +328,10 @@ manner so that only the scheduling policies between the two programming models
 should differ. The high-level structure of the OpenEM filter application is
 presented in the figure \ref{fig:openem_flow}. The application consists of two
 atomic queues, a parallel queue and three execution objects. Each queue is
-connected to only one execution object. In this text the queues are referred to
-by the execution objects they are connected to, for example the atomic queue
-connected to the merge eo will be referred to as the merge queue. The execution
-runs in cycles. A new cycle is started every time a cycle finishes. There are
-multiple cycles running in parallel, but since the read and merge EOs are
-atomic, only filter EO is running on multiple cores in parallel.
+connected to only one execution object. The execution runs in cycles. A new
+cycle is started every time a cycle finishes. There are multiple cycles running
+in parallel, but since the read and merge EOs are atomic, only filter EO is
+running on multiple cores in parallel.
 
 The design principles introduced in the beginning of this chapter apply to the
 OpenEM application as well. The OpenEM application was not designed for maximum
@@ -383,6 +387,7 @@ frames to gauss filtered frames is always one to one.
 
 \section{PSE Model of OpenEM Filter Application}
 \label{sec:pse_model}
+\fixme{remove?}
 A PSE model of the OpenEM filter application was constructed. The OpenEM filter
 application was modeled to identify the most important factors of performance of
 the OpenEM framework. To fulfill the objective the application model had to be
