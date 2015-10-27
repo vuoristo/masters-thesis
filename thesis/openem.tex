@@ -2,7 +2,9 @@
 \label{chapter:openem}
 This thesis investigates the suitability of Open Event Machine (OpenEM) for
 real-time stream processing. OpenEM is a programming framework for event-driven
-multicore applications.
+multicore applications. \fixme{more context: by whom? for which platform? which
+active versions? etc. what's the purpose of this intro vs. the one in the
+Framework section?}
 
 At the time of writing there are no public documentation resources for the Nokia
 Solutions and Networks (NSN) implementation of OpenEM other than the
@@ -11,6 +13,9 @@ and the introductory slides at \cite{openemintro}. Hardware vendor
 implementations of OpenEM exist and may have more complete documentation
 available as is the case for the Texas Instruments OpenEM implementation
 introduced in section \ref{sec:tiopenem}.
+
+\fixme{the framework introduction covers the topic and structure pretty well.
+the division should be clearer.}
 
 \section{OpenEM Framework}
 \label{sec:emframework}
@@ -78,7 +83,7 @@ arriving packet could be converted to or encapsulated by an event.
 
 Event memory is managed by OpenEM, meaning the application allocates events
 from OpenEM and freeing events returns the control of the memory to OpenEM
-\cite{openemintro}.
+\cite{openemintro}. \fixme{is this all about OpenEM memory? detached.}
 
 OpenEM includes a fork-join helper called \textbf{event groups}. Event groups
 track the completion of the events sent to the group and send a notification
@@ -113,20 +118,17 @@ care must be exercised when accessing the EO context.
 The queues attached to the EOs define how the EOs are executed. A queue is
 always attached to a single EO but an EO can have multiple queues attached.
 Events are sent to queues and scheduled for execution based on queue scheduling
-properties: priority, type and queue group. \cite{openemintro}
-
-There are four types of queues: atomic, parallel, parallel ordered and
-unscheduled \cite{openemintro}. The programming construct representing the
-queues is the same type for all queues but here a queue which type is atomic
-will be called an atomic queue for simplicity, this applies to other queues as
-well. Events are sent to all queue types the same way using the send function,
-the different queue types only affect the scheduling of the events
-\cite{openemintro}.
+properties: priority, type and queue group. \cite{openemintro} There are four
+types of queues: atomic, parallel, parallel ordered and unscheduled
+\cite{openemintro}. The programming construct representing the queues is the
+same type for all queues. Events are sent to all queue types the same way using
+the send function, the different queue types only affect the scheduling of the
+events \cite{openemintro}.
 
 Only one event from an \textbf{atomic queue} may be scheduled at a time. As the
 use of locks is discouraged, atomic queues can be used when the application
-needs to write shared memory locations. Events from \textbf{parallel queues} can
-be scheduled on any core at any time according to other scheduling rules
+needs to write to shared memory locations. Events from \textbf{parallel queues}
+can be scheduled on any core at any time according to other scheduling rules
 explained in section \ref{subsec:schedule}. Events received from a
 \textbf{parallel ordered queue} are scheduled like events from parallel queues
 but OpenEM will restore the event ordering before events are forwarded to other
@@ -155,41 +157,39 @@ scheduler across the OpenEM implementations is to dequeue events from the
 queues according to its scheduling rules. \cite{openemintro} Queue types and
 queue groups affect the scheduling as described in \ref{subsec:queues}.
 
-Each core executes the dispatcher which will be called by the scheduler
-whenever an event is scheduled on the core. The dispatcher can run either in an
-OS thread or on bare metal. Dispatcher checks which queue the event was
-dequeued from and calls the receive function of the EO associated with that
-queue. \cite{openemintro}
+Each core executes the dispatcher which will be called by the scheduler whenever
+an event is scheduled on the core. The dispatcher can run either in an OS thread
+or on bare metal. Dispatcher checks which queue the event was dequeued from and
+calls the receive function of the EO associated with that queue.
+\cite{openemintro}
 
 \subsection{Error Handling}
 \label{subsec:error}
 OpenEM provides two mechanisms for handling errors and exceptions. 1. Return
-values 2. Error handler.
-
-Most of the OpenEM API functions return status codes which can be checked by the
-application. \cite{openempage}
-
-Optionally an error handler can be registered with the OpenEM runtime. The error
-handler is an application specified function which will be called by the OpenEM
-implementation when an error happens or the application calls
-\texttt{em\_error}. The error handler can be used to centralize error
-management. The application can register a global error handler and additionally
-one error handler for each EO. If an error occurs in the scope of an EO and
-there is an error handler registered with that EO, the runtime will call the
-error handler. If there is no error handler registered with the EO, the runtime
-will check if there is a global error handler registered. If there is no
-applicable error handler registered, the runtime just returns an error status
-code from the API functions. \cite{openempage}
+values 2. Error handler. Most of the OpenEM API functions return status codes
+which can be checked by the application. \cite{openempage} Optionally an error
+handler can be registered with the OpenEM runtime. The error handler is an
+application specified function which will be called by the OpenEM implementation
+when an error happens or the application calls \texttt{em\_error}. The error
+handler can be used to centralize error management. The application can register
+a global error handler and additionally one error handler for each EO. If an
+error occurs in the scope of an EO and there is an error handler registered with
+that EO, the runtime will call the error handler. If there is no error handler
+registered with the EO, the runtime will check if there is a global error
+handler registered. If there is no applicable error handler registered, the
+runtime just returns an error status code from the API functions.
+\cite{openempage}
 
 The error handler can modify the return value of the original API call. This can
 be useful if a centralized error handling is desired. The error handler can free
 the reserved memory, do the book keeping for the error and return
 \texttt{EM\_OK}, leaving no need for the application code outside the error
 handler to check for OpenEM errors. \cite{openempage}
+
 \subsection{An Illustrative Example}
 \label{subsec:example}
-TODO: Present a graphical representation of a simple OpenEM application\\
-TODO: Explain the execution of the application
+\fixme{Present a graphical representation of a simple OpenEM application\\
+Explain the execution of the application}
 
 \section[Texas Instruments Implementation of OpenEM]{Texas Instruments
 Implementation \\ of OpenEM}
@@ -232,22 +232,22 @@ the event was received from. \cite{openemwhite}
 OpenEM provides an option for event preloading. For events with the event
 preloading enabled the event buffers are moved to local L1/L2 ram by the Packet
 DMA engine when the scheduler has scheduled the event. Using preloading results
-in fewer write stalls. \cite{openemwhite}
+in fewer write stalls. \cite{openemwhite} \fixme{super brief}
 
 \subsection{Hardware Acceleration in TI OpenEM}
-check the ti openem files cppi\_device.c and qmss\_device.c to get a clue.
-HW Queues, PDSP cores
+\fixme{check the ti openem files cppi\_device.c and qmss\_device.c to get a clue.
+HW Queues, PDSP cores}
 
 \subsection{Error Handling}
 The TI OpenEM implements the error handling mechanisms shared between the OpenEM
-implementations described in \ref{subsec:error}.
+implementations described in \ref{subsec:error}. \fixme{is this it?}
 
 \subsection{Cache Coherency}
-OpenEM white paper explains the caching in some detail
+\fixme{OpenEM white paper explains the caching in some detail}
 
 \subsection{Programming with TI OpenEM}
 \label{subsec:ti_init_layer}
-Initialization, Example\_0
+\fixme{Initialization, Example\_0}
 
 \subsection{OpenEM Tracing}
 TI OpenEM includes a built-in tracing feature that provides useful data about
@@ -302,5 +302,5 @@ In addition to the limitations listed above the Queue Group implementation
 appears incomplete in the version 1.0.0.2. Queue Groups can be defined and
 modified as described in \ref{subsec:queues} but only one queue group can exist
 at any given time. This could be a limitation of the hardware platform but there
-is not mention of the limitation in the TI OpenEM implementation documentation
-or the header files.
+is no mention of the limitation in the TI OpenEM implementation documentation or
+the header files.
