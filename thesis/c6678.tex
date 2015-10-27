@@ -6,47 +6,49 @@ explained. Second the key hardware features of the platform and the related
 development tools are examined.
 
 \section{Selection of the Hardware Platform}
-The hardware platform used in the experiments in this thesis is the  Advantech
+\fixme{intro}
+The hardware platform used in the experiments in this thesis is the Advantech
 TMDSEVM6678L TMS320C6678 Evaluation Module. The processor in the evaluation
 module is the Texas Instruments TMS320C6678. The TMS320C6678 is a fixed and
 floating point digital signal processor based on the Texas Instruments Keystone
 I architecture. The processor has eight C66x DSP cores at 1.0 GHz clock
-frequency \cite{tmsdatasheet}.
+frequency \cite{tmsdatasheet}. \fixme{could be more verbose. super awkward}
 
 The TMS320C6678 was chosen as the hardware platform for the experiments for two
 main reasons. First the Keystone I architecture is designed with stream
 processing applications in mind \cite{multicorevideo}. Second the objective of
 this thesis is to understand hardware and software features supported by the
-TMS320C6678.
-
-The specific features in the TMS320C6678 we are interested in are the support
-for OpenEM included in the MCSDK for Keystone I devices \cite{MCSDKbrochure} and
-the hardware accelerated scheduling and communication utilized by the OpenEM
-runtime.
+TMS320C6678. The specific features in the TMS320C6678 we are interested in are
+the support for OpenEM included in the MCSDK for Keystone I devices
+\cite{MCSDKbrochure} and the hardware accelerated scheduling and communication
+utilized by the OpenEM runtime. \fixme{awkward, concise}
 
 An additional benefit of choosing TMS320C6678 as the hardware platform for the
 experiments is the support for the platform in PREESM \cite{pelcat2014preesm}.
+\fixme{is this only an additional benefit?}
 
 \section{TMS320C6678 Overview}
 
 \begin{figure}[h!]
     \begin{center}
         \includegraphics[width=0.99\textwidth]{images/fbd_SPRS691e.png}
-        \caption{Overview of the TMS320C6678 architecture.}
+        \caption{Overview of the TMS320C6678 architecture. \fixme{refer to this}}
         \label{fig:arch_overview}
     \end{center}
 \end{figure}
 
-The Keystone I architecture the TMS320C6678 is based on specifies a set of
-hardware elements which enable integration of DSP cores, application specific
+\fixme{intro}
+\fixme{what is keystone architecture? why are you talking about it?} The
+Keystone I architecture the TMS320C6678 is based on specifies a set of hardware
+elements which enable integration of DSP cores, application specific
 co-processors and IO \cite{tmsdatasheet}. The Keystone I hardware modules and
-their connections are presented in figure \ref{fig:arch_overview}. In the Keystone
-I architecture there are multiple ways for the C66x cores to communicate with
-each other, the memory and the peripherals. The methods of communication of
-specific interest for the experiments in this thesis are communication through
-shared memory discussed in \ref{subsec:c66memory} and communication through
-packet based communication manager Multicore Navigator introduced in
-\ref{subsec:multicorenav}.
+their connections are presented in figure \ref{fig:arch_overview}. In the
+Keystone I architecture there are multiple ways for the C66x cores to
+communicate with each other, the memory and the peripherals. The methods of
+communication of specific interest for the experiments in this thesis are
+communication through shared memory discussed in \ref{subsec:c66memory} and
+communication through packet based communication manager Multicore Navigator
+introduced in \ref{subsec:multicorenav}.
 
 The development board used for development of the experiment applications and
 measurements was an Advantech TMDXEVM6678L. TMDXEVM6678L is an evaluation
@@ -63,23 +65,25 @@ CCS is discussed in detail in \ref{subsec:devtools}.
 
 \subsection{c66x DSP}
 \label{subsec:c66x}
-TMS320C6678 is a multicore fixed and floating-point DSP.  The device supports
+\fixme{intro}
+TMS320C6678 is a multicore fixed and floating-point DSP. The device supports
 core speed up to 1.4 GHz but was set up to run at 1.0 GHz for all the
 experiments. The device consists of eight c66x DSPs, on-chip memory and
 peripherals. The c66x is based on TMS320C66x ISA which is a VLIW architecture
 with 8 functional units. The c66x CPU has 64 general-purpose 32 bit registers.
-\cite{sprugh7}
+\cite{sprugh7} \fixme{a list of features. explain more}
 
 The CPU is capable of dispatching up to eight parallel instructions every cycle.
 The instructions dispatched in parallel move through pipeline stages
 simultaneously. Pipelining helps eliminate CPU stalls while waiting for memory
 operations or other CPU instructions taking multiple cycles complete.
-\cite{sprugh7}
+\cite{sprugh7} \fixme{explain more}
 
 \subsection{Memory}
 \label{subsec:c66memory}
+\fixme{intro}
 The TMS320C6678 contains a multi-layer memory hierarchy which can be configured
-by the user to a large extent. The memory hierarchy in the device consists of L1
+by the user to a large extent.\fixme{how?} The memory hierarchy in the device consists of L1
 and L2 memories of each core, Multicore Shared Memory (MSM) and additionally
 external memory provided by the evaluation module.
 
@@ -106,6 +110,7 @@ itself contains 4096KB of shared memory accesible by all cores.
 
 \subsection{Multicore Navigator}
 \label{subsec:multicorenav}
+\fixme{intro}
 Multicore Navigator is the name for a collection of features in Keystone I and
 II devices which enables hardware-accelerated, packet-based communication
 between the on-chip devices. Texas Instruments claims the use of specialized
@@ -130,7 +135,7 @@ Processors (PSDP) which perform tasks related to the Queue Management.
 \cite{navigator} For example the TI implementation of OpenEM
 \ref{chapter:openem} provides its own firmware for the PDSP cores which is
 utilized by the OpenEM runtime for event scheduling \cite{openemwhite}. Only one
-PDSP core is used by the OpenEM runtime
+PDSP core is used by the OpenEM runtime.
 
 The PKTDMA is a special DMA utilized by the Multicore Navigator to transfer
 packet buffers between memory locations. When a packet is sent to a queue The
@@ -140,8 +145,8 @@ queue specified as the receiver of the packet. \cite{navigator}
 
 \subsection{Development Tools}
 \label{subsec:devtools}
-TODO: do we need this? where to find references, ti doesn't even have a printed
-CCS manual
+\fixme{do we need this? where to find references, ti doesn't even have a printed
+CCS manual}
 
 Texas Instruments provides a suite of tools for development on the TMS320C6678
 devices. In this thesis the development tools were used through an Eclipse based
