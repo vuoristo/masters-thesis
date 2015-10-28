@@ -6,11 +6,11 @@ performance of the Texas Instruments implementation of Open Event Machine in
 realtime stream processing. The objective is achieved by comparing the behavior
 of an application implemented using OpenEM to the behavior of a similar
 application implemented using a simpler multicore runtime system (PREESM) in the
-first part of the experiment. The second part of the experiment is the
+first part of the experiment. \fixme{The second part of the experiment is the
 construction of a simulation model. The performance predictions from the
 simulation model will be compared to the performance of the real world
 application. The objective of the comparison is to help better understand the
-OpenEM platform.
+OpenEM platform. do we simulate?}
 
 Both of the experiments are described in a similar manner. First the parameters
 and factors of the experiments are explained, second the different measurement
@@ -19,8 +19,12 @@ The comparison of the PREESM and OpenEM applications is described in the section
 \ref{sec:firstexperiment}. The performance of the simulation model is described
 in \ref{sec:secondexperiment}.
 
+\fixme{as there are many different experiments discussed here, there should be a
+summarizing list in the beginning to help the reader grasp what's going on}
+
 \section{Performance Analysis of Runtime Systems}
 \label{sec:perfanalysis}
+\fixme{this shouldn't probably be in the experiments chapter}
 In this section the measurement and performance comparison of software systems
 is explained.
 
@@ -30,11 +34,11 @@ defines analytical modeling as using mathematical models to abstract the key
 features of the system under study and using these models to make predictions of
 the system. Models used in simulations are based on mathematical abstractions as
 well. The key difference between analytical modeling and simulation is the
-notion of time used in simulation. A simulator approximates the operation of the
-system under study over time. Analysis using measurements can not be performed
-unless the real world system under study exists. The data yielded by the
-measurements is used as the starting point for analysis of the system under
-study. \cite{jain1991art}
+notion of time used in simulation. A simulator approximates the operation of
+the system under study over time. \fixme{weak} Analysis using measurements can
+not be performed unless the real world system under study exists. The data
+yielded by the measurements is used as the starting point for analysis of the
+system under study. \cite{jain1991art}
 
 The successful comparison of software systems requires meaningful and reasonably
 accurate measurements of both of the systems. The measurements are obtained by
@@ -47,10 +51,12 @@ application. These approximate workloads are called synthetic workloads
 test conditions and most importantly makes the experiments repeatable. Workload
 selection requires care because the synthetic workload needs to mimic its real
 world counterpart with high accuracy. Performance analysis is often conducted to
-understand the performance or feasibility of a software component or system that
-does not exist yet. If the real world version of the software does not exist or
-is complicated enough the selection of a workload that loads the system in a
-realistic way is difficult \cite{jain1991art}.
+understand the performance or feasibility of a software component or system
+that does not exist yet. If the real world version of the workload does not
+exist or is not available for study the selection of a workload that loads the
+system in a realistic way is difficult \cite{jain1991art}.
+
+\fixme{Todo: explain parameters, factors, the analysis of the results}
 
 The data for analysis is obtained by measuring the workload on the runtime
 system. The software measurement tools are called monitors which can be
@@ -67,8 +73,15 @@ about the status of the hardware is more difficult and in some cases impossible.
 memory operation hit a given level of cache or not using software alone but many
 hardware platforms offer hardware counters to monitor the cache hits and misses.
 
+\fixme{needs to have an overview of performance analysis and better explain the
+common steps of all methods.}
+\fixme{maybe check other sources as well? how about the stuff saarinen uses?
+there are also more refs in hanhirova thesis}
+
 \section{Comparison of PREESM and OpenEM Filter Applications}
 \label{sec:firstexperiment}
+\fixme{ordering in this section is a bit random and it fails to provide a good
+idea of what to expect.}
 In the first experiment the OpenEM and PREESM filter applications were loaded
 with similar workloads and their execution was measured. The idea of the first
 experiment is to examine the dynamic scheduling capabilities of the OpenEM
@@ -84,14 +97,15 @@ statically scheduled application behaves under dynamic workload.
 The static schedule of the PREESM application was regenerated between every
 measurement setup due to the limitations of the code generation in PREESM
 framework. The specific limitation was that the parameters of the actor model
-were translated in to static memory allocations in the code generator, and
+were translated into static memory allocations in the code generator, and
 manually changing the generated allocations would have been complicated and
 prone to error. As a result the actors are scheduled slightly differently
 between each scenario. The schedules differ in the mapping of actors to cores
-but not in ordering of the actors. The actor ordering is defined by the
+but not in the ordering of the actors. The actor ordering is defined by the
 dependencies between the actors and availability of computing resources. To
 demonstrate the effect of static scheduling, the estimated actor timings of the
-PREESM application were not modified when changing the frame size.
+PREESM application were not modified when changing the frame size. \fixme{to
+demonstrate the effect... is probably not correct here}
 
 In this experiment the applications are loaded with three different workloads
 and measured. In addition the OpenEM application is measured under the same load
@@ -118,7 +132,7 @@ listing.
 
 The different video frame sizes used are presented in table
 \ref{tab:cif_frames}. The frame sizes used are selected from among the Common
-Intermediate Format frame sizes. TODO: find a reference for CIF. YUV video
+Intermediate Format frame sizes. \fixme{find a reference for CIF.} YUV video
 format is used in the applications, but only the Y channel is processed by the
 applications. The Y channel in the YUV frame contains $R_{x} * R_{y}$ bytes
 where $R$ is the resolution. In the YUV format used the U and V channels have
@@ -137,15 +151,18 @@ reduced bitrates of $\frac{1}{4} * R_{x} * R_{y}$ per frame.
     \end{center}
 \end{table}
 
-The OpenEM measurements are run with different numbers of frames processed
-simultaneously to examine the balancing between throughput and latency.
+\fixme{super detached. explain when and how and why} The OpenEM measurements are
+run with different numbers of frames processed simultaneously to examine the
+balancing between throughput and latency.
 
 In the second part of this experiment OpenEM core masks are used to limit the
 number of cores available to the filter application. The behavior of OpenEM is
 examined under limited resources. The core masks in Texas Instruments
 implementation of OpenEM are limited so that only one core mask can be active in
 the application as discussed in chapter \ref{chapter:openem}, therefore the core
-masks always apply to all execution objects of the application.
+masks always apply to all execution objects of the application. \fixme{the
+detail about ti core masks isn't needed here but more info about what is the
+experiment going to show would be great.}
 
 \subsection{Measurement Setups}
 The filter applications process two video streams simultaneously as described in
@@ -166,6 +183,10 @@ are loaded with CIF streams and different numbers of cores are used. The
 experiment is run with core masks allowing one to eight cores being used for
 processing the streams.
 
+\fixme{how about the initial events?}
+\fixme{maybe the ``first experiment'' should be split in to a number of smaller
+experiments to make more sense out of this chapter}
+
 \begin{table}
     \begin{center}
         \begin{tabular}{ c c }
@@ -181,6 +202,10 @@ processing the streams.
 \end{table}
 
 \subsection{Results}
+\fixme{Results and discussion on results are both kind of formless blobs of
+text commenting on mixed findings from the experiments. calls for better
+division of topics and more structure.}
+
 In this subsection first the results of the measurements of the OpenEM and
 PREESM applications are presented and next the results of measuring the OpenEM
 application limited with core masks are presented. The latency and throughput of
@@ -195,6 +220,7 @@ from the memory to the time the frame is merged after filtering. The throughput
 is measured as frames per second processed in total by the application. Since
 both of the applications process frames at the same rate from both streams,
 there is only one FPS measurement for each of the measurement setups.
+\fixme{maybe move this to construction chapter?}
 
 The latencies of the two streams of the PREESM application in all measurement
 setups in the table \ref{tab:preesmthrough} are similar. The largest difference
@@ -262,7 +288,8 @@ smaller than the latencies of the throughput optimized OpenEM application in the
 table \ref{tab:oemthrough}. The throughput versus latency balance in the OpenEM
 application is controlled through the number of frames processed simultaneously.
 In this set of measurements the OpenEM application is configured to process 16
-frames simultaneously to maximize throughput. The effect of increasing the
+frames simultaneously to maximize throughput. \fixme{why is this discussed only
+here? how about moving this info to construction?} The effect of increasing the
 number of simultaneous frames was examined by measuring the application with
 two CIF streams using 2 to 24 initial events. The results of the measurements
 are presented in table \ref{tab:oeminitialframes}. The latencies get worse and
@@ -336,7 +363,6 @@ functions which are explicitly called in the PREESM actor model. Other functions
 not included in the measured functions contain runtime specific communication
 and some copying of buffers.
 
-
 \begin{table}
     \begin{center}
         \begin{tabular}{ c c c c }
@@ -397,8 +423,8 @@ measured with eight cores is approximately 90\% of the linear growth.
 \end{table}
 
 \subsection{Discussion on Results}
-This section discusses the results of the first experiment. TODO: This is
-probably not part of the results chapter.
+This section discusses the results of the first experiment. \fixme{This is
+probably not part of the results chapter.}
 
 A block schedule could be generated, which would yield a higher throughput by
 introducing multiple instances of the actors for each repetition of the
@@ -462,6 +488,7 @@ correspondingly. The resulting core utilization graph is presented in figure
 
 \section{Comparison of Simulated OpenEM Performance and Real OpenEM Performance}
 \label{sec:secondexperiment}
+\fixme{remove?}
 \subsection{Parameters and Factors}
 \subsection{Measurement Setups}
 \subsection{Results}
