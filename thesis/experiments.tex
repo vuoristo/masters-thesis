@@ -30,31 +30,34 @@ is explained.
 
 The performance analysis of software systems can be split in to three
 categories, which are analytical modeling, simulation and measurements. Jain
-defines analytical modeling as using mathematical models to abstract the key
-features of the system under study and using these models to make predictions of
-the system. Models used in simulations are based on mathematical abstractions as
-well. The key difference between analytical modeling and simulation is the
-notion of time used in simulation. A simulator approximates the operation of
-the system under study over time. \fixme{weak} Analysis using measurements can
-not be performed unless the real world system under study exists. The data
-yielded by the measurements is used as the starting point for analysis of the
-system under study. \cite{jain1991art}
+\cite{jain1991art} defines analytical modeling as using mathematical models to
+abstract the key features of the system under study and using these models to
+make predictions of the system. Models used in simulations are based on
+mathematical abstractions as well. The key difference between analytical
+modeling and simulation is the notion of time used in simulation. Analytical
+modeling solves the system state at a fixed point in time, in contrast to
+simulators where the system state is computed iteratively at multiple points in
+time. Analytical modeling and simulation can be used for explorative study of
+systems that do not yet exist, whereas analysis using measurements can not be
+performed unless the real world system under study exists. The data the
+measurements yield is used as the starting point for analysis of the system
+under study. \cite{jain1991art}
 
 The successful comparison of software systems requires meaningful and reasonably
 accurate measurements of both of the systems. The measurements are obtained by
 monitoring the system while it is being subjected to a particular workload
-\cite{jain1991art}. Often the monitored applications are built for the comparison
-purpose only and therefore any workload they are subjected to is an
+\cite{jain1991art}. Often the monitored applications are built for the
+comparison purpose only and therefore any workload they are subjected to is an
 approximation of a real world workload that would be processed by a real world
 application. These approximate workloads are called synthetic workloads
 \cite{jain1991art}. The use of synthetic workload gives more control over the
 test conditions and most importantly makes the experiments repeatable. Workload
 selection requires care because the synthetic workload needs to mimic its real
 world counterpart with high accuracy. Performance analysis is often conducted to
-understand the performance or feasibility of a software component or system
-that does not exist yet. If the real world version of the workload does not
-exist or is not available for study the selection of a workload that loads the
-system in a realistic way is difficult \cite{jain1991art}.
+understand the performance or feasibility of a software component or system that
+does not exist yet. If the real world version of the workload does not exist or
+is not available for study the selection of a workload that loads the system in
+a realistic way is difficult \cite{jain1991art}.
 
 \fixme{Todo: explain parameters, factors, the analysis of the results}
 
