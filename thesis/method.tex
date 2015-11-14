@@ -1,8 +1,11 @@
 \chapter{Performance Analysis of Software Systems}
 \label{chapter:perfanalysis}
 \section{Performance Analysis}
-In this chapter the measurement and performance comparison of software systems
-is explained.
+To understand the behavior and performance of software systems, quantitative
+data is needed for making the correct conclusions. The methods for acquiring
+this data are explained in this chapter. First an overview to the performance
+analysis of software systems is provided and then a closer look to analysis
+through measurements is taken.
 
 The performance analysis of software systems can be split in to three
 categories, which are analytical modeling, simulation and measurements. Jain
@@ -15,9 +18,23 @@ modeling solves the system state at a fixed point in time, in contrast to
 simulators where the system state is computed iteratively at multiple points in
 time. Analytical modeling and simulation can be used for explorative study of
 systems that do not yet exist, whereas analysis using measurements can not be
-performed unless the real world system under study exists. The data the
-measurements yield is used as the starting point for analysis of the system
-under study. \cite{jain1991art}
+performed unless the real world system under study exists. \cite{jain1991art}
+
+Performance analysis is used for many different purposes. For example
+performance analysis can be used to help choose the best performing hardware
+platform for certain application, or to explore different configurations of an
+application. Successful analysis requires careful experiment design. The
+execution of a computer program is a complex interaction of hardware and
+software components and thus the number of parameters to the analysis grows
+large. The factor selection requires clear goals for the analysis and a good
+understanding of the problem space so that the most relevant factors are chosen.
+The factor selection of the experiments conducted in this thesis is discussed in
+chapter \ref{chapter:experiment}.
+
+\subsection{Measuring Software Systems}
+\label{subsec:measure}
+This thesis studies the OpenEM application through measurements. In this
+subsection a closer look at measuring software systems is provided.
 
 The successful comparison of software systems requires meaningful and reasonably
 accurate measurements of both of the systems. The measurements are obtained by
@@ -31,16 +48,9 @@ over the test conditions and most importantly makes the experiments repeatable.
 Workload selection requires care because the synthetic workload needs to mimic
 its real world counterpart with high accuracy. Performance analysis is often
 conducted to understand the performance or feasibility of a software component
-or system that does not exist yet. If the real world version of the workload
+or a system that does not exist yet. If the real world version of the workload
 does not exist or is not available for study the selection of a workload that
 loads the system in a realistic way is difficult \cite{jain1991art}.
-
-\subsection{Measuring Software Systems}
-\label{subsec:measure}
-This thesis studies the OpenEM application through measurements. In this
-subsection a closer look at measuring software systems is provided.
-
-Parameters, factors
 
 The software measurement tools are called monitors which can be implemented both
 in hardware and in software. Monitors are classified to software monitors,
