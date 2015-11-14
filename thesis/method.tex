@@ -2,10 +2,10 @@
 \label{chapter:perfanalysis}
 \section{Performance Analysis}
 To understand the behavior and performance of software systems, quantitative
-data is needed for making the correct conclusions. The methods for acquiring
-this data are explained in this chapter. First an overview to the performance
-analysis of software systems is provided and then a closer look to analysis
-through measurements is taken.
+data about the system execution is needed. The methods for acquiring this data
+are explained in this chapter. First an overview to the performance analysis of
+software systems is provided and then a closer look to analysis through
+measurements is taken.
 
 The performance analysis of software systems can be split in to three
 categories, which are analytical modeling, simulation and measurements. Jain
@@ -17,7 +17,7 @@ modeling and simulation is the notion of time used in simulation. Analytical
 modeling solves the system state at a fixed point in time, in contrast to
 simulators where the system state is computed iteratively at multiple points in
 time. Analytical modeling and simulation can be used for explorative study of
-systems that do not yet exist, whereas analysis using measurements can not be
+systems that do not yet exist, whereas analysis using measurements cannot be
 performed unless the real world system under study exists. \cite{jain1991art}
 
 Performance analysis is used for many different purposes. For example
@@ -26,10 +26,12 @@ platform for certain application, or to explore different configurations of an
 application. Successful analysis requires careful experiment design. The
 execution of a computer program is a complex interaction of hardware and
 software components and thus the number of parameters to the analysis grows
-large. The factor selection requires clear goals for the analysis and a good
-understanding of the problem space so that the most relevant factors are chosen.
-The factor selection of the experiments conducted in this thesis is discussed in
-chapter \ref{chapter:experiment}.
+large. The parameters that are varied in the analysis are selected among all of
+the parameters and they are called factors \cite{jain1991art}. The factor
+selection requires clear goals for the analysis and a good understanding of the
+problem space so that the most relevant factors are chosen. The factor selection
+of the experiments conducted in this thesis is discussed in chapter
+\ref{chapter:experiments}.
 
 \subsection{Measuring Software Systems}
 \label{subsec:measure}
@@ -37,7 +39,7 @@ This thesis studies the OpenEM application through measurements. In this
 subsection a closer look at measuring software systems is provided.
 
 The successful comparison of software systems requires meaningful and reasonably
-accurate measurements of both of the systems. The measurements are obtained by
+accurate measurements of the systems under study. Measurements are obtained by
 monitoring the system while it is being subjected to a particular workload
 \cite{jain1991art}. Often the monitored applications are built for the
 comparison purpose only and therefore any workload they are subjected to is an
@@ -48,9 +50,8 @@ over the test conditions and most importantly makes the experiments repeatable.
 Workload selection requires care because the synthetic workload needs to mimic
 its real world counterpart with high accuracy. Performance analysis is often
 conducted to understand the performance or feasibility of a software component
-or a system that does not exist yet. If the real world version of the workload
-does not exist or is not available for study the selection of a workload that
-loads the system in a realistic way is difficult \cite{jain1991art}.
+or a system that does not exist yet. In such situations synthetic workloads need
+to be used out of necessity. 
 
 The software measurement tools are called monitors which can be implemented both
 in hardware and in software. Monitors are classified to software monitors,
@@ -66,10 +67,36 @@ status of the hardware is more difficult and in some cases impossible.
 memory operation hit a given level of cache or not using software alone but many
 hardware platforms offer hardware counters to monitor the cache hits and misses.
 
-\subsection{Analysis of results}
+\subsection{Analysis of the Data}
+The goal of the performance analysis is to get actionable results about the
+systems under study. The data obtained from the models or measurements is not in
+itself enough for making well-grounded decisions. The models and measurements
+may yield millions of values for the observed variables and the analyst needs to
+decide how to best represent the data so that the phenomena behind the data are
+explained \cite{jain1991art}.
 
-\fixme{needs to have an overview of performance analysis and better explain the
-common steps of all methods.}
+Statistical methods are used to analyze the numerical data and expose the
+causation and correlation between the factors and the results. Often in the
+literature simple statistical tools such as mean, mode and standard deviations
+are used to represent the data in only a few numbers. A more thorough look at
+the statistical tools is provided in \cite{jain1991art}. \fixme{is this all? add
+a reference for the claim "often in literature"}
+
+The results of the analysis are often easiest to understand when presented in
+graphical form. Graphical representations of the data such as histograms, line
+charts and bar charts are commonly used. These graphs are very generic and used
+in many fields to present all kinds of data. There are also more domain specific
+visualizations of data such as the Gantt charts used to represent schedules in
+computer context and elsewhere. The visualizations of data are designed to be
+faster to understand than the corresponding numerical views to the same data but
+they have their limitations. The graphical representations are inaccurate and if
+they are not carefully prepared they may present a biased view to the real data.
+Due to these limitations the visualizations should be prepared carefully and the
+numerical data they are based on should be also made available. The use of
+visualizations in performance analysis context is explained in
+\cite{jain1991art}. \fixme{the graphical stuff is further elaborated in XXX
+(cite tufte here?)}
+
 \fixme{maybe check other sources as well? how about the stuff saarinen uses?
 there are also more refs in hanhirova thesis}
 
