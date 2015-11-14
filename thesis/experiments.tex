@@ -70,8 +70,7 @@ listing.
     \item \textbf{OpenEM Core Masks} - The OpenEM application is measured
         with different core masks of the Execution Objects.
     \item \textbf{Number of Frames Processed Simultaneously} - The OpenEM
-        application processes variable number of frames simultaneously, which
-        affects the latency and throughput of the application.
+        application processes variable number of frames simultaneously.
 \end{itemize}
 
 The different video frame sizes used are presented in table
@@ -370,7 +369,8 @@ measured with eight cores is approximately 90\% of the linear growth.
 This section discusses the results of the first experiment. \fixme{This is
 probably not part of the results chapter.}
 
-A block schedule could be generated, which would yield a higher throughput by
+\fixme{introduction + explain which block schedule you are talking about} A
+block schedule could be generated, which would yield a higher throughput by
 introducing multiple instances of the actors for each repetition of the
 schedule. The successive repetitions of the schedule would be interleaved and
 the overhead of synchronizing the cores would be reduced. The current version of
