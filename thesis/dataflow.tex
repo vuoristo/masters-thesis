@@ -1,5 +1,66 @@
 \chapter{Dataflow Models of Computation}
 \label{chapter:dataflow}
+The definition of the Dataflow term is bit fuzzy but the common idea between
+concepts under the term is to divide computation into nodes that can be executed
+concurrently. There are dataflow programs, hardware architectures and other
+things labeled under dataflow. The Dynamic Dataflow concept studied here falls
+under the dataflow models of computation.
+
+A program built using the Dataflow MoC consists of a directed graph with data
+flowing between the actors. The data is split into tokens that are passed
+between the actors. Since the execution of the actors is asynchronous, the
+tokens have to be buffered between the actors. The dataflow MoC allows for
+unbounded execution of the model, which means the dataflow program may be able
+to execute for a very long time. The possibility of unbounded execution leads to
+the problems the different dataflow MoCs try to solve. A dataflow program
+capable of unbounded execution 1. may have unbounded buffer growth 2. if there
+are cycles, the execution may result in a deadlock where there are not enough
+tokens to advance the execution.
+
+One popular approach to solving these problems is the Synchronous Dataflow
+(SDF). In SDF the number of tokens produced and consumed by each actor is fixed.
+The SDF MoC guarantees bounded buffers and deadlock-free execution but it is
+very constrained. For expressing more complicated programs, models with more
+design freedom are needed.
+
+There exists a variety of Dataflow MoCs that extend the concept of Synchronous
+Dataflow such as PiSDF, which extends SDF expressive power by defining
+parameters and interfaces. The resulting PiSDF model can be expressed as a SDF.
+We will not look at these extensions of SDF but at the more generic Dataflow
+MoCs categorized under Dynamic Dataflow. Dynamic Dataflow does not refer to a
+single MoC but is rather an umbrella term under which many MoCs fall.
+
+In Dynamic Dataflow (DDF) the number of tokens consumed and produced by an actor
+in a single firing is not constrained. An actor can produce and consume
+different number of tokens on every firing. This freedom improves the expression
+power of the model but makes the analysis more difficult. Buck (1993) proves in
+his thesis that bounded buffers and deadlocks are not decidable for DDFs.
+
+In the Handbook of Signal Processing Systems Bhattacharyya et al. describe many
+examples of DDF MoCs. One of these examples is the CAL Actor Language (CAL). CAL
+is used for example by the MPEG Reconfigurable Video Coding library.
+
+Another example use of Dynamic Dataflow is in the TensorFlow (TF) machine
+learning library by Google. The TF programs are constructed around a DDF graph.
+The computations in the nodes can be distributed to heterogeneous computing
+devices such as CPUs and GPUs. TF provides control flow operators that can be
+added to the graph to support conditional execution of parts of the graph and
+loops.
+
+Introduction to embedded \cite{lee2015introduction}
+
+Buck - PHD on dynamic dataflow http://ptolemy.eecs.berkeley.edu/publications/papers/93/jbuckThesis/thesis.pdf
+\cite{buck1993scheduling}
+
+PiSDF https://halshs.archives-ouvertes.fr/hal-01075114/document
+\cite{desnos2013pimm}
+
+Handbook of Signale Processing Systems HSPS12
+\cite{bhattacharyya2013handbook}
+
+CAL \cite{eker2003cal}
+
+tf \cite{tensorflow2015-whitepaper}
 
 \fixme{todos}
 Define dataflow
