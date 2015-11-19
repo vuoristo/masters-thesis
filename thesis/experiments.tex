@@ -22,62 +22,6 @@ in \ref{sec:secondexperiment}.
 \fixme{as there are many different experiments discussed here, there should be a
 summarizing list in the beginning to help the reader grasp what's going on}
 
-\section{Performance Analysis of Runtime Systems}
-\label{sec:perfanalysis}
-\fixme{this shouldn't probably be in the experiments chapter}
-In this section the measurement and performance comparison of software systems
-is explained.
-
-The performance analysis of software systems can be split in to three
-categories, which are analytical modeling, simulation and measurements. Jain
-defines analytical modeling as using mathematical models to abstract the key
-features of the system under study and using these models to make predictions of
-the system. Models used in simulations are based on mathematical abstractions as
-well. The key difference between analytical modeling and simulation is the
-notion of time used in simulation. A simulator approximates the operation of
-the system under study over time. \fixme{weak} Analysis using measurements can
-not be performed unless the real world system under study exists. The data
-yielded by the measurements is used as the starting point for analysis of the
-system under study. \cite{jain1991art}
-
-The successful comparison of software systems requires meaningful and reasonably
-accurate measurements of both of the systems. The measurements are obtained by
-monitoring the system while it is being subjected to a particular workload
-\cite{jain1991art}. Often the monitored applications are built for the comparison
-purpose only and therefore any workload they are subjected to is an
-approximation of a real world workload that would be processed by a real world
-application. These approximate workloads are called synthetic workloads
-\cite{jain1991art}. The use of synthetic workload gives more control over the
-test conditions and most importantly makes the experiments repeatable. Workload
-selection requires care because the synthetic workload needs to mimic its real
-world counterpart with high accuracy. Performance analysis is often conducted to
-understand the performance or feasibility of a software component or system
-that does not exist yet. If the real world version of the workload does not
-exist or is not available for study the selection of a workload that loads the
-system in a realistic way is difficult \cite{jain1991art}.
-
-\fixme{Todo: explain parameters, factors, the analysis of the results}
-
-The data for analysis is obtained by measuring the workload on the runtime
-system. The software measurement tools are called monitors which can be
-implemented both in hardware and software. Monitors are classified to software
-monitors, hardware monitors, firmware monitors or hybrid monitors depending on
-the implementation level of the monitor. The implementation level of the monitor
-corresponds to the level of events that can be measured with it conveniently.
-For example hardware monitors can monitor the state of registers and hardware
-counters but have difficulties in observing the status of software constructs
-such as the execution of functions. The software monitors on the other hand can
-be used to monitor the status of software components but gathering information
-about the status of the hardware is more difficult and in some cases impossible.
-\cite{jain1991art} For example it is very complicated to determine whether a
-memory operation hit a given level of cache or not using software alone but many
-hardware platforms offer hardware counters to monitor the cache hits and misses.
-
-\fixme{needs to have an overview of performance analysis and better explain the
-common steps of all methods.}
-\fixme{maybe check other sources as well? how about the stuff saarinen uses?
-there are also more refs in hanhirova thesis}
-
 \section{Comparison of PREESM and OpenEM Filter Applications}
 \label{sec:firstexperiment}
 \fixme{ordering in this section is a bit random and it fails to provide a good
@@ -126,8 +70,7 @@ listing.
     \item \textbf{OpenEM Core Masks} - The OpenEM application is measured
         with different core masks of the Execution Objects.
     \item \textbf{Number of Frames Processed Simultaneously} - The OpenEM
-        application processes variable number of frames simultaneously, which
-        affects the latency and throughput of the application.
+        application processes variable number of frames simultaneously.
 \end{itemize}
 
 The different video frame sizes used are presented in table
@@ -426,7 +369,8 @@ measured with eight cores is approximately 90\% of the linear growth.
 This section discusses the results of the first experiment. \fixme{This is
 probably not part of the results chapter.}
 
-A block schedule could be generated, which would yield a higher throughput by
+\fixme{introduction + explain which block schedule you are talking about} A
+block schedule could be generated, which would yield a higher throughput by
 introducing multiple instances of the actors for each repetition of the
 schedule. The successive repetitions of the schedule would be interleaved and
 the overhead of synchronizing the cores would be reduced. The current version of
@@ -485,11 +429,4 @@ correspondingly. The resulting core utilization graph is presented in figure
         \label{fig:oem8coreeogauss4cif}
     \end{center}
 \end{figure}
-
-\section{Comparison of Simulated OpenEM Performance and Real OpenEM Performance}
-\label{sec:secondexperiment}
-\fixme{remove?}
-\subsection{Parameters and Factors}
-\subsection{Measurement Setups}
-\subsection{Results}
 
