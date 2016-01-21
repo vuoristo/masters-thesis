@@ -1,17 +1,10 @@
 \chapter{Construction}
 \label{chapter:construction}
-This chapter describes the implementation of the applications studied in the
-experiments. The experiments and their results are described in
-\ref{chapter:experiments}. 
+This chapter describes the implementation of the applications studied in the experiments. The experiments and their results are described in \ref{chapter:experiments}. 
 
 \section{PREESM Filter Application}
 \label{sec:preesmapp}
-An actor network is constructed in PREESM that represents the video filter
-application. The final PiSDF model of the PREESM video filter application is
-presented in figure \ref{fig:preesm_actors}. The PREESM filter application is
-adapted from the PREESM example at \cite{preesmtut} by adding another
-processing path for the gaussian filter and making the necessary modifications
-to the shared parts of the application.
+An actor network is constructed in PREESM that represents the video filter application. The final PiSDF model of the PREESM video filter application is presented in figure \ref{fig:preesm_actors}. The PREESM filter application is adapted from the PREESM example at \cite{preesmtut} by adding another processing path for the gaussian filter and making the necessary modifications to the shared parts of the application.
 
 \begin{figure}[h!]
     \begin{center}
@@ -23,95 +16,25 @@ to the shared parts of the application.
 
 \subsection{The Actor Model}
 \label{subsec:actors}
-To keep the model simple and the program well analyzable both of the processing
-paths in the network are independent. \fixme{does this need more reasoning?}
+To keep the model simple and the program well analyzable both of the processing paths in the network are independent. \fixme{does this need more reasoning?}
 
-The first actor on both of the processing paths, the Read\_YUV and the
-Read\_YUV2 actors in the figure \ref{fig:preesm_actors}, loads the video frames
-from memory and passes them to splitting actors. The splitting actors split the
-frames to a suitable number of splices to enable processing of the same video
-stream on multiple cores. The filter actors, Sobel and Gauss actors in the
-figure, follow the splitting actors. Partial frames filtered in the filter
-actor are merged back to whole frames in the merge actors. The last actors on
-both of the processing paths are dummy actors \fixme{should these dummy actors
-be killed? it's not negilible amount of work, because the preesm
-measurements should be redone...}. The pentagons in the top and the
-bottom of the figure represent the parameters of the application. The xsize,
-ysize, xsize2 and ysize2 parameters specify the size of the input frames.
-nbSlice and gaussNbSlice determine the numbers of slices the frames are split
-to. The sobel\_ysize and gauss\_ysize are the heights of the slices after
-splitting.
+The first actor on both of the processing paths, the Read\_YUV and the Read\_YUV2 actors in the figure \ref{fig:preesm_actors}, loads the video frames from memory and passes them to splitting actors. The splitting actors split the frames to a suitable number of splices to enable processing of the same video stream on multiple cores. The filter actors, Sobel and Gauss actors in the figure, follow the splitting actors. Partial frames filtered in the filter actor are merged back to whole frames in the merge actors. The last actors on both of the processing paths are dummy actors \fixme{should these dummy actors be killed? it's not negilible amount of work, because the preesm measurements should be redone...}. The pentagons in the top and the bottom of the figure represent the parameters of the application. The xsize, ysize, xsize2 and ysize2 parameters specify the size of the input frames. nbSlice and gaussNbSlice determine the numbers of slices the frames are split to. The sobel\_ysize and gauss\_ysize are the heights of the slices after splitting.
 
-The first actors Read\_YUV and Read\_YUV2 call the \texttt{readYUV} function
-defined in the PREESM example at \cite{preesmtut}. As I/O is not in the scope of
-the experiments it is omitted from the application. The processing starts with
-loading the frames from memory. In a real world application the frames would be
-written in the memory for example with DMA by a packet processor processing a
-stream of network packets. The \texttt{readYUV} function copies the Y component
-of the input frame to the output address while the U and V components are
-ignored. The U and V are omitted because the sobel and gauss actors only operate
-on the Y channel. \fixme{explain YUV format and how it's used here including the
-omission of U and V}
+The first actors Read\_YUV and Read\_YUV2 call the \texttt{readYUV} function defined in the PREESM example at \cite{preesmtut}. As I/O is not in the scope of the experiments it is omitted from the application. The processing starts with loading the frames from memory. In a real world application the frames would be written in the memory for example with DMA by a packet processor processing a stream of network packets. The \texttt{readYUV} function copies the Y component of the input frame to the output address while the U and V components are ignored. The U and V are omitted because the sobel and gauss actors only operate on the Y channel. \fixme{explain YUV format and how it's used here including the omission of U and V}
 
-The split actor operates on the output of the Read\_YUV actor. The split actor
-preprocesses the frame for the sobel and gauss actors. Since the sobel and gauss
-filters involve convolution with 3x3 and 5x5 matrices respectively, they will
-need to access image data outside the part of the image they are processing. To
-enable parallel processing of a single frame on multiple cores, the frame is
-split in to slices. These slices will also need to contain a bit of extra data
-so that the filters can operate correctly. Black lines, or lines with the Y
-value of 0 are added to the top and the bottom of the frame. One black line is
-enough for the sobel frames but two black lines are needed for the gaussian
-frames, corresponding to the filter kernel sizes.\fixme{why?} With the black
-lines added the frame is then copied to the output buffer one slice at a time.
-The slices overlap each other for one or two lines again corresponding to the
-size of the filter kernel.
+The split actor operates on the output of the Read\_YUV actor. The split actor preprocesses the frame for the sobel and gauss actors. Since the sobel and gauss filters involve convolution with 3x3 and 5x5 matrices respectively, they will need to access image data outside the part of the image they are processing. To enable parallel processing of a single frame on multiple cores, the frame is split in to slices. These slices will also need to contain a bit of extra data so that the filters can operate correctly. Black lines, or lines with the Y value of 0 are added to the top and the bottom of the frame. One black line is enough for the sobel frames but two black lines are needed for the gaussian frames, corresponding to the filter kernel sizes.\fixme{why?} With the black lines added the frame is then copied to the output buffer one slice at a time. The slices overlap each other for one or two lines again corresponding to the size of the filter kernel.
 
-The sobel actor calculates the convolution of the sobel kernels in presented in
-\ref{fig:sobelmat} with the Y component of the input frame. The sobel actor is
-copied as is from the PREESM example at \cite{preesmtut}. The convolution is
-computed by looping over the pixels in the input frame, calculating the $G_{x}$
-and $G_{y}$ components of the sobel operator in one line expressions and
-combining them by taking the absolute values of $G_{x}$ and $G_{y}$ and dividing
-the sum by eight. After looping over the image the actor sets the leftmost and
-rightmost columns to 0.
+The sobel actor calculates the convolution of the sobel kernels in presented in \ref{fig:sobelmat} with the Y component of the input frame. The sobel actor is copied as is from the PREESM example at \cite{preesmtut}. The convolution is computed by looping over the pixels in the input frame, calculating the $G_{x}$ and $G_{y}$ components of the sobel operator in one line expressions and combining them by taking the absolute values of $G_{x}$ and $G_{y}$ and dividing the sum by eight. After looping over the image the actor sets the leftmost and rightmost columns to 0.
 
-The gauss actor operates similarly to the sobel actor but instead of one line
-expressions the value of the filter function at each points is calculated by
-looping over the neighboring pixels and multiplying the intensity values by the
-corresponding weight from the gaussian kernel presented in \ref{fig:gaussmat}.
-The Texas Instruments compiler transforms the innermost loops in a loop
-optimization pass resulting in less branches in the executable code than the
-multi-leveled loop structure would suggest \fixme{ref to comp manual}. The
-weighted average is calculated simply by division. Finally the leftmost and
-rightmost columns are set to 0 as in the sobel actor.
+The gauss actor operates similarly to the sobel actor but instead of one line expressions the value of the filter function at each points is calculated by looping over the neighboring pixels and multiplying the intensity values by the corresponding weight from the gaussian kernel presented in \ref{fig:gaussmat}. The Texas Instruments compiler transforms the innermost loops in a loop optimization pass resulting in less branches in the executable code than the multi-leveled loop structure would suggest \fixme{ref to comp manual}. The weighted average is calculated simply by division. Finally the leftmost and rightmost columns are set to 0 as in the sobel actor.
 
-The last actor processing the frame is the merge actor. The merge actor copies
-the processed data from its input buffer to its output buffer, overlaying the
-slices so that the output frame doesn't contain the extra lines created in the
-split actor. Since there is no real I/O in the application, the merged frame is
-not processed further. In a real world application the processed frame would be
-copied for example to a network packet.
+The last actor processing the frame is the merge actor. The merge actor copies the processed data from its input buffer to its output buffer, overlaying the slices so that the output frame doesn't contain the extra lines created in the split actor. Since there is no real I/O in the application, the merged frame is not processed further. In a real world application the processed frame would be copied for example to a network packet.
 
-As there is no I/O the display actors don't do any computations. In the
-experiments the display actor is used as the endpoint of the processing and it
-starts the data export. \fixme{move up where there is talk about dummy actors?}
+As there is no I/O the display actors don't do any computations. In the experiments the display actor is used as the endpoint of the processing and it starts the data export. \fixme{move up where there is talk about dummy actors?}
 
 \subsection{The PREESM Schedule}
 \label{subsec:preesmsched}
-The scheduler in the PREESM framework is described in \ref{sec:preesmsched}.
-The scheduler creates a block schedule from the actor model using user provided
-estimates for the actor durations. To get reasonably accurate estimates, the
-application was first scheduled with the default values and the actor durations
-were measured on the target device. The resulting timings are presented in the
-table \ref{tab:preesm_times}. The timings from the measurements were
-approximately the same for all the actors except for the gauss actor. A gantt
-chart representing the schedule created using the values in the table is
-presented in figure \ref{fig:preesm_gantt}. The mutable parameters in the graph
-\ref{fig:preesm_actors} affect the static memory allocations of the PREESM
-application and the PREESM codegen workflow needs to be executed every time the
-parameters are changed. Because of this the PREESM schedules of the different
-measurement setups are slightly different.
+The scheduler in the PREESM framework is described in \ref{sec:preesmsched}. The scheduler creates a block schedule from the actor model using user provided estimates for the actor durations. To get reasonably accurate estimates, the application was first scheduled with the default values and the actor durations were measured on the target device. The resulting timings are presented in the table \ref{tab:preesm_times}. The timings from the measurements were approximately the same for all the actors except for the gauss actor. A gantt chart representing the schedule created using the values in the table is presented in figure \ref{fig:preesm_gantt}. The mutable parameters in the graph \ref{fig:preesm_actors} affect the static memory allocations of the PREESM application and the PREESM codegen workflow needs to be executed every time the parameters are changed. Because of this the PREESM schedules of the different measurement setups are slightly different.
 
 \begin{table}
     \begin{center}
@@ -135,45 +58,21 @@ measurement setups are slightly different.
     \end{center}
 \end{table}
 
-The PREESM framework doesn't support changing the timing of the implode and
-explode operations which started affecting the schedule considerably with larger
-frame sizes. The duration estimates used by PREESM for the implode and explode
-operations are very short compared to durations of the actors measured from the
-application. The explode operations for both streams are represented in the
-gantt chart by the small time slices predecing gauss actors on cores 4 and 7.
-The implode operation for gauss stream follows the gauss actor execution on core
-7 and the implode operation of sobel stream follows the latter sobel actor on
-core 5.
+The PREESM framework doesn't support changing the timing of the implode and explode operations which started affecting the schedule considerably with larger frame sizes. The duration estimates used by PREESM for the implode and explode operations are very short compared to durations of the actors measured from the application. The explode operations for both streams are represented in the gantt chart by the small time slices predecing gauss actors on cores 4 and 7. The implode operation for gauss stream follows the gauss actor execution on core 7 and the implode operation of sobel stream follows the latter sobel actor on core 5.
 
 \begin{figure}[h!]
     \begin{center}
         \includegraphics[width=0.99\textwidth]{images/gantt_preesm_cifcif.png}
-        \caption{Gantt chart representing the schedule of a PREESM Filter
-        Application.}
+        \caption{Gantt chart representing the schedule of a PREESM Filter Application.}
         \label{fig:preesm_gantt}
     \end{center}
 \end{figure}
 
 \section{OpenEM Filter Application}
 \label{sec:oemapp}
-The OpenEM implementation of the filter application was designed using the
-PREESM filter application described in \ref{sec:preesmapp} as the starting
-point. Specifically the OpenEM application has to process the frames in similar
-manner so that only the scheduling policies between the two programming models
-should differ. The high-level structure of the OpenEM filter application is
-presented in the figure \ref{fig:openem_flow}. The application consists of two
-atomic queues, a parallel queue and three execution objects. Each queue is
-connected to only one execution object. The execution runs in cycles. A new
-cycle is started every time a cycle finishes. There are multiple cycles running
-in parallel, but since the read and merge EOs are atomic, only filter EO is
-running on multiple cores in parallel.
+The OpenEM implementation of the filter application was designed using the PREESM filter application described in \ref{sec:preesmapp} as the starting point. Specifically the OpenEM application has to process the frames in similar manner so that only the scheduling policies between the two programming models should differ. The high-level structure of the OpenEM filter application is presented in the figure \ref{fig:openem_flow}. The application consists of two atomic queues, a parallel queue and three execution objects. Each queue is connected to only one execution object. The execution runs in cycles. A new cycle is started every time a cycle finishes. There are multiple cycles running in parallel, but since the read and merge EOs are atomic, only filter EO is running on multiple cores in parallel.
 
-The design principles introduced in the beginning of this chapter apply to the
-OpenEM application as well. The OpenEM application was not designed for maximum
-performance but to demonstrate the suitability of OpenEM as a platform for
-stream processing applications. The performance of the application could be
-improved in many ways, for example by minimizing the amount of redundant copying
-of the frame slices and introducing parallelism to frame reading and merging.
+The design principles introduced in the beginning of this chapter apply to the OpenEM application as well. The OpenEM application was not designed for maximum performance but to demonstrate the suitability of OpenEM as a platform for stream processing applications. The performance of the application could be improved in many ways, for example by minimizing the amount of redundant copying of the frame slices and introducing parallelism to frame reading and merging.  
 
 \begin{figure}[h!]
     \begin{center}
@@ -183,65 +82,20 @@ of the frame slices and introducing parallelism to frame reading and merging.
     \end{center}
 \end{figure}
 
-The application execution starts with initializing the OpenEM framework and the
-application data structures. The OpenEM initialization is explained in
-\ref{subsec:ti_init_layer}. After the queues and the execution objects have been
-initialized the application creates a number of initial events that are sent to
-the the read queue. Once the events have been queued the application
-synchronizes all cores and the actual execution starts.
+The application execution starts with initializing the OpenEM framework and the application data structures. The OpenEM initialization is explained in \ref{subsec:ti_init_layer}. After the queues and the execution objects have been initialized the application creates a number of initial events that are sent to the the read queue. Once the events have been queued the application synchronizes all cores and the actual execution starts.
 
-The Read EO combines the functionality of the read and split actors of the
-PREESM filter application presented in \ref{fig:preesm_actors}. A frame is read
-from the input video memory and split in to a number of slices. The functions
-called are exactly the same as in the PREESM application. The frame slices are
-copied to event buffers of new events. The new events are then sent to the
-filter queue. There is only one filter queue and one filter execution object.
-The same execution object will compute either sobel or gauss filter on the
-frame slice according to its type.
+The Read EO combines the functionality of the read and split actors of the PREESM filter application presented in \ref{fig:preesm_actors}. A frame is read from the input video memory and split in to a number of slices. The functions called are exactly the same as in the PREESM application. The frame slices are copied to event buffers of new events. The new events are then sent to the filter queue. There is only one filter queue and one filter execution object. The same execution object will compute either sobel or gauss filter on the frame slice according to its type.
 
-The PREESM application splits the frames into slices and processes the slices
-separately before merging them back into one frame. Similar fork-join mechanism
-was implemented in the OpenEM application. Event groups were first planned to be
-used as the fork-join mechanism in the filter application but in the final
-implementation a different, simpler mechanism was used. The TI implementation of
-event groups lacks \texttt{em\_event\_group\_delete} function which makes it
-necessary to reuse the existing event groups. The example applications which are
-included in the NSN OpenEM distribution described in \ref{sec:emframework}
-demonstrates the reuse of event groups, but it was estimated that the
-programming overhead resulting from the reuse of the groups would be larger than
-implementing the fork-join in a simpler manner. In the final implementation the
-frames are accumulated simply in a merge buffer located in shared memory which
-is referenced through queue context pointers. The bookkeeping for frame
-completion is handled in the same location.
+The PREESM application splits the frames into slices and processes the slices separately before merging them back into one frame. Similar fork-join mechanism was implemented in the OpenEM application. Event groups were first planned to be used as the fork-join mechanism in the filter application but in the final implementation a different, simpler mechanism was used. The TI implementation of event groups lacks \texttt{em\_event\_group\_delete} function which makes it necessary to reuse the existing event groups. The example applications which are included in the NSN OpenEM distribution described in \ref{sec:emframework} demonstrates the reuse of event groups, but it was estimated that the programming overhead resulting from the reuse of the groups would be larger than implementing the fork-join in a simpler manner. In the final implementation the frames are accumulated simply in a merge buffer located in shared memory which is referenced through queue context pointers. The bookkeeping for frame completion is handled in the same location.
 
-The filtered frame slices are accumulated in the merge buffer, which is accessed
-through the merge queue context. The merge queue is atomic to avoid need for
-synchronization between the cores. After a frame has been merged the merge EO
-creates a new event which is sent to the read queue. The ratio of sobel filtered
-frames to gauss filtered frames is always one to one.
+The filtered frame slices are accumulated in the merge buffer, which is accessed through the merge queue context. The merge queue is atomic to avoid need for synchronization between the cores. After a frame has been merged the merge EO creates a new event which is sent to the read queue. The ratio of sobel filtered frames to gauss filtered frames is always one to one.
 
 \section{Instrumentation}
 \label{sec:instrumentation}
-To understand the behavior and performance of the applications their execution
-needs to be measured. The measurements conducted in the experiments were based
-on cycle counts. The TMS320C6678 exposes cycle counts on each core through two
-registers, namely TSCL and TSCH which store the low 32 bits and the high 32 bits
-of the cycle count respectively. Comparing the values of the TSCL register in
-the beginning and the end of processing on each core gives accurate local
-timings and would be enough for measuring the execution on single core. However
-for accurate measurements of global cycles, the cycle offsets to the global
-cycle count needed to be stored. The functionality for counting cycles was
-included in the Texas Instruments OpenEM initialization and utilities code. The
-cycle counts were stored in the DDR memory.
+To understand the behavior and performance of the applications their execution needs to be measured. The measurements conducted in the experiments were based on cycle counts. The TMS320C6678 exposes cycle counts on each core through two registers, namely TSCL and TSCH which store the low 32 bits and the high 32 bits of the cycle count respectively. Comparing the values of the TSCL register in the beginning and the end of processing on each core gives accurate local timings and would be enough for measuring the execution on single core. However for accurate measurements of global cycles, the cycle offsets to the global cycle count needed to be stored. The functionality for counting cycles was included in the Texas Instruments OpenEM initialization and utilities code. The cycle counts were stored in the DDR memory.
 
-In the PREESM application the cycle counts were saved in the beginning and the
-end of each user defined function of the application. In addition to this total
-cycle count was measured in the \texttt{readYUV} function.
+In the PREESM application the cycle counts were saved in the beginning and the end of each user defined function of the application. In addition to this total cycle count was measured in the \texttt{readYUV} function.  
 
-In the OpenEM application cycle counts were measured over the same functions as
-in the PREESM application and in the beginning and in the end of each EO. The
-latter measurements were carried out to get a better understanding of the OpenEM
-runtime overhead.
+In the OpenEM application cycle counts were measured over the same functions as in the PREESM application and in the beginning and in the end of each EO. The latter measurements were carried out to get a better understanding of the OpenEM runtime overhead.
 
-The measurements were exported through the debug connection of the TMS320C6678
-using I/O library provided by Texas Instruments.
+The measurements were exported through the debug connection of the TMS320C6678 using I/O library provided by Texas Instruments.
