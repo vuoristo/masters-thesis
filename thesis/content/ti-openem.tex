@@ -1,0 +1,52 @@
+This section describes the Texas Instruments OpenEM implementation version 1.0.0.2. The TI OpenEM library is delivered as a part of the TI Multicore Software Development Kit (MCSDK), which is available for download at \cite{mcsdkdown}. MCSDK distribution contains source files for the OpenEM components defined in the OpenEM API but no source code is available for the scheduler. The components for which source code is available all execute on the DSP cores whereas the scheduler executes on a PDSP core.
+
+\subsection{Scheduling}
+The TI OpenEM documentation specifies two alternative scheduling modes, namely synchronous and asynchronous scheduling. This section describes only the asynchronous scheduling as the synchronous scheduler is not available in the version 1.0.0.2. The asynchronous scheduler is deployed on the PDSP cores of the Multicore Navigator described in \ref{subsec:multicorenav}. The synchronous scheduler is deployed on the c66x cores described in \ref{subsec:c66x}.  
+
+The scheduler running on a PDSP core considers four scheduling criteria: Priority, Atomicity, Locality and Order. Each queue has a priority. The scheduler will always select events from the queues which have the highest priority. Queues are either atomic or parallel. The atomic and parallel queues function as described in \ref{subsec:queues}. Locality criterion means that the scheduler tries to schedule consecutive events from any given queue on the same core if possible. The last criterion for scheduling is order. If multiple events are eligible for scheduling, the event that has been in a queue longest will be scheduled. \cite{openemwhite}
+
+Unlike the scheduler, the dispatcher is deployed on the c66x cores. The dispatcher checks if there are events scheduled for execution on the core it was called from. The calls to the dispatcher are non-blocking and are made from the application code, typically from within a dispatch loop. The dispatcher returns immediately if no events are available for dispatching. If an event is available the dispatcher will call the receive function of the EO connected to the queue the event was received from. \cite{openemwhite}
+
+\subsection{Event Preloading}
+OpenEM provides an option for event preloading. For events with the event preloading enabled the event buffers are moved to local L1/L2 ram by the Packet DMA engine when the scheduler has scheduled the event. Using preloading results in fewer write stalls. \cite{openemwhite} \fixme{super brief} 
+
+\subsection{Hardware Acceleration in TI OpenEM}
+\fixme{check the ti openem files cppi\_device.c and qmss\_device.c to get a clue. HW Queues, PDSP cores}
+
+\subsection{Error Handling}
+The TI OpenEM implements the error handling mechanisms shared between the OpenEM implementations described in \ref{subsec:error}. \fixme{is this it?}
+
+\subsection{Cache Coherency}
+\fixme{OpenEM white paper explains the caching in some detail}
+
+\subsection{Programming with TI OpenEM}
+\label{subsec:ti_init_layer}
+\fixme{Initialization, Example\_0}
+
+\subsection{OpenEM Tracing}
+TI OpenEM includes a built-in tracing feature that provides useful data about the runtime behaviour. To enable the trace capabilities of the OpenEM runtime the programmer has to link the application with a specific trace enabled version of the runtime library. \cite{openemapi}
+
+The trace API is quite simple. The application has to register a trace handler, which is a function pointer to a function that takes one \texttt{ti\_em\_scope\_t} and variable number of other arguments, with the OpenEM runtime. The trace handler will be called every time the runtime or the application makes calls to OpenEM functions such as \texttt{em\_alloc}, \texttt{em\_send}, \texttt{ti\_em\_dispatch\_once} etc. \cite{openemapi} The programmer should note that the handler may be called by multiple cores at overlapping times and therefore race conditions are possible.
+
+Tracing can be used for example to track the number of events in each queue. This type of tracking may help debug problems with congestion and many other types of problems with OpenEM.
+
+\subsection{State of TI OpenEM Implementation}
+The TI OpenEM library version 1.0.0.2 does not implement the complete OpenEM API as specified by the NSN implementation of OpenEM described in \ref{sec:emframework}. The following listing presents the unimplemented features as listed in the OpenEM library version 1.0.0.2 release notes \cite{openemnotes} and the TI OpenEM white paper \cite{openemwhite}.
+
+\begin{itemize}
+    \item \textbf{Event Groups},
+        The TI implementation of event groups is otherwise complete but it lacks \texttt{em\_event\_group\_delete} function.
+    \item \textbf{Distributed Scheduling},
+        A synchronous scheduler is mentioned in \cite{openemwhite}. In synchronous mode the scheduler is distributed on the cores and executes synchronously after the end of event processing on that core. The distributed scheduling is not implemented. Distributed Scheduling is not part of the NSN specification of OpenEM.
+    \item \textbf{Co-operative dispatcher},
+        The co-operative dispatcher described in \cite{openemwhite} provides services for suspending and resuming events. The co-operative dispatcher only works with the synchronous scheduler.
+    \item \textbf{Execution Object context},
+        Execution Object context as described in \ref{subsec:eos} is not implemented.
+    \item \textbf{Parallel Ordered Queue},
+        Parallel Ordered Queue type is not implemented.
+    \item \textbf{Unscheduled Queue},
+        Unscheduled Queue type is not implemented.
+\end{itemize}
+
+In addition to the limitations listed above the Queue Group implementation appears incomplete in the version 1.0.0.2. Queue Groups can be defined and modified as described in \ref{subsec:queues} but only one queue group can exist at any given time. This could be a limitation of the hardware platform but there is no mention of the limitation in the TI OpenEM implementation documentation or the header files.
+

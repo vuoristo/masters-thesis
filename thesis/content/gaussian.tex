@@ -1,0 +1,17 @@
+Gaussian filtering is used for multiple purposes in digital image processing. In the canny edge detector the gaussian filter is used to reduce noise in the processed images. The gaussian filter works by convolving a gaussian function with the input signal. Gaussian function is non-zero everywhere which means it would theoretically require an infinite convolution window. Since the function decays rapidly it is often reasonable to truncate the function and use small windows. \cite{gonzalez2008digital} In the thesis experiment a kernel size of 5x5 is used.
+
+In practice every pixel in the filtered image has an intensity value computed by taking a weighted average of the neighboring pixels in the input image. The weights are precalculated from the gaussian function, giving the highest weight to the pixel in the center of the window. The gaussian filter displayed in figure \ref{fig:gaussmat} was calculated with $\sigma$ = 1.3. The filtered image has a smoothed appearance compared to the original image. \fixme{maybe add a filtered image?}
+
+\begin{figure}
+    \begin{displaymath}
+        B = \frac{1}{159}\begin{bmatrix}
+             2 & 4 & 5 & 4 & 2 \\
+             4 & 9 & 12 & 9 & 4 \\
+             5 & 12 & 15 & 12 & 5 \\
+             4 & 9 & 12 & 9 & 4 \\
+             2 & 4 & 5 & 4 & 2 \\
+        \end{bmatrix} \ast A
+    \end{displaymath}
+    \caption{The gaussian filter used in the filter applications. The convolution operation is denoted by the asterisk.}
+    \label{fig:gaussmat}
+\end{figure}
