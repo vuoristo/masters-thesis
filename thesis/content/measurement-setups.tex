@@ -1,0 +1,20 @@
+The filter applications process two video streams simultaneously as described in chapter \ref{chapter:construction}. One video stream is processed with a sobel filter and the other is processed with a gaussian filter. The dynamic behavior of the applications is investigated using different workloads. The workloads used are presented in the table \ref{tab:preesm_setups}. The purpose of the different bitrates used for each video stream is to expose the behavior of the OpenEM scheduler in handling dynamic workloads. The static schedule in the PREESM application will provide a baseline to reflect the OpenEM performance to, but again the performance of the applications should not be directly compared due to the difference in the runtime systems.
+
+In addition to comparing the PREESM and OpenEM applications the OpenEM application is measured with different core masks to investigate the dynamic scheduling with different limitations. Both filters of the OpenEM application are loaded with CIF streams and different numbers of cores are used. The experiment is run with core masks allowing one to eight cores being used for processing the streams.
+
+\fixme{how about the initial events?}
+\fixme{maybe the ``first experiment'' should be split in to a number of smaller experiments to make more sense out of this chapter}
+
+\begin{table}
+    \begin{center}
+        \begin{tabular}{ c c }
+            Sobel Resolution & Gauss Resolution \\ \hline
+            CIF              & CIF              \\ \hline
+            4CIF             & CIF              \\ \hline
+            CIF              & 4CIF             \\ \hline
+            QCIF             & QCIF             \\ \hline
+        \end{tabular}
+        \caption{PREESM and OpenEM measurement setups}
+        \label{tab:preesm_setups}
+    \end{center}
+\end{table}
