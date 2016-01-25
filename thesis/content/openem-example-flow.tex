@@ -1,0 +1,30 @@
+\usetikzlibrary{chains}
+
+\begin{tikzpicture}[>=latex,node distance=0pt, scale=0.7, every node/.style={transform shape}]
+    % the rectangular shape with vertical lines
+    \node[rectangle split, rectangle split parts=6,
+    draw, rectangle split horizontal,text height=0.5cm,text depth=0.5cm,inner sep=0pt, text width=0.0cm] (parallel1) {};
+    \fill[white] ([xshift=-\pgflinewidth,yshift=-\pgflinewidth]parallel1.north west) rectangle ([xshift=-5pt,yshift=\pgflinewidth]parallel1.south);
+
+    \node[draw,ellipse,right= 0pt of parallel1,minimum height=1.0cm,inner xsep=5pt] (decryptEO) {Decrypt EO};
+
+    \node at (5, 0)[rectangle split, rectangle split parts=6,
+    draw, rectangle split horizontal,text height=0.5cm,text depth=0.5cm,inner sep=0pt, text width=0.0cm ] (parallel2) {};
+    \fill[white] ([xshift=-\pgflinewidth,yshift=-\pgflinewidth]parallel2.north west) rectangle ([xshift=-5pt,yshift=\pgflinewidth]parallel2.south);
+
+    \node[draw,ellipse,right= 0pt of parallel2,minimum height=1.0cm,inner xsep=5pt] (fwdEO) {Forward EO};
+
+    \node at (0, 3)[rectangle split, rectangle split parts=6,
+    draw, rectangle split horizontal,text height=0.5cm,text depth=0.5cm,inner sep=0pt, text width=0.0cm] (atomic) {};
+    \fill[white] ([xshift=-\pgflinewidth,yshift=-\pgflinewidth]atomic.north west) rectangle ([xshift=-5pt,yshift=\pgflinewidth]atomic.south);
+
+    \node[draw,ellipse,right= 0pt of atomic,minimum height=1.0cm,inner xsep=5pt] (statsEO) {Statistics EO};
+
+    % the arrows and labels
+    \draw [->](decryptEO) to (parallel2);
+    \draw [->](decryptEO) to (2.3, 1.5) to (-2, 1.5) to (-2, 3) to (atomic);
+
+    \node[align=center,below] at (parallel1.south) {Parallel Queue};
+    \node[align=center,below] at (parallel2.south) {Parallel Queue};
+    \node[align=center,below] at (atomic.south) {Atomic Queue};
+\end{tikzpicture}
