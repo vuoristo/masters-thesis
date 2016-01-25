@@ -8,7 +8,7 @@
 
     \node[draw,ellipse,right= 0pt of parallel1,minimum height=1.0cm,inner xsep=5pt] (decryptEO) {Decrypt EO};
 
-    \node at (5, 0)[rectangle split, rectangle split parts=6,
+    \node at (6, 0)[rectangle split, rectangle split parts=6,
     draw, rectangle split horizontal,text height=0.5cm,text depth=0.5cm,inner sep=0pt, text width=0.0cm ] (parallel2) {};
     \fill[white] ([xshift=-\pgflinewidth,yshift=-\pgflinewidth]parallel2.north west) rectangle ([xshift=-5pt,yshift=\pgflinewidth]parallel2.south);
 
@@ -23,6 +23,7 @@
     % the arrows and labels
     \draw [->](decryptEO) to (parallel2);
     \draw [->](decryptEO) to (2.3, 1.5) to (-2, 1.5) to (-2, 3) to (atomic);
+    \draw [->](-2,0) to (parallel1);
 
     \node[align=center,below] at (parallel1.south) {Parallel Queue};
     \node[align=center,below] at (parallel2.south) {Parallel Queue};
