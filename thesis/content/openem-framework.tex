@@ -43,9 +43,9 @@ Queues belong to \textbf{queue groups}. Queue groups define the set of cores the
 
 \subsection{Scheduling}
 \label{subsec:schedule}
-OpenEM does not define queue scheduling disciplines in detail \cite{openempage}. The \textbf{scheduler} is implemented in hardware or software and is specific to the OpenEM implementation. The purpose of the scheduler across the OpenEM implementations is to dequeue events from the queues according to its scheduling rules. \cite{openemintro} Queue types and queue groups affect the scheduling as described in \ref{subsec:queues}.  
+The purpose of the OpenEM scheduler is to dequeue events from the queues in order defined by the scheduling rules. The scheduling rules are defined by the queue properties described in~\ref{subsec:queues}. The efficiency of the scheduler is an important factor to the overall performance of the OpenEM applications.~\cite{openempage} OpenEM implementations may target hardware platforms, which provide different facilities for the efficient implementation of the scheduler. For example some hardware platforms, such as the TMS320C6678, have hardware accelerated communication facilities for the communication between the cores. To let the OpenEM implementations leverage the hardware as much as possible, the OpenEM API does not specify anything about the scheduler implementation. Thus the schedulers are always implementation specific.
 
-Each core executes the dispatcher which will be called by the scheduler whenever an event is scheduled on the core. The dispatcher can run either in an OS thread or on bare metal. Dispatcher checks which queue the event was dequeued from and calls the receive function of the EO associated with that queue. \cite{openemintro}
+Scheduling an execution object to a core is a two phase process, where the scheduler selects which event to scheduler on which core and the dispatcher passes one event at a time to an execution object. Each core executes the dispatcher. The dispatcher can run either in an OS thread or on bare metal. Dispatcher checks which queue the event was dequeued from and calls the receive function of the execution object associated with that queue.~\cite{openemintro}
 
 \subsection{Error Handling}
 \label{subsec:error}
