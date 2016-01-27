@@ -40,7 +40,9 @@ The trace handler will be called every time the runtime or the application makes
 
 \subsection{Programming with TI OpenEM}
 \label{subsec:ti-init-layer}
-\fixme{Initialization, Example\_0}
+The OpenEM framework was not designed by NSN to be a full software platform or a middleware solution as explained in the OpenEM design principles available at \cite{openempage}, which are reproduced in \ref{sec:emframework}. However the level of abstraction is suitable for DSP programming, which is done close to the hardware without an operating system. This means that the developer using TI OpenEM for developing applications for DSPs has to pay attention to the hardware initialization, memory allocation and cache coherency for their own code as well as for the framework.~\cite{openemuser}
+
+The hardware initialization required by TI OpenEM is implemented in the example application described in \cite{openemuser}. The initialization code is not a part of the OpenEM framework, but the initialization code provided in the example application works without modification or with minor modifications for most purposes. The initialization layer provides an API for co-ordinating the hardware resource use between the application and the framework. \cite{openemuser} The framework initialization documentation is incomplete and the application developer has to look at the source code of the example initialization layer to find out about the resource use of the framework if there exists a possibility of conflicting use.
 
 \subsection{State of TI OpenEM Implementation}
 \label{subsec:ti-implementation-state}
@@ -48,18 +50,15 @@ The TI OpenEM library version 1.0.0.2 does not implement the complete OpenEM API
 
 \begin{itemize}
     \item \textbf{Event Groups},
-        The TI implementation of event groups is otherwise complete but it lacks \texttt{em\_event\_group\_delete} function.
+        The TI implementation of event groups is functional but lacks the functionality to delete event groups.
     \item \textbf{Distributed Scheduling},
-        A synchronous scheduler is mentioned in \cite{openemwhite}. In synchronous mode the scheduler is distributed on the cores and executes synchronously after the end of event processing on that core. The distributed scheduling is not implemented. Distributed Scheduling is not part of the NSN specification of OpenEM.
+        A synchronous scheduler is described in \cite{openemwhite}. Distributed Scheduling is not part of the NSN specification of OpenEM.
     \item \textbf{Co-operative dispatcher},
-        The co-operative dispatcher described in \cite{openemwhite} provides services for suspending and resuming events. The co-operative dispatcher only works with the synchronous scheduler.
+        The co-operative dispatcher is described in \cite{openemwhite} provides services for suspending and resuming events. The co-operative dispatcher only works with the synchronous scheduler.
     \item \textbf{Execution Object context},
-        Execution Object context as described in \ref{subsec:eos} is not implemented.
     \item \textbf{Parallel Ordered Queue},
-        Parallel Ordered Queue type is not implemented.
     \item \textbf{Unscheduled Queue},
-        Unscheduled Queue type is not implemented.
 \end{itemize}
 
-In addition to the limitations listed above the Queue Group implementation appears incomplete in the version 1.0.0.2. Queue Groups can be defined and modified as described in \ref{subsec:queues} but only one queue group can exist at any given time. This could be a limitation of the hardware platform but there is no mention of the limitation in the TI OpenEM implementation documentation or the header files.
+In addition to the limitations listed above the Queue Group implementation appears incomplete in the version 1.0.0.2. Queue Groups can be defined and modified as described in \ref{subsec:queues} but only one queue group can exist at a time. This could be a limitation of the hardware platform but there is no mention of the limitation in the TI OpenEM implementation documentation or the header files.
 
