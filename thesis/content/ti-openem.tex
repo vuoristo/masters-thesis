@@ -34,11 +34,9 @@ The Keystone DSP devices support caching of data in the higher levels of memory 
 
 \subsection{OpenEM Tracing}
 \label{subsec:ti-tracing}
-TI OpenEM includes a built-in tracing feature that provides useful data about the runtime behaviour. To enable the trace capabilities of the OpenEM runtime the programmer has to link the application with a specific trace enabled version of the runtime library. \cite{openemapi}
+TI OpenEM includes a built-in tracing feature that provides data about the runtime behaviour. The trace API is simple to use. The application has to register a trace handler with the OpenEM runtime and link the application with a trace enabled version of the runtime library.~\cite{openemapi}
 
-\fixme{don't list the openem function names etc here, but rather explain what's going on} The trace API is quite simple. The application has to register a trace handler, which is a function pointer to a function that takes one \texttt{ti\_em\_scope\_t} and variable number of other arguments, with the OpenEM runtime. The trace handler will be called every time the runtime or the application makes calls to OpenEM functions such as \texttt{em\_alloc}, \texttt{em\_send}, \texttt{ti\_em\_dispatch\_once} etc. \cite{openemapi} The programmer should note that the handler may be called by multiple cores at overlapping times and therefore race conditions are possible.
-
-Tracing can be used for example to track the number of events in each queue. This type of tracking may help debug problems with congestion and many other types of problems with OpenEM.
+The trace handler will be called every time the runtime or the application makes calls to OpenEM functions and passed information about the type of the call made. The programmer should note that the handler may be called by multiple cores at overlapping times and therefore race conditions are possible.~\cite{openemapi} Tracing can be used for example to track the number of events in each queue. This type of tracking may help debug problems with congestion and many other types of problems with OpenEM.
 
 \subsection{Programming with TI OpenEM}
 \label{subsec:ti-init-layer}
