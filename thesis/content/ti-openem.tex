@@ -30,7 +30,7 @@ The initialization of the OpenEM framework and the required hardware components 
 
 \subsection{Cache Coherency}
 \label{subsec:ti-cache-coherency}
-\fixme{OpenEM white paper explains the caching in some detail}
+The Keystone DSP devices support caching of data in the higher levels of memory to the L1 and L2 local memories but they do not have hardware support for cache coherency \cite{openemapi}. In the general case the application programmer is responsible for managing the cache coherency of the application. TI OpenEM provides optional automatic cache coherency management for event buffers. The cache coherency mode can be set for each event individually. Automatic coherency management is also partially supported for queue contexts.~\cite{openemwhite}
 
 \subsection{OpenEM Tracing}
 \label{subsec:ti-tracing}
