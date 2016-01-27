@@ -12,9 +12,11 @@ The TI OpenEM documentation specifies two alternative scheduling modes, namely s
 
 The part of the framework responsible for scheduling consists of two parts, the scheduler and the dispatcher as explained in \ref{subsec:schedule}. The dispatcher is deployed on the c66x cores. The dispatcher checks if there are events scheduled for execution on the core it was called from. The calls to the dispatcher are non-blocking and are made from the application code, typically from within a dispatch loop. The dispatcher returns immediately if no events are available for dispatching. If an event is available the dispatcher will call the receive function of the execution object connected to the queue the event was received from.~\cite{openemwhite}
 
-\subsection{Event Preloading}
+\subsection{Event Pre-loading}
 \label{subsec:ti-preloading}
-OpenEM provides an option for event preloading. For events with the event preloading enabled the event buffers are moved to local L1/L2 ram by the Packet DMA engine \fixme{what is packed DMA engine?} when the scheduler has scheduled the event. Using preloading results in fewer write stalls. \cite{openemwhite} \fixme{super brief} 
+The global event buffers, containing the event payload are located in the shared memory of the device. The buffers can be located in the MSMC RAM or in the DDR RAM depending on the space requirements of the buffers. If the event buffer of an event resides in the shared memory when the event has been dispatched, reading the buffer will have to access the shared memory and this will cause read stalls. In the TI OpenEM implementation these stalls can be minimized by using event pre-loading.~\cite{openemwhite}
+
+Event pre-loading means that moving the event buffers to core local L1 or L2 memory is started before the event has been dispatched. When an event with event pre-loading enabled is scheduled, one of the Packet DMA engines of the Multicore Navigator will begin to move the event buffers to the local memory. Event pre-loading is enabled by the user for every event separately.~\cite{openemwhite}
 
 \subsection{Hardware Acceleration in TI OpenEM}
 \label{subsec:ti-acceleration}
