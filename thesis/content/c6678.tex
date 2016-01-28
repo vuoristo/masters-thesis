@@ -1,14 +1,13 @@
-This section describes the Texas Instruments TMS320C6678 multicore DSP. First the selection of the TMS320C6678 as the hardware platform for the experiments is explained. Second the key hardware features of the platform and the related development tools are examined. \fixme{what is a multicore dsp? is this explained in the background?}
+This section describes the hardware platform used in the experiments. The experiments were conducted on a Texas Instruments TMS320C6678 multi-core digital signal processor. First, the selection of the TMS320C6678 as the hardware platform for the experiments in this thesis is explained in subsection~\ref{subsec:selection-of-platform}. Second, an overview of the hardware platform is given in subsection~\ref{subsec:hw-overview}. After the overview, the key features of the platform are described in subsections \ref{subsec:c66x} C6678 Multi-core DSP, \ref{subsec:c66memory} Memory Hierarchy and \ref{subsec:multicorenav} Multicore Navigator.
 
 \subsection{Selection of the Hardware Platform}
-\fixme{intro}
-The hardware platform used in the experiments in this thesis is the Advantech TMDSEVM6678L TMS320C6678 Evaluation Module. The processor in the evaluation module is the Texas Instruments TMS320C6678. The TMS320C6678 is a fixed and floating point digital signal processor based on the Texas Instruments Keystone I architecture. The processor has eight C66x DSP cores at 1.0 GHz clock frequency \cite{tmsdatasheet}. \fixme{could be more verbose. super awkward}
+\label{subsec:selection-of-platform}
+This thesis investigates stream processing with Open Event Machine on a multi-core DSP. The Texas Instruments Keystone I family of multi-core DSPs has an advanced support for multi-core programming, including a Texas Instruments implementation of OpenEM~\cite{MCSDKbrochure}. The multi-core programming support has not always been a design priority of multi-core DSPs, for example the TMS320C647x DSPs were looked at as, "multiple single-core DSP in a single package" by the programmers~\cite{openemwhite}.
 
-The TMS320C6678 was chosen as the hardware platform for the experiments for two main reasons. First the Keystone I architecture is designed with stream processing applications in mind \cite{multicorevideo}. Second the objective of this thesis is to understand hardware and software features supported by the TMS320C6678. The specific features in the TMS320C6678 we are interested in are the support for OpenEM included in the MCSDK for Keystone I devices \cite{MCSDKbrochure} and the hardware accelerated scheduling and communication utilized by the OpenEM runtime. \fixme{awkward, concise}
-
-An additional benefit of choosing TMS320C6678 as the hardware platform for the experiments is the support for the platform in PREESM \cite{pelcat2014preesm}.  \fixme{is this only an additional benefit?}
+The hardware platform used in the experiments in this thesis is the Texas Instrument TMS320C6678. The TMS320C6678 is a fixed and floating point digital signal processor based on the Texas Instruments Keystone I architecture~\cite{tmsdatasheet}. The Keystone I architecture was selected because there exists an OpenEM implementation for that supports the processors implementing the architecture. Out of the Keystone I devices TMS320C6678 was selected because Advantech provides an evaluation module TMDSEVM6678L for the specific processor, which makes the experimentation more straightforward than building an evaluation platform from scratch. Another benefit of the TMS320C6678 is that the PREESM rapid prototyping tool for dataflow applications has support for it~\cite{pelcat2014prees}.
 
 \subsection{TMS320C6678 Overview}
+\label{subsec:hw-overview}
 
 \begin{figure}[h!]
     \begin{center}
@@ -25,14 +24,14 @@ The development board used for development of the experiment applications and me
 
 The IDE used for development of the experiment applications is called Code Composer Studio. CCS version 5.2. is distributed with the evaluation module. CCS is discussed in detail in \ref{subsec:devtools}. \fixme{is it going to be discussed? CCS is hairy and lacks documentation}
 
-\subsection{c66x DSP}
+\subsection{C6678 Multi-core DSP}
 \label{subsec:c66x}
 \fixme{intro}
 TMS320C6678 is a multicore fixed and floating-point DSP. The device supports core speed up to 1.4 GHz but was set up to run at 1.0 GHz for all the experiments. The device consists of eight c66x DSPs, on-chip memory and peripherals. The c66x is based on TMS320C66x ISA which is a VLIW architecture with 8 functional units. The c66x CPU has 64 general-purpose 32 bit registers. \cite{sprugh7} \fixme{a list of features. explain more}
 
 The CPU is capable of dispatching up to eight parallel instructions every cycle. The instructions dispatched in parallel move through pipeline stages simultaneously. Pipelining helps eliminate CPU stalls while waiting for memory operations or other CPU instructions taking multiple cycles complete. \cite{sprugh7} \fixme{explain more}
 
-\subsection{Memory}
+\subsection{Memory Hierarchy}
 \label{subsec:c66memory}
 \fixme{intro}
 
