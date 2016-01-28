@@ -1,19 +1,20 @@
 PREESM is a rapid prototyping framework for multi-core development. For understanding the OpenEM framework a way to construct comparable programs with different multi-core runtime was needed. PREESM provides a way to quickly construct multi-core applications for PC as well as for the Texas Instruments multi-core DSP used in the experiments. In this chapter the PREESM framework is introduced. First, an overview of the framework is given in subsection \ref{subsec:preesm-overview}. Second, the framework overview, the internal representations used by the framework are described in subsection \ref{subsec:preesm-internal}. Third, scheduling in the PREESM framework is explained in subsection \ref{subsec:preesm-scheduling}. And Finally, the code generation in PREESM is explained in subsection~\ref{subsec:preesm-codegen}.
 
 \subsection{PREESM Overview}
-\label{sec:preesmover}
-The PREESM rapid prototyping framework for multicore development was used to create a workload application for the thesis experiment described in \ref{sec:firstexperiment} \fixme{move to the intro}. Dataflow Models of Computation (MoC), discussed in section \ref{sec:dataflow}, are used in PREESM to build a representation of the application. The application is divided into parallel actors, which communicate through First In, First Out (FIFO) data queues. The actors are manually created by the application designer in the target language. PREESM provides graphical tools for editing the dataflow diagram and it generates a static schedule for multicore platforms that is guaranteed to be deadlock free. PREESM combines the generated and manually created code into a multicore executable \cite{pelcat2014preesm}. The code generation can be configured through graphical tools that provide hints to the schedule generation about the execution time of different actors and rules on which cores they can be executed. A PREESM dataflow diagram is presented in figure \ref{fig:preesm_example}.
+\label{subsec:preesm-overview}
+PREESM is a collection of tools for rapid prototyping multi-core applications. The tools include a graphical editor for the hardware and the software models, code generators for multiple hardware platforms and an automated generator for fixed schedules. The PREESM tools are used through the Eclipse IDE based environment available at~\cite{preesm}.
+
+In PREESM prototypes of applications are constructed by combining hardware and software models with manually created source code and automatically generated schedule. The software model used in PREESM is based on dataflow models of computation and it is discussed in detail in subsection \ref{subsubsec:preesm-algorithm}. To create a software model in PREESM the application is divided into actors. The actors contain manually created code, which is often written in side-effect free style to enable parallel execution of the actors, but this is not enforced by the framework. The graphical editor for the software model allows the user to create actors and connect them together using first in first out queues.~\cite{preesm}
+
+The model of the target hardware platform is created using a similar graphical tool as the software model. The hardware model is described in subsection \ref{subsubsec:preesm-hardware}. PREESM parses the graphs of the models and creates a static schedule for the executable. The schedule, the actor implementations and the graphs are inputs for the code generator, which creates the multi-core executable.~\cite{pelcat2014preesm} The graphical tools allow the PREESM user to create dependencies between the actors. They also allow a more fine grained control over the code generation by setting estimated actor execution times and selecting the cores on which each actor is allowed to execute.
 
 \begin{figure}[h!]
     \begin{center}
         \includegraphics[width=0.99\textwidth]{images/example_preesm_diagram.png}
-        \caption{A simple dataflow diagram used by PREESM \fixme{is this too
-        simple?}}
+        \caption{A simple dataflow diagram created with PREESM.}
         \label{fig:preesm_example}
     \end{center}
 \end{figure}
-
-In the experiment \ref{sec:firstexperiment} a baseline application for comparison with OpenEM was needed. PREESM was selected because it is capable of code generation for TMS320C6678, introduced in chapter \ref{chapter:c6678}, and its simple and fast workflow.
 
 \subsection{PREESM Internal Representations}
 \label{sec:dataflow}
