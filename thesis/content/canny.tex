@@ -13,3 +13,56 @@ In his 1986 paper John F. Canny \cite{canny1986computational} lays out the mathe
 The noise reduction in step one can be implemented with gaussian filtering. Finding the intensity gradient of the image in step two can be implemented using a sobel filter. Gauss and sobel filters are implemented in the thesis experiment. Gaussian filtering is discussed in \ref{subsec:gauss} and sobel filtering in \ref{subsec:sobel}. The rest of the steps are not implemented in this thesis and thus are only briefly discussed here \fixme{subsection for the rest of the canny steps}.
 
 In the canny edge detector the image is first filtered with gaussian filter to reduce the amount of noise in the image. Second, the changes in the intensity in the image are detected using an edge detection operator such as the sobel operator. The third step improves the accuracy of the edge detection by supressing all but the strongest responses to the detected edges, in practice ``thinning'' the edges. The fourth step classifies the edge pixels to three classes separated by empirically determined threshold values. The pixels with gradient value above the high threshold are marked strong pixels and the pixels with gradient value below the low threshold are supressed. In the fifth step the remaining weak pixels with gradient values below the high threshold are preserved or supressed according to the presence of strong pixels in their neighborhood. Detailed description of the algorithm is presented in the original paper by Canny \cite{canny1986computational}, information about implementing a canny edge detector is available in \cite{gonzalez2008digital} and comparison of its performace to other edge detectors can be found in \cite{maini2009study}.
+
+\subsection{Gaussian filter}
+\label{subsec:gauss}
+Gaussian filtering is used for multiple purposes in digital image processing. In the canny edge detector the gaussian filter is used to reduce noise in the processed images. The gaussian filter works by convolving a gaussian function with the input signal. Gaussian function is non-zero everywhere which means it would theoretically require an infinite convolution window. Since the function decays rapidly it is often reasonable to truncate the function and use small windows. \cite{gonzalez2008digital} In the thesis experiment a kernel size of 5x5 is used.
+
+In practice every pixel in the filtered image has an intensity value computed by taking a weighted average of the neighboring pixels in the input image. The weights are precalculated from the gaussian function, giving the highest weight to the pixel in the center of the window. The gaussian filter displayed in figure \ref{fig:gaussmat} was calculated with $\sigma$ = 1.3. The filtered image has a smoothed appearance compared to the original image. \fixme{maybe add a filtered image?}
+
+\begin{figure}
+    \begin{displaymath}
+        B = \frac{1}{159}\begin{bmatrix}
+             2 & 4 & 5 & 4 & 2 \\
+             4 & 9 & 12 & 9 & 4 \\
+             5 & 12 & 15 & 12 & 5 \\
+             4 & 9 & 12 & 9 & 4 \\
+             2 & 4 & 5 & 4 & 2 \\
+        \end{bmatrix} \ast A
+    \end{displaymath}
+    \caption{The gaussian filter used in the filter applications. The convolution operation is denoted by the asterisk.}
+    \label{fig:gaussmat}
+\end{figure}
+
+\subsection{Sobel filter}
+\label{subsec:sobel}
+The actual edge detection in the canny edge detector begins with applying the sobel operator to the input image. The sobel operator is a discrete differentiation operator. It consists of two 3x3 kernels which are convolved with the image to approximate the derivatives. The two kernels represent horizontal and vertical changes. At each point in the image the resulting gradient approximations are combined giving an approximate gradient magnitude. \cite{gonzalez2008digital} The convolution operations are presented in figure \ref{fig:sobelmat}.
+
+\begin{figure}
+    \begin{displaymath}
+        G_{x} = \begin{bmatrix}
+            -1 & 0 & +1 \\
+            -2 & 0 & +2 \\
+            -1 & 0 & +1 \\
+        \end{bmatrix} \ast A
+    \end{displaymath}
+
+    \begin{displaymath}
+        G_{y} = \begin{bmatrix}
+            -1 & -2 & -1 \\
+            0 & 0 & 0 \\
+            +1 & +2 & +1 \\
+        \end{bmatrix} \ast A
+    \end{displaymath}
+    \caption{The Sobel Kernels used in the application to compute the gradient approximation. The asterisk denotes the convolution operation. \fixme{figure or formula or what?}}
+    \label{fig:sobelmat}
+\end{figure}
+
+\subsection{Non-maximum Suppression}
+\label{subsec:non-maximum-suppression}
+
+\subsection{Double Thresholding}
+\label{subsec:double-thresholding}
+
+\subsection{Hysteresis}
+\label{subsec:hysteresis}
