@@ -1,9 +1,8 @@
-The filter applications process two video streams simultaneously as described in chapter \ref{chapter:construction}. One video stream is processed with a sobel filter and the other is processed with a gaussian filter. The dynamic behavior of the applications is investigated using different workloads. The workloads used are presented in the table \ref{tab:preesm_setups}. The purpose of the different bitrates used for each video stream is to expose the behavior of the OpenEM scheduler in handling dynamic workloads. The static schedule in the PREESM application will provide a baseline to reflect the OpenEM performance to, but again the performance of the applications should not be directly compared due to the difference in the runtime systems.
+The filter applications process two video streams simultaneously as described in chapter \ref{chapter:construction}. One video stream is processed with a sobel filter and the other is processed with a gaussian filter. The dynamic behavior of the applications is investigated using different workloads.
 
-In addition to comparing the PREESM and OpenEM applications the OpenEM application is measured with different core masks to investigate the dynamic scheduling with different limitations. Both filters of the OpenEM application are loaded with CIF streams and different numbers of cores are used. The experiment is run with core masks allowing one to eight cores being used for processing the streams.
-
-\fixme{how about the initial events?}
-\fixme{maybe the ``first experiment'' should be split in to a number of smaller experiments to make more sense out of this chapter}
+\subsubsection{First Experiment}
+\label{subsubsec:first-experiment}
+The workloads used in the first expriment are presented in the table \ref{tab:preesm_setups}. The purpose of the different bitrates used for each video stream is to expose the behavior of the OpenEM scheduler in handling dynamic workloads. The static schedule in the PREESM application will provide a baseline to reflect the OpenEM performance to, but the performance of the applications should not be directly compared due to the difference in the runtime systems.
 
 \begin{table}
     \begin{center}
@@ -18,3 +17,11 @@ In addition to comparing the PREESM and OpenEM applications the OpenEM applicati
         \label{tab:preesm_setups}
     \end{center}
 \end{table}
+
+\subsubsection{Second Experiment}
+\label{subsubsec:second-experiment}
+In the second experiment the OpenEM application is measured with different core masks to investigate the ability of the dynamic scheduler to utilize the increased parallel resources. Both filters of the OpenEM application are loaded with CIF streams. Different numbers of cores are used, but all actors can run on all available cores. The experiment is run with core masks allowing one to eight cores be used for processing the streams.
+
+\subsubsection{Third Experiment}
+\label{subsubsec:third-experiment}
+To examine the capabilities of the dynamic scheduler the the number of simultaneously processed frames is varied in the third experiment. The maximum number of frames that can be processed simultaneously corresponds to the number of initial events created in the initialization. Both filters are loaded with CIF streams and the measurements are run with 1 to 24 initial events. The number of simultaneous frames changes the throughput versus latency balance of the OpenEM application.

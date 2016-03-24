@@ -1,4 +1,4 @@
-Dynamic workload conditions are emulated by repeating the measurements with different factors. To keep things simple the video streams are not dynamically switched at runtime. The measurement parameters are presented in the following listing.
+Dynamic workload conditions are emulated by repeating the measurements with different factors. To keep the measurement setup simple the video streams are not dynamically switched at runtime. The measurement parameters are presented in the following listing.
 
 \begin{itemize}
     \item \textbf{Video Frame Size} - The workloads are differentiated by changing the frame sizes of the video streams.
@@ -6,7 +6,7 @@ Dynamic workload conditions are emulated by repeating the measurements with diff
     \item \textbf{Number of Frames Processed Simultaneously} - The OpenEM application processes variable number of frames simultaneously.
 \end{itemize}
 
-The different video frame sizes used are presented in table \ref{tab:cif_frames}. The frame sizes used are selected from among the Common Intermediate Format frame sizes. \fixme{find a reference for CIF.} YUV video format is used in the applications, but only the Y channel is processed by the applications. The Y channel in the YUV frame contains $R_{x} * R_{y}$ bytes where $R$ is the resolution. In the YUV format used the U and V channels have reduced bitrates of $\frac{1}{4} * R_{x} * R_{y}$ per frame.
+The different video frame sizes used are presented in table \ref{tab:cif_frames}. The frame sizes used are selected from among the Common Intermediate Format frame sizes. YUV video format is used in the applications, but only the Y channel is processed by the applications. The Y channel in the YUV frame contains $R_{x} * R_{y}$ bytes where $R$ is the resolution. In the YUV format used the U and V channels have reduced bitrates of $\frac{1}{4} * R_{x} * R_{y}$ per frame.
 
 \begin{table}
     \begin{center}
@@ -21,6 +21,6 @@ The different video frame sizes used are presented in table \ref{tab:cif_frames}
     \end{center}
 \end{table}
 
-\fixme{super detached. explain when and how and why} The OpenEM measurements are run with different numbers of frames processed simultaneously to examine the balancing between throughput and latency.
+The OpenEM application circulates the events created initially throughout its lifetime. The number of initial events determines the maximum number of frames that can be processed simultaneously. The effect of the number of the simultaneously processed frames to the latency and throughput of the application is examined in the experiments.
 
-In the second part of this experiment OpenEM core masks are used to limit the number of cores available to the filter application. The behavior of OpenEM is examined under limited resources. The core masks in Texas Instruments implementation of OpenEM are limited so that only one core mask can be active in the application as discussed in chapter \ref{chapter:openem}, therefore the core masks always apply to all execution objects of the application. \fixme{the detail about ti core masks isn't needed here but more info about what is the experiment going to show would be great.}
+OpenEM core masks are used to limit the number of cores available to the filter application. The behavior of OpenEM is examined under limited resources. With the use of core masks the performance improvement through increased parallelism is investigated.
