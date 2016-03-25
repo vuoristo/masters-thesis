@@ -18,9 +18,9 @@ The third experiment was conducted to understand the performance improvement gai
         \caption{Sobel 4CIF, Gauss Cif}
         \label{fig:oem8coreeosobel4cif}
     \end{subfigure}
-    \caption{The bottleneck forming due to the atomic read operation can be observed by comparing the core utilization when both of the streams are at CIF resolution to the case where sobel resolution is increased to 4CIF.}
+    \caption{The bottleneck forming due to the atomic read operation can be observed by comparing the core utilization when both of the streams are at CIF resolution to the case where sobel resolution is increased to 4CIF. In these graphs the application is processing 16 simultaneous events.}
 \end{figure}
-The throughput optimized application processing 16 frames simultaneously exhibits formation of a bottleneck in the atomic execution object. In the table \ref{tab:oemthrough} an improvement of latencies is observed when the workload is made heavier by moving 4CIF stream from gauss filter to the sobel filter while the other stream is kept at CIF resolution.
+The throughput optimized application processing 16 events simultaneously exhibits formation of a bottleneck in the atomic execution object. In the table \ref{tab:oemthrough} an improvement of latencies is observed when the workload is made heavier by moving 4CIF stream from gauss filter to the sobel filter while the other stream is kept at CIF resolution.
 
 The probable cause of the improvement of the latencies when the workload is made heavier by increasing the sobel stream resolution is the reduced interleaving of the processing of the subsequent frames. The reduction in the interleaving is caused by the read execution object which is only connected to an atomic queue. When the frame size of the sobel stream is increased the read EO starts limiting the throughput of the application. Fewer frames are processed in parallel which decreases the time from reading each individual frame to the completion of that frame.
 
@@ -36,5 +36,4 @@ The formation of the bottleneck can be observed by comparing the core utilizatio
 \end{figure}
 
 When the gauss stream is increased to 4CIF and the sobel stream is kept at CIF the bottleneck does not form. This is likely because computing the gaussian filter for the 4CIF frames is consuming approximately 80\% of the cycles on all cores. In this case the read EO only consumes approximately 5\% to 13\% of the cycles on all cores. Compared to the case of two CIF streams, the latencies in this case are increased by factors of approximately 3 and 4 for sobel and gauss correspondingly. The resulting core utilization graph is presented in figure \ref{fig:oem8coreeogauss4cif}.
-
 \FloatBarrier
