@@ -4,12 +4,13 @@ In this section first the results of the measurements of the OpenEM and PREESM a
 
 \subsection{First Experiment}
 \label{subsec:first-experiment}
-In the first experiment the bitrates of the two video streams are varied. The latency and throughput of the OpenEM application measurements are summarized in the tables \ref{tab:oemthrough} and \ref{tab:oemthrough2}. The corresponding summaries for the PREESM application are presented in the table \ref{tab:preesmthrough} The summary of latency and throughtput of the OpenEM application with limited number of cores is presented in table \ref{tab:oemcoremasks}.
+\FloatBarrier
+In the first experiment the bitrates of the two video streams are varied. The latency and throughput of the OpenEM application measurements are summarized in the table \ref{tab:oemthrough2}. The corresponding summaries for the PREESM application are presented in the table \ref{tab:preesmthrough} 
 
 The latencies of the two streams of the PREESM application in all measurement setups in the table \ref{tab:preesmthrough} are similar. The largest difference in the latencies is in the case where sobel filter filters a CIF stream and gauss filter filters a 4CIF stream, where gauss latency is 60\% higher than the sobel latency. Much larger differences in the latencies are observed with the OpenEM application with two initial events presented in table \ref{tab:oemthrough2} where the largest difference in latencies is also measured between the CIF sobel stream and 4CIF gauss stream. The gauss latency in the particular OpenEM measurement is 200\% higher than the sobel latency. The other OpenEM measurements show larger differences as well compared to PREESM.
 
 \newcommand{\head}[2]{\multicolumn{1}{>{\centering\arraybackslash}p{#1}}{#2}}
-\begin{table}[htpb]
+\begin{table}
     \begin{center}
         \begin{tabular}{ c c c c c }
             \head{1.5cm}{Sobel latency} & \head{1.5cm}{Gauss latency} &
@@ -42,7 +43,7 @@ The latencies of the two streams of the PREESM application in all measurement se
 
 The throughput of the application is determined by how much time the application spends processing the streams versus the time spent doing something else. For example the synchronization of all cores before each repetition of the PREESM schedule consumes a lot of cpu cycles as is readily observed from the figure \ref{fig:preesmcif}. The portion of the bars marked as busy corresponds to the cycles spent in the synchronization between the repetitions of the schedule. The percentage of cycles spent in the synchronization varies from 16\% on Core 7 to 45\% on Core 0. The OpenEM dynamic scheduler seems to spread out the work more evenly in this case where the total overhead cycles are approximately 60\% for all cores. The core utilization per function is presented in figure \ref{fig:oem8corefunc}. Most of the overhead cycles in the OpenEM application are spent waiting for more frames for processing.
 
-\begin{figure}[htpb]
+\begin{figure}
     \centering
     \begin{subfigure}[t]{0.49\textwidth}
         \centering
@@ -61,9 +62,11 @@ The throughput of the application is determined by how much time the application
 
 The overhead portions in the figures \ref{fig:preesmcif} and \ref{fig:oem8corefunc} contain all of the data copying from buffer to buffer outside the measured functions, but they also contain different amounts of cycles spent in communications between the cores. The measured functions are the functions which are explicitly called in the PREESM actor model. Other functions not included in the measured functions contain runtime specific communication and some copying of buffers.
 
+\FloatBarrier
 \subsection{Second Experiment}
 \label{subsec:second-experiment}
-\begin{table}[htpb]
+\FloatBarrier
+\begin{table}
     \begin{center}
         \begin{tabular}{ c c c c c }
             \head{1.5cm}{Sobel latency} & \head{1.5cm}{Gauss latency} &
@@ -81,7 +84,7 @@ The overhead portions in the figures \ref{fig:preesmcif} and \ref{fig:oem8corefu
 The PREESM latencies in the table \ref{tab:preesmthrough} are consistently smaller than the latencies of the throughput optimized OpenEM application in the table \ref{tab:oemthrough}. In this set of measurements the OpenEM application is configured to process 16 frames simultaneously to maximize throughput. The throughput of the OpenEM application is almost doubled compared to the configuration presented in \ref{tab:oemthrough2} where two frames processed simultaneously.
 
 The effect of increasing the number of simultaneous frames was further examined by measuring the application with two CIF streams using 2 to 24 initial events. The results of the measurements are presented in table \ref{tab:oeminitialframes}. The latencies get worse and the throughput gets better when the number of frames processed simultaneously increases. This behavior is visualized in figures \ref{fig:oeminitialframesfps} and \ref{fig:oeminitialframeslat}. The throughput grows rapidly up to 8 simultaneous frames after which the growth slows down. The latencies grow with each added frame steadily.
-\begin{figure}[htpb]
+\begin{figure}
     \centering
     \begin{subfigure}[t]{0.49\textwidth}
         \centering
@@ -97,7 +100,7 @@ The effect of increasing the number of simultaneous frames was further examined 
     \end{subfigure}
     \caption{The effect of increasing the number of frames processed simultaneously is presented in the figures. The throughput increases rapdily up to 8 simultaneous frames after which the growth slows down. The latency grows more steadily across all measured setups.}
 \end{figure}
-\begin{table}[htpb]
+\begin{table}
     \begin{center}
         \begin{tabular}{ c c c c }
             \head{1.5cm}{Sobel latency} & \head{1.5cm}{Gauss latency} &
@@ -121,9 +124,11 @@ The effect of increasing the number of simultaneous frames was further examined 
     \end{center}
 \end{table}
 
+\FloatBarrier
 \subsection{Third Experiment}
 \label{subsec:third-experiment}
-\begin{table}[tpb]
+\FloatBarrier
+\begin{table}
     \begin{center}
         \begin{tabular}{ c c c c }
             \head{1.5cm}{Sobel latency} & \head{1.5cm}{Gauss latency} &
@@ -143,13 +148,12 @@ The effect of increasing the number of simultaneous frames was further examined 
     \end{center}
 \end{table}
 
-In the third experiment the number of cores available for the OpenEM application was limited. The resulting latencies and throughputs are presented in the table \ref{tab:oemcoremasks}. The increase of the throughput of the OpenEM application is presented in graph \ref{fig:fpsvcores}. The actual FPS measured with eight cores is approximately 90\% of the linear growth.  
-
-\begin{figure}[tpb]
+In the third experiment the number of cores available for the OpenEM application was varied. Both filters were processing CIF streams. The measurements were repeated using one to eight cores. The resulting latencies and throughputs are presented in the table \ref{tab:oemcoremasks}. The increase of the throughput of the OpenEM application is presented in graph \ref{fig:fpsvcores}. The actual FPS measured with eight cores is approximately 90\% of the linear growth calculated from the FPS using a single core.
+\begin{figure}
     \begin{center}
         \includegraphics[width=0.7\textwidth]{images/coremask_fps.eps}
         \caption{FPS increase as the function of cores vs. linear growth}
         \label{fig:fpsvcores}
     \end{center}
 \end{figure}
-
+\FloatBarrier
