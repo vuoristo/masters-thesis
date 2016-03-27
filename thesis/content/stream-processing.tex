@@ -1,5 +1,10 @@
-\fixme{ todo: intro to stream processing }
+\fixme{ todos: \\
+    intro to stream processing \\
+    getting general \\
+}
+
 \subsection{Stream Processing Overview}
+\label{subsec:stream-processing-overview}
 Stream processing is a programming paradigm that enables application designers to exploit a limited form of parallelism. The systems built following stream processing programming paradigm can be categorized under stream processing systems.
 
 Stream processing systems consist of modules that compute in parallel and communicate data via channels. The modules of stream processing systems can be divided into three classes according to their placement and purpose in the system. The classes are sources, filters and sinks. Sources act as the input points that pass data into the system. Filters perform atomic computations on the streams. Sinks are used to pass the data out from the system.~\cite{stephens1997survey}
@@ -8,7 +13,13 @@ The channels of communication between the modules of stream processing systems a
 
 The stream processing survey by Stephens \cite{stephens1997survey} categorizes \textit{dataflow systems}, \textit{reactive systems}, \textit{synchronous concurrent algorithms}, \textit{signal processing systems}, and some \textit{real-time systems} as stream processing systems. A closer look in dataflow systems is taken in~\ref{sec:dataflow-models}.
 
+\fixme{TODO: Hardware stream processing \\
+    Imagine \\
+    Merrimac \\
+}
+
 \subsection{Streaming Applications}
+\label{subsec:streaming-applications}
 Stream processing is not limited to a specific application domain such as signal processing applications. Diverse variety of stream processing applications may run on different platforms ranging from phones to servers. The authors of the StreamIt language \cite{thies2002streamit} have defined \textit{streaming applications} as a class of programs, that commonly have many of the features defined in the following listing.
 
 \begin{itemize}
@@ -20,9 +31,19 @@ Stream processing is not limited to a specific application domain such as signal
     \item \textit{High performance expectations.} There often are real-time and power consumption constraints on streaming applications. For example a streaming video decoder has to decode the stream at rate of input in order to avoid unbounded buffer growth or frame dropping.
 \end{itemize}
 
-Some examples of stream processing applications are the applications created using MillWheel~\cite{tyler2013millwheel} framework for data processing, or using Apache Storm~\cite{storm2014storm}. \fixme{More examples. GPUs?}
+Some examples of stream processing applications are the applications created using MillWheel~\cite{tyler2013millwheel} framework for data processing, or using Apache Storm~\cite{storm2014storm}. \\
+
+\fixme{todo: \\
+    More examples. \\
+    GPUs? \\
+    Apache Storm \\
+    Spark Streaming \\
+    Apache Kafka \\
+}
+
 
 \subsection{Video Streams}
+\label{subsec:video-streams}
 \fixme{TODOs: \\
     Where are video streams used? \\
     Why are they stream processed? \\
