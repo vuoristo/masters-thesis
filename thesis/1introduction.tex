@@ -1,20 +1,40 @@
 \chapter{Introduction}
 \label{chapter:introduction}
-\fixme{TODOs: \\
-    What is this thesis about? \\
-    What is the contribution of this thesis? \\
-    Why is this thesis relevant (hard one)? \\
-}
+In this thesis the performance of Open Event Machine on a hardware accelerated platform in stream processing is analysed. Two stream processing applications are implemented: one using OpenEM and the other using a simpler runtime system PREESM. The main contribution of this thesis is the analysis of the suitability of OpenEM for stream processing tasks.
 
+The relevancy of studying the suitability of OpenEM on multicore digital signal processors for stream processing comes from a combination of factors. First stream processing is a computing paradigm that is receiving increasing attention from the industry and the research community due to the growing volume of data streaming in the internet. Second stream processing tasks have similar high-level structure as digital signal processing tasks. Examining the fit of digital signal processors for stream processing is thus a task relevant to the study of stream processing. Third multicore coordination is non-trivial but parallel processing is required for efficient stream processing as stream processing tasks are highly data parallel.
 
 \section{Problem statement}
 \label{section:problem-statement}
-This thesis investigates the performance of OpenEM on a hardware accelerated platform in stream processing.
-\fixme{Todos: \\
-    What problem does this thesis solve? \\
-    High-level how is this probelm approached in this thesis? \\
-}
+Multicore DSPs have potential for high performance stream processing in terms of floating point operations per watt. However, parallel programming for multicore DSPs is more complicated than parallel programming for PC hardware, as most often there is no operating system to handle the inter-core coordination and communication. The Texas Instruments OpenEM implementation is a light-weight runtime for Texas Instruments TMS320C6678 multicore DSP, that handles the inter-core communication and task scheduling. It utilizes hardware acceleration for scheduling and communication. This thesis investigates the performance of the Texas Instruments OpenEM implementation in stream processing.
+
+The performance of OpenEM is evaluated by measuring the performance of a stream processing application implemented using OpenEM for task scheduling and comparing the results with a similar application implemented using a simpler multicore runtime.
+
+\section{Contributions}
+\label{section:contributions}
+This thesis presents analysis of the performance of OpenEM in stream processing. The performance analysis is carried out by comparing the measured performance of a stream processing application implemented using OpenEM to a comparable stream processing application.
+
+The application used for comparison was implemented using dataflow MoC with a graphical tool called PREESM. The PREESM tool is able to generate executables for the Texas Instruments TMS320C6678 DSP from the graphical model of the application and source code for the processing kernels provided by the user. The dataflow graph, the processing kernels and the instrumentation of the PREESM application were implemented for this thesis.
+
+The OpenEM based stream processing application that was the main focus of study in this thesis was implemented from scratch for this thesis. The Texas Instruments Code Composer Studio was used to implement the stream processing application.
+
+The contributions of this thesis are summarized in the following listing:
+\begin{itemize}
+    \item Implementation and instrumentation of a video stream processing application using OpenEM.
+    \item Implementation and instrumentation of a video stream processing application using PREESM.
+    \item Performance measurements of both implemented applications.
+\end{itemize}
 
 \section{Structure of the Thesis}
 \label{section:structure}
+The structure of this thesis is presented in the following. Chapter~\ref{chapter:streams} introduces the context of this thesis. The relevance of stream processing to computer science research and the industry are explained. An overview to stream processing is given and a more focused look at one paradigm of stream processing, dataflow, is taken.
 
+Chapter~\ref{chapter:openem} takes an in-depth look at Open Event Machine. First, the NSN specification of the framework is introduced. Second the Texas Instruments implementation of OpenEM for TMS320C6678 multicore DSP is examined.
+
+Chapter~\ref{chapter:experiments} introduces the material and methods used in the experiments. The chapter starts by looking at the performance analysis of computer systems. Next the hardware platform used in the experiments, the TI TMS320C6678 is described. Following the hardware description, PREESM is introduced as the tool that was used for creating the comparison point for the OpenEM stream processing application. After PREESM, video stream standards relevant to the experiments are explained. Finally, Canny edge detector that served as inspiration for the workload is described.
+
+Chapter~\ref{chapter:construction} describes the construction of the experiments. After the introduction to the experiments the experiment workload is introduced. Next the PREESM version and the OpenEM version of the workload application are described. Third the instrumentation of the applications is explained. Finally the experiments are presented.
+
+Chapter~\ref{chapter:results-and-analysis} presents the results of the experiments. In the beginning of the chapter the results are given and described. The rest of the chapter is dedicated for discussion of the results.
+
+Chapter~\ref{chapter:conclusion} is the conclusion of this thesis, bringing the results to the context.
