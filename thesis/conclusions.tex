@@ -1,7 +1,7 @@
 \chapter{Conclusions}
 \label{chapter:conclusion}
-\fixme{Todos: \\
-    refer back to problem statement \\
-    was the research problem solved / the research question answered? \\
-    link to the context of stream processing \\
-}
+This thesis set out to analyse the suitability of the Texas Instruments implementation of the Open Event Machine multicore runtime to stream processing. The results suggest that OpenEM runtime is flexible enough to support the implementation of such applications. Further research is required to understand the overall suitability of multicore DSPs for stream processing.
+
+A video stream processing application inspired by Canny edge detector was designed. The design was implemented using two distinct multicore runtimes. The baseline application was implemented using PREESM, which generates statically scheduled multicore applications based on synchronous dataflow graphs. The main system under study of this thesis was the OpenEM implementation of the design. To understand the application behavior both applications were instrumented and their execution was measured. The statically scheduled PREESM application achieved lower latency in most of the conducted measurements but the OpenEM application was shown to be well configurable and able to handle dynamic workloads.
+
+High performance stream processing solutions are in demand in the industry. Exploring the use of DSP for stream processing is interesting because they achieve high ratio of floating point operations to power consumption. As multicore DSPs are not as commonly used for stream processing as for example GPUs, the tools for parallel programming have not converged. Runtime systems such as OpenEM have the potential of becoming the standard tools for parallel programming of DSPs.
