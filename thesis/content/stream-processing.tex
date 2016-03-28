@@ -27,8 +27,8 @@ Stream processing frameworks have been developed for distributed computing. Exam
 
 \subsection{Video Streams}
 \label{subsec:video-streams}
-\fixme{TODOs: \\
-    Where are video streams used? \\
-    Why are they stream processed? \\
-    Some stats on how popular they are now \\
-}
+Video streams are a prime example of streaming data. In the case of streaming service such as Netflix, the video data is downloaded from the service providers server and decompressed on the device of the consumer. In most use cases the video streams are decompressed as they are downloaded and the complete video file is never stored on the device. Thus stream processing is well suited for video stream decompression. The video streams are often accompanied by audio streams, which are processed similarly.~\cite{richardson2002video}
+
+The video conference use case is similar to the streaming video services but involves extra complexity with the compression of the raw data coming from the video camera and especially the requirement of low latency in the compression, decompression and communications.
+
+A large fraction of the growth of data creation can be attributed to video streams. More than billion hours of TV and movies are streamed through the video streaming service Netflix \cite{turner2014digital}. Video streams are used for real-time communication through services such as Skype and Periscope. The efficiency of video stream processing is thus a top priority in the industry.
