@@ -1,4 +1,5 @@
-\fixme{ todo intro to dataflow models of computation }
+Stream processing defines the high level structure of how streaming data is to be processed but it does not define the stream processing methods in detail. In this section Dataflow Models of Computation are examined as an example of stream processing paradigm.
+
 \subsection{Dataflow Models of Computation}
 \label{subsec:dataflow-moc}
 Dataflow models of computation can be used to describe stream processing applications. In programs following a dataflow MoC, the computation can be described by a directed graph. The nodes of the graph are the computation kernels. The data being processed by the application is split into tokens which flow from node to node along the directed arcs. The only means of communication between the nodes are the data tokens. This means a node may begin executing as soon as it has received its input tokens. The execution of the nodes is thus asynchronous.~\cite{lee2015introduction}
