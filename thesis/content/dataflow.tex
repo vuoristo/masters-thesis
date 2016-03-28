@@ -12,16 +12,6 @@ One approach of solving the schedulability and buffer growth problems of the dat
 
 In some application domains such as signal processing applications the tradeoff between the limitations of synchronous dataflow and the good performance and the guarantees of the model may still be in favor of the synchronous dataflow models.~\cite{lee2015introduction}
 
-\begin{figure}[h!]
-    \begin{center}
-        \input{content/openem-flowchart.tex}
-        \caption{SDF model. The number of tokens produced or consumed by a port is marked by a number next to the port.\fixme{TODO}}
-        \label{fig:sdf-model}
-    \end{center}
-\end{figure}
-
-In the figure~\ref{fig:sdf-model} an example of a synchronous dataflow model is given. The given example model is consistent with the SDF MoC and thus a schedule that can be repeated forever can be found.
-
 A practical example of a synchronous dataflow MoC is the parameterized and interfaced synchronous dataflow (PiSDF) MoC used by PREESM. PiSDF is described in in~\ref{subsec:preesm-internal}.
 
 \subsection{Dynamic Dataflow}
