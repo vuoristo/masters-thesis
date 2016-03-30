@@ -1,28 +1,30 @@
 \chapter{Introduction}
 \label{chapter:introduction}
-In this thesis the performance of Open Event Machine on a hardware accelerated platform in stream processing is analysed. Two stream processing applications are implemented: one using OpenEM and the other using a simpler runtime system PREESM. The main contribution of this thesis is the analysis of the suitability of OpenEM for stream processing tasks.
+In this thesis the performance of a task based programming model used for stream processing is analyzed. The task based programming model under study is Open Event Machine (OpenEM). Two stream processing applications are implemented: one using OpenEM and the other created with PREESM, using static scheduling. PREESM is a framework for building parallel programs with static schedules based on synchronous dataflow odel of computation. The main contribution of this thesis is the analysis of the suitability of OpenEM for stream processing tasks.
 
 The relevancy of studying the suitability of OpenEM on multicore digital signal processors for stream processing comes from a combination of factors. First stream processing is a computing paradigm that is receiving increasing attention from the industry and the research community due to the growing volume of data streaming in the internet. Second stream processing tasks have similar high-level structure as digital signal processing tasks. Examining the fit of digital signal processors for stream processing is thus a task relevant to the study of stream processing. Third multicore coordination is non-trivial but parallel processing is required for efficient stream processing as stream processing tasks are highly data parallel.
 
 \section{Problem statement}
 \label{section:problem-statement}
-Multicore DSPs have potential for high performance stream processing in terms of floating point operations per watt. However, parallel programming for multicore DSPs is more complicated than parallel programming for PC hardware, as most often there is no operating system to handle the inter-core coordination and communication. The Texas Instruments OpenEM implementation is a light-weight runtime for Texas Instruments TMS320C6678 multicore DSP, that handles the inter-core communication and task scheduling. It utilizes hardware acceleration for scheduling and communication. This thesis investigates the performance of the Texas Instruments OpenEM implementation in stream processing.
+Multicore DSPs have potential for high performance stream processing in terms of floating point operations per watt. However, parallel programming for multicore DSPs is more complicated than parallel programming for PC hardware, as commonly there is no operating system to handle the inter-core coordination and communication. The Texas Instruments OpenEM implementation is a light-weight runtime for Texas Instruments TMS320C6678 multicore DSP, that handles the inter-core communication and task scheduling. It utilizes hardware acceleration for scheduling and communication. This thesis investigates the performance of the Texas Instruments OpenEM implementation in stream processing.
 
-The performance of OpenEM is evaluated by measuring the performance of a stream processing application implemented using OpenEM for task scheduling and comparing the results with a similar application implemented using a simpler multicore runtime.
+The performance of OpenEM is evaluated by measuring the performance of a stream processing application implemented using OpenEM for task scheduling and comparing the results with a similar multicore application with static schedule created using PREESM.
 
 \section{Contributions}
 \label{section:contributions}
 This thesis presents analysis of the performance of OpenEM in stream processing. The performance analysis is carried out by comparing the measured performance of a stream processing application implemented using OpenEM to a comparable stream processing application.
 
-The application used for comparison was implemented using dataflow MoC with a graphical tool called PREESM. The PREESM tool is able to generate executables for the Texas Instruments TMS320C6678 DSP from the graphical model of the application and source code for the processing kernels provided by the user. The dataflow graph, the processing kernels and the instrumentation of the PREESM application were implemented for this thesis.
+The application used for comparison was implemented using dataflow model of computation with a graphical tool called PREESM. The PREESM tool is able to generate executables for the Texas Instruments TMS320C6678 DSP from the graphical model of the dataflow application and source code for the processing kernels provided by the user. The dataflow graph, the processing kernels and the instrumentation of the PREESM application were implemented for this thesis.
 
-The OpenEM based stream processing application that was the main focus of study in this thesis was implemented from scratch for this thesis. The Texas Instruments Code Composer Studio was used to implement the stream processing application.
+The OpenEM based stream processing application that was the main focus of study in this thesis was implemented from scratch for this thesis. The Texas Instruments Code Composer Studio was used to implement the stream processing application. The application was instrumented using the hardware performance counters found in the TI DSP.
+
+In the analysis phase, the performance of the applications was compared based on the measurements made using the instrumentation. Three experiments were conducted to understand the performance of OpenEM based applications in stream processing.
 
 The contributions of this thesis are summarized in the following listing:
 \begin{itemize}
-    \item Implementation and instrumentation of a video stream processing application using OpenEM.
-    \item Implementation and instrumentation of a video stream processing application using PREESM.
-    \item Performance measurements of both implemented applications.
+    \item Implementation and instrumentation of an OpenEM based measurement system on TI DSP.
+    \item Implementation and instrumentation of a comparable measurement system using PREESM.
+    \item Performance measurements and analysis of different stream processing mechanisms on TI DSP.
 \end{itemize}
 
 \section{Structure of the Thesis}
