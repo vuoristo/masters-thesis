@@ -4,45 +4,10 @@ IO operations often take long compared to computation on the CPUs. In IO heavy a
 
 Commonly IO operations consist of three phases. In the first phase the operation is set up, the target hardware could be for example the hard drive of the device. In the second phase the CPU waits for the operation to complete and has nothing to do with regards to the particular operation. In the third phase the CPU is notified of the availability of results and begins processing them. Only phases one and three require active processing from the CPU.~\cite{friesen2015asynchronous}
 
-A common way of enabling concurrency in programs is to split the execution of the program across multiple software threads. Using threads for concurrent programming is convenient because they allow interleaving IO and computation while preserving the appearance of a serial program. A separate thread could be spawned for each IO operation so that a non-blocked thread can execute while the IO thread is waiting. The use of threads has disadvantages. Firstly, they introduce concurrency even to sections of programs where it is not needed. And secondly, programming with threads requires explicit synchronization of the threads, which in practice yields data races and deadlocks.~\cite{dabek2002event}
+A common way of enabling concurrency in programs is to split the execution of the program across multiple software threads. Using threads for concurrent programming is convenient because they allow interleaving IO and computation while preserving the appearance of a serial program. A separate thread could be spawned for each IO operation so that a non-blocked thread can execute while the IO thread is waiting. The use of threads has disadvantages. For example, they introduce concurrency even to sections of programs where it is not needed. Programming with threads requires explicit synchronization of the threads, which in practice yields data races and deadlocks. Spawning software threads consumes processing cycles and memory, making full software threads often heavier than necessary for the task in hand.~\cite{dabek2002event, lee2006problem}
 
 Concurrent processing of IO and UI generated events does not necessitate the spawning of a thread for each operation. Another way of handling concurrent events is by registering an event handler with a central system that keeps track of completed operations. Such central system is commonly called the event loop. The event loop checks completion of operations and calls the registered event handlers when the results are available. For example the Node.js~\cite{tilkov2010node} and Apple's Grand Central Dispatch~\cite{sakamoto2012grand} frameworks make use of such model of concurrency. The event-driven concurrent programming model leaves the mapping of event loops and details of how events are dispatched to its implementations. One or more threads can execute event loops and the events can even be dispatched from one thread on another depending on the implementation.
 
-Dabek et al. argue for the use of events instead of threads to provide concurrency in IO heavy server environments. The benefits of events are that they provide the same benefits as threads in concurrent io programs but are easier to program and tend to yield more stable performance under heavy loads.~\cite{dabek2002event}
+Dabek et al. argue for the use of events instead of threads to provide concurrency in IO heavy server environments. The benefits of events are that they provide comparable concurrency as threads in concurrent IO programs but are easier to program and tend to yield more stable performance under heavy loads.~\cite{dabek2002event} This along with the other advantages of events in concurrent programming have generated enough interest that many event-driven processing concepts have been developed. Here are some examples. Event-driven runtime with its own programming language called Eve has been developed by Fonseca et al.~\cite{fonseca2014eve}. Node.js and Grand Central Dispatch implement event-driven processing. Majority of the UI libraries such as QT~\cite{blanchette2006cpp} are implemented in an event-driven pattern.
 
-%Examples of event driven systems
-%SCnC?
-%Cilk
-%Node.js
-%Eve \cite{fonseca2014eve}
-%OpenMP Streaming Extensions? \cite{pop2011stream}
-%
-%
-%OpenEM states it is an architectural abstraction and framework of an event driven multicore optimized processing concept
-%
-%Task / Event. <- focus on these
-%  Task parallelism
-%    computation divided into tasks
-%    explicit parallelism
-%    no synchronization required inside tasks
-%  Input is converted to tasks
-%  Task based processing does not require underlying data streams
-%
-%Event based
-%  Task based MoC with the concept of stream included
-%  can this jump be made?
-%
-%SCnC
-%  Concurrent collection with stream
-%
-%Eve
-%  Programming language
-%
-%OpenMP streaming extension
-%
-%In general events do not need to be io events
-%  In this thesis they are io events
-%
-%Event lib
-%node.js
-%
+\fixme{lopeta}
