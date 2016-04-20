@@ -1,0 +1,68 @@
+Task / Event parallelism
+
+Task is a rather ambiguous term that means a unit of execution or a unit of work. Task parallelism is a form of parallelism, which focuses on distributing tasks among multiple cores. Task parallelism does not define the form of tasks distributed. The concrete tasks are executed by threads or processess distributed across cores.
+
+Concurrency is more and more common in modern computing. There are multiple reasons why concurrency is so important in programming. Probably the biggest reason for increased concurrency in software is that the single-threaded performance of the hardware is not growing as rapidly as it was in the past~\cite{sutter2005free}. Apart from increasing the amount of computation done in parallel, other reasons for increasing concurrency in programs are handling asynchronous IO and responding to external events such as user interactions.
+
+IO operations often take long compared to computation on the cpus. In IO heavy applications multiple IO operations can be started concurrently and their results processed in the order of completion. Such concurrent waiting increases the cpu utilization as the cpus are not spending time busy waiting for IO but instead processing the results of completed IO operations.~\cite{dabek2002event}
+
+A common way of enabling concurrency in programs is to split the execution of the program across multiple software threads. Using threads for concurrent programming is convenient because they allow interleaving I/O and computation while preserving the appearance of a serial program~\cite{dabek2002event}. The disadvantage of threads is that they introduce concurrency even to sections of programs where it is not needed. Programming with threads requires explicit synchronization of the threads, which in practice yields data races and deadlocks.~\cite{dabek2002event}
+
+\cite{dabek2002event} argues for events instead of threads to provide concurrency in IO heavy server environments. The benefits of events are that they provide the same benefits as threads in concurrent io programs but are easier to program and tend to yield more stable performance under heavy loads.
+
+Motivate event-driven programming.
+
+Getting the terminology in order:
+
+event-driven programming? or event-driven processing?
+task vs. event?
+
+define event
+
+Define the event driven X.
+
+Event driven vs. threads
+
+
+Event loop
+What is an event loop
+
+Examples of event driven systems
+SCnC?
+Cilk
+Node.js
+Eve \cite{fonseca2014eve}
+OpenMP Streaming Extensions? \cite{pop2011stream}
+
+What is the distinction of Event driven processing vs. events in GUI programming? Node.js seems to combine both as its processing model is inherited from the web frontend world but it is used for various tasks on the server side. Also wikipedia article for node.js states that node.js is specifically event-driven.
+
+OpenEM states it is an architectural abstraction and framework of an event driven multicore optimized processing concept
+
+C++ standard does not define events. The event handling is left to be provided by frameworks which generate the events.
+
+Task / Event. <- focus on these
+  Task parallelism
+    computation divided into tasks
+    explicit parallelism
+    no synchronization required inside tasks
+  Input is converted to tasks
+  Task based processing does not require underlying data streams
+
+Event based 
+  Task based MoC with the concept of stream included
+  can this jump be made?
+
+SCnC
+  Concurrent collection with stream
+
+Eve
+  Programming language
+
+OpenMP streaming extension
+
+In general events do not need to be io events
+  In this thesis they are io events
+
+Event lib
+node.js
+
