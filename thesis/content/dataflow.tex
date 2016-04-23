@@ -43,7 +43,7 @@ The SDF MoC was specifically designed for digital signal processing applications
 
 Figure~\ref{fig:sdf_graph} presents an example acyclic SDF graph from~\cite{ade1997data}. The graph nodes are marked with letters from a to f and the production and consumption rates are marked at the ends of the arcs. The graph can be scheduled in many different ways, which yield different performance characteristics in terms of memory requirements of the buffers, latency and throughput. The task of scheduling and allocating buffers for SDF graphs is non-trivial. Larger buffer sizes allow for more scheduling freedom but on certain targets such as FPGAs there are severe limitations on the number of registers available for the buffer allocation. The minimum required buffer sizes that guarantee the existence of deadlock-free schedule are represented in table~\ref{tab:sdf_buffers}. The buffer sizes were found using the algorithm from~\cite{ade1997data}. For some schedules that would yield improvements in throughput or latency, larger buffer sizes may be required.
 
-A practical example of a synchronous dataflow MoC is the parameterized and interfaced synchronous dataflow (PiSDF) MoC used by PREESM. PiSDF is described in in~\ref{subsec:preesm-internal}.\fixme{add more examples}
+Examples of practical implementations of the SDF MoC include the parameterized and interfaced synchronous dataflow (PiSDF) used by PREESM described in~\ref{subsec:preesm-internal}, the Ptolemy project \cite{ekerjanneck2003ptolemy} and the LUSTRE programming language~\cite{halbwachs1991synchronous}.
 
 \FloatBarrier
 \subsection{Dynamic Dataflow}
