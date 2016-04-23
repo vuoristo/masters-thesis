@@ -1,3 +1,5 @@
+\fixme{set the dataflow mocs in larger context}
+
 Stream processing defines the high level structure of how streaming data is to be processed but it does not define the stream processing methods in detail. In this section Dataflow Models of Computation are examined as an example of stream processing paradigm.
 
 \subsection{Dataflow Models of Computation}
@@ -8,12 +10,42 @@ To allow asynchronous execution of the nodes the tokens are buffered between the
 
 \subsection{Synchronous Dataflow}
 \label{subsec:synchronous-dataflow}
-One approach to solving the schedulability and the unbounded buffer growth of the dataflow MoC is fixing the production and consumption rates of the actors. These limitations are implemented in dataflow models introduced by Lee and Messerschmit called synchronous dataflow (SDF)~\cite{lee1987synchronous}. The SDF model imposes strict limits on the kinds of dataflow graphs allowed. The dataflow graphs in SDF models are fixed at compile time. No new actors may be added in run time to SDF graphs because all arcs of the model are fixed. The flow of tokens along the arcs is fixed as well, due to the fixed production and consumption rates of the model. Adhering to these limitations the created graphs are fully schedulable at compile time and they execute the same way on each iteration. This means that the boundedness of the buffers is guaranteed and the deadlocking problems are avoided. By adhering to such limitations, the expression power of SDF models is reduced compared to more lax dataflow models such as the dynamic dataflow discussed in~\ref{subsec:dynamic-dataflow}.~\cite{lee2015introduction}
+\FloatBarrier
+One approach to solving the schedulability and the unbounded buffer growth of the dataflow MoC is fixing the production and consumption rates of the actors. These limitations are implemented in the dataflow models introduced by Lee and Messerschmit called synchronous dataflow (SDF)~\cite{lee1987synchronous}. The SDF model imposes strict limits on the kinds of dataflow graphs allowed. The dataflow graphs in SDF models are fixed at compile time. No new actors may be added in run time to SDF graphs because all arcs of the model are fixed. The flow of tokens along the arcs is fixed as well, due to the fixed production and consumption rates of the model. Adhering to these limitations the created graphs are fully schedulable at compile time and they execute the same way on each iteration. This means that the boundedness of the buffers is guaranteed and the deadlocking problems are avoided. Implementing such limitations reduces the expression power of SDF models compared to more lax dataflow models such as the dynamic dataflow discussed in~\ref{subsec:dynamic-dataflow}.~\cite{lee2015introduction}
 
-The SDF model was specifically designed for digital signal processing applications. In domains such as digital signal processing the typical tasks are well suited for computation with SDF models and the good performance and the strong executability guarantees of the models make them ideal for the task.~\cite{lee2015introduction}
+The SDF MoC was specifically designed for digital signal processing applications. In domains such as digital signal processing the typical tasks are well suited for computation with SDF models and the good performance and the strong executability guarantees of the models make them ideal for the task.~\cite{lee2015introduction}
 
-A practical example of a synchronous dataflow MoC is the parameterized and interfaced synchronous dataflow (PiSDF) MoC used by PREESM. PiSDF is described in in~\ref{subsec:preesm-internal}.
+\begin{figure}[h!]
+    \begin{center}
+        \includegraphics[width=0.60\textwidth]{images/sdf_graph.pdf}
+        \caption{A SDF Graph from \cite{ade1997data}.}
+        \label{fig:sdf_graph}
+    \end{center}
+\end{figure}
 
+\begin{table}
+    \begin{center}
+        \begin{tabular}{ c c }
+            Arc & Buffer Size \\ \hline
+            ab  & 5 \\ \hline
+            ac  & 10 \\ \hline
+            bd  & 2 \\ \hline
+            cd  & 10 \\ \hline
+            ce  & 12 \\ \hline
+            cf  & 30 \\ \hline
+            df  & 6 \\ \hline
+            ef  & 8 \\ \hline
+        \end{tabular}
+        \caption{The minimum required buffer sizes for the arcs in the SDF graph \ref{fig:sdf_graph}. The buffer sizes are presented as the number of tokens the buffer fits at maximum.}
+        \label{tab:sdf_buffers}
+    \end{center}
+\end{table}
+
+Figure~\ref{fig:sdf_graph} presents an example acyclic SDF graph from~\cite{ade1997data}. The graph nodes are marked with letters from a to f and the production and consumption rates are marked at the ends of the arcs. The graph can be scheduled in many different ways, which yield different performance characteristics in terms of memory requirements of the buffers, latency and throughput. The task of scheduling and allocating buffers for SDF graphs is non-trivial. Larger buffer sizes allow for more scheduling freedom but on certain targets such as FPGAs there are severe limitations on the number of registers available for the buffer allocation. The minimum required buffer sizes that guarantee the existence of deadlock-free schedule are represented in table~\ref{tab:sdf_buffers}. The buffer sizes were found using the algorithm from~\cite{ade1997data}. For some schedules that would yield improvements in throughput or latency, larger buffer sizes may be required.
+
+A practical example of a synchronous dataflow MoC is the parameterized and interfaced synchronous dataflow (PiSDF) MoC used by PREESM. PiSDF is described in in~\ref{subsec:preesm-internal}.\fixme{add more examples}
+
+\FloatBarrier
 \subsection{Dynamic Dataflow}
 \label{subsec:dynamic-dataflow}
 Synchronous dataflow may be a good fit for simple signal processing tasks such as signal filtering, but it is too restricted for efficiently describing more complicated algorithms. Multiple models of computation that share the basic structure of dataflow models have been developed for more advanced needs. Dataflow models of computation that relax the constraints on token production and consumption are grouped under the name dynamic dataflow. Dynamic dataflow does not refer to a single model of computation but a group of models that differ in terms of expression power and analysability.~\cite{bhattacharyya2013handbook}
