@@ -21,6 +21,6 @@ The filter applications process two video streams simultaneously as described in
 \item \textit{Investigating the Balance of Latency and Throughput}
 To examine the capabilities of the dynamic scheduler the number of simultaneously processed events is varied in the second experiment. The maximum number of frames that can be processed simultaneously corresponds to the number of initial events created in the initialization. Both filters are loaded with CIF streams and the measurements are run with 1 to 24 initial events. The number of simultaneous frames changes the throughput versus latency balance of the OpenEM application.
 
-\item \textit{Examining the Efficiency of Parallel Processing}
+\item \textit{Examining the Efficiency of Parallel Scheduling}
 In the third experiment the OpenEM application is measured with different core masks to investigate the ability of the dynamic scheduler to utilize the increased parallel resources. Both filters of the OpenEM application are loaded with CIF streams. Different numbers of cores are used, but all actors can run on all available cores. The experiment is run with core masks allowing one to eight cores be used for processing the streams. The experiment is run with 16 initial events.
 \end{itemize}
