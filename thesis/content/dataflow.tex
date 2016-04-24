@@ -20,7 +20,7 @@ The SDF MoC was specifically designed for digital signal processing applications
 \begin{figure}[h!]
     \begin{center}
         \includegraphics[width=0.55\textwidth]{images/sdf_graph.pdf}
-        \caption{A SDF Graph from \cite{ade1997data}.}
+        \caption{A SDF Graph from \cite{ade1997data}. The production rate of each connection is marked at the beginning of the arcs connecting the nodes and the consumption rates are marked respectively at the end of each arc.}
         \label{fig:sdf_graph}
     \end{center}
 \end{figure}
@@ -38,7 +38,7 @@ The SDF MoC was specifically designed for digital signal processing applications
             df  & 6 \\ \hline
             ef  & 8 \\ \hline
         \end{tabular}
-        \caption{The minimum required buffer sizes for the arcs in the SDF graph \ref{fig:sdf_graph}. The buffer sizes are presented as the number of tokens the buffer fits at maximum.}
+        \caption{The minimum required buffer sizes for the arcs in the SDF graph \ref{fig:sdf_graph}. The buffer sizes are presented as the maximum number of tokens the buffer fits. The buffers store the tokens that are waiting to be processed by the node in the receiving end of each arc.}
         \label{tab:sdf_buffers}
     \end{center}
 \end{table}
