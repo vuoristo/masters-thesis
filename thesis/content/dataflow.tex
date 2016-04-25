@@ -1,6 +1,4 @@
-\fixme{set the dataflow mocs in larger context}
-
-Stream processing defines the high level structure of how streaming data is to be processed but it does not define the stream processing methods in detail. In this section Dataflow Models of Computation are examined as an example of stream processing paradigm.
+Stream processing defines the high level structure of how streaming data is to be processed but it does not define the stream processing methods in detail. On high level the structure defined by dataflow models of computation corresponds well to stream processing. Looking at dataflow as the model of computation for stream processing is thus potentially useful. In this section the dataflow models of computation are examined.
 
 \subsection{Dataflow Models of Computation}
 \label{subsec:dataflow-moc}
@@ -15,15 +13,15 @@ The scheduling of dataflow graphs means determining when and where the nodes exe
 \FloatBarrier
 One approach to solving the schedulability and the unbounded buffer growth of the dataflow MoC is fixing the production and consumption rates of the actors. These limitations are implemented in the dataflow models introduced by Lee and Messerschmit called synchronous dataflow (SDF)~\cite{lee1987synchronous}. The SDF model imposes strict limits on the kinds of dataflow graphs allowed. The dataflow graphs in SDF models are fixed at compile time. No new actors may be added in run time to SDF graphs because all arcs of the model are fixed. The flow of tokens along the arcs is fixed as well, due to the fixed production and consumption rates of the model. Creating graphs adhering to these limitations, the graphs are fully schedulable at compile time and they execute the same way on each iteration. This means that the boundedness of the buffers is guaranteed and the deadlocking problems are avoided. Implementing such limitations reduces the expression power of SDF models compared to more lax dataflow models such as the dynamic dataflow discussed in~\ref{subsec:dynamic-dataflow}.~\cite{lee2015introduction}
 
-The SDF MoC was specifically designed for digital signal processing applications. In domains such as digital signal processing the typical tasks can be presented as sequence of operations performed on an infinite stream of data, which makes them computable with SDF models. The SDF models provide good performance and guarantee deadlock-free execution and are thus often a practical choice for DSP applications.~\cite{lee2015introduction}
-
 \begin{figure}[h!]
     \begin{center}
-        \includegraphics[width=0.55\textwidth]{images/sdf_graph.pdf}
+        \includegraphics[width=0.40\textwidth]{images/sdf_graph.pdf}
         \caption{A SDF Graph from \cite{ade1997data}. The production rate of each connection is marked at the beginning of the arcs connecting the nodes and the consumption rates are marked respectively at the end of each arc.}
         \label{fig:sdf_graph}
     \end{center}
 \end{figure}
+
+The SDF MoC was specifically designed for digital signal processing applications. In domains such as digital signal processing the typical tasks can be presented as sequence of operations performed on an infinite stream of data, which makes them computable with SDF models. The SDF models provide good performance and guarantee deadlock-free execution and are thus often a practical choice for DSP applications.~\cite{lee2015introduction}
 
 \begin{table}
     \begin{center}
