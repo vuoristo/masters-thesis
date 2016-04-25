@@ -18,9 +18,9 @@ The global event buffers, containing the event payload are located in the shared
 
 Event pre-loading means that moving the event buffers to core local L1 or L2 memory is started before the event has been dispatched. When an event with event pre-loading enabled is scheduled, one of the Packet DMA engines of the Multicore Navigator will begin to move the event buffers to the local memory. Event pre-loading is enabled by the user for every event separately.~\cite{moerman2014open}
 
-\subsection{Hardware Acceleration in Texas Instruments OpenEM}
+\subsection[Hardware Acceleration in Texas Instruments OpenEM]{Hardware Acceleration in Texas \\ Instruments OpenEM}
 \label{subsec:ti-acceleration}
-TI OpenEM utilises Multicore Navigator extensively for \fixme{not offloading} offloading the scheduling and inter-core communication from the DSP cores. Multicore Navigator consists of features that enable hardware accelerated communication between the on-chip devices, including hardware queues and separate cores for queue management. It is described more detail in \ref{subsec:multicorenav}.
+TI OpenEM utilises Multicore Navigator extensively for the scheduler and inter-core communication. Multicore Navigator consists of features that enable hardware accelerated communication between the on-chip devices, including hardware queues and separate cores for queue management. It is described more detail in \ref{subsec:multicorenav}.
 
 The main hardware components used by the OpenEM framework apart from the DSP cores and the different types of memory available, are the hardware queues and one of the PDSP cores of the Multicore Navigator. The hardware queues are used for implementing the software queues of the OpenEM framework. The exact mapping of the software queues to the hardware queues is not documented. The asynchronous scheduler is run on one of the PDSP cores. OpenEM does not use all of the Multicore Navigator queues or PDSP cores, thus some of the Multicore Navigator resources are available for the user. TI OpenEM provides a mechanism in the framework initialization to divide the Multicore Navigator resources between the application and the framework.~\cite{openemuser}
 
