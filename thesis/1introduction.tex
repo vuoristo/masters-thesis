@@ -18,14 +18,14 @@ The relevancy of studying OpenEM on multicore digital signal processors for stre
 
 \section{Problem statement}
 \label{section:problem-statement}
-\fixme{add broader definition of the problem here} \\
-\fixme{focus on OpenEM scheduling} \\
-\fixme{OpenEM is dynamic, can it keep up with Static} \\
-Multicore DSPs have potential for high performance stream processing in terms of floating point operations per watt. However, parallel programming for multicore DSPs is more complicated than parallel programming for PC hardware, as commonly there is no operating system to handle the inter-core coordination and communication. The Texas Instruments OpenEM implementation is a light-weight runtime for Texas Instruments TMS320C6678 multicore DSP, that handles the inter-core communication and task scheduling. It utilizes hardware acceleration for scheduling and communication. This thesis investigates the performance of the Texas Instruments OpenEM implementation in stream processing.
+Multicore DSPs have potential for high performance stream processing in terms of floating point operations per watt. However, parallel programming for multicore DSPs is more complicated than parallel programming for PC hardware, as commonly there is no operating system to handle the inter-core coordination and communication. The TI implementation of OpenEM is a runtime system that handles the inter-core coordination and communicaton. This thesis investigates the performance of the TI OpenEM implementation in stream processing.
 
-The performance of OpenEM is evaluated by measuring the performance of a stream processing application implemented using OpenEM for task scheduling and comparing the results with a similar multicore application with static schedule created using PREESM.
+The performance of a multi-core runtime system is dependent on the efficiency of the scheduling. TI OpenEM implements dynamic scheduling. The scheduler is hardware accelerated, running on a special processor that is connected to the hardware queuing system of the processor. The communication in TI OpenEM utilises the hardware queues of the processor.
 
-\fixme{add experiment setups here}
+The dynamic scheduler can negatively affect the performance of the application versus a statically scheduled application if the scheduling requires a large overhead in terms of processor cycles or memory. In addition to the efficiency of the dynamic scheduler, the overall goodness of the schedule affects the application performance. If the scheduler (static or dynamic) places all the tasks sequentially, none of the benefits of parallelization are achieved. Another more subtle effect the schedule has on the performance is the memory locality of the tasks. If tasks operating on the same data are executed on different processors or other tasks are run on the same processor between the tasks, the data has to be copied between the processors, whereas if the tasks execute sequentially on the same processor, no time is wasted in copying the data.
+
+Three views to the performance of OpenEM in stream processing are taken through three different experiments. The performance of the dynamic scheduler is assessed by comparing an application implemented using OpenEM to a statically scheduled application implemented with PREESM in experiment~\ref{subsec:first-experiment}. The capabilities of the dynamic scheduler are further investigated by looking at the balance of throughput and latency in experiment~\ref{subsec:second-experiment}. Finally, an understanding of the scheduler overhead is sought out in the experiment~\ref{subsec:third-experiment} where the stream processing application is run on different numbers of cores and the results are compared.
+
 \section{Contributions}
 \label{section:contributions}
 This thesis presents analysis of the performance of OpenEM in stream processing. The performance analysis is carried out by comparing the measured performance of a stream processing application implemented using OpenEM to a comparable stream processing application.
