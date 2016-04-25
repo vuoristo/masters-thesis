@@ -1,16 +1,30 @@
 \chapter{Introduction}
 \label{chapter:introduction}
-\fixme{add infoes for parallel computing. set the stage for the whole thesis better}
-In this thesis the performance of a task based programming model used for stream processing is analyzed. The task based programming model under study is Open Event Machine (OpenEM). Two stream processing applications are implemented: one using OpenEM and the other created with PREESM, using static scheduling. PREESM is a framework for building parallel programs with static schedules based on synchronous dataflow odel of computation. The main contribution of this thesis is the analysis of the suitability of OpenEM for stream processing tasks.
+\fixme{add infoes for parallel computing. set the stage for the whole thesis better} \\
+\fixme{better explain OpenEM here} \\
+\fixme{check PREESM definition} \\
+\fixme{selection of the hardware platform} \\
 
-The relevancy of studying the suitability of OpenEM on multicore digital signal processors for stream processing comes from a combination of factors. First, stream processing is a computing paradigm that is receiving increasing attention from the industry and the research community due to the growing volume of data streaming in the internet. Second stream processing tasks have similar high-level structure as digital signal processing tasks. Examining the fit of digital signal processors for stream processing is thus a task relevant to the study of stream processing. Third multicore coordination is non-trivial but parallel processing is required for efficient stream processing as stream processing tasks are highly data parallel.
+Digital data is being created and copied over the internet at an accelerating pace. A large fraction of this data is transferred and processed in the form of data streams such as video. In general streaming data is processed as it flows by the processing node, without saving a copy of the complete stream on the node. For example a video streaming application buffers some number of video frames on the viewing device, decodes and presents them and then frees the memory for buffering more frames.
+
+Stream processing programs consist of series of operations that are performed in parallel on the streams. The capability for parallelising the programs is important for creating low-latency, high-throughput applications. In the past single-threaded performance of computers was growing rapidly, which made hitting the latency and throughput constraints of the applications a question of waiting for the next generation CPUs, which would make all of the applications faster. For the past ten years or so, the single-threaded performance has remained roughly the same while the number of cores in CPUs has grown. This turn towards parallelism in hardware has emphasised the importance of parallel processing in streaming applications.
+
+There exists a variety of forms of parallel processing including task parallelism. In task parallelism units of work called tasks consisting of code and data are distributed on the cores of the computer. In this thesis the performance of a task based programming model used for stream processing is analyzed. The task based programming model under study is Open Event Machine (OpenEM).
+
+Two stream processing applications are implemented: one using OpenEM and the other created with PREESM, using static scheduling. PREESM is a framework for building parallel programs with static schedules based on synchronous dataflow model of computation. The main contribution of this thesis is the analysis of the performance of OpenEM in stream processing tasks.
+
+The relevancy of studying OpenEM on multicore digital signal processors for stream processing comes from a combination of factors. First, stream processing is a computing paradigm that is receiving increasing attention from the industry and the research community due to the growing volume of data streaming in the internet. Second stream processing tasks have similar high-level structure as digital signal processing tasks. Examining the fit of digital signal processors for stream processing is thus a task relevant to the study of stream processing. Third multicore coordination is non-trivial but parallel processing is required for efficient stream processing as stream processing tasks are highly data parallel.
 
 \section{Problem statement}
 \label{section:problem-statement}
+\fixme{add broader definition of the problem here} \\
+\fixme{focus on OpenEM scheduling} \\
+\fixme{OpenEM is dynamic, can it keep up with Static} \\
 Multicore DSPs have potential for high performance stream processing in terms of floating point operations per watt. However, parallel programming for multicore DSPs is more complicated than parallel programming for PC hardware, as commonly there is no operating system to handle the inter-core coordination and communication. The Texas Instruments OpenEM implementation is a light-weight runtime for Texas Instruments TMS320C6678 multicore DSP, that handles the inter-core communication and task scheduling. It utilizes hardware acceleration for scheduling and communication. This thesis investigates the performance of the Texas Instruments OpenEM implementation in stream processing.
 
 The performance of OpenEM is evaluated by measuring the performance of a stream processing application implemented using OpenEM for task scheduling and comparing the results with a similar multicore application with static schedule created using PREESM.
 
+\fixme{add experiment setups here}
 \section{Contributions}
 \label{section:contributions}
 This thesis presents analysis of the performance of OpenEM in stream processing. The performance analysis is carried out by comparing the measured performance of a stream processing application implemented using OpenEM to a comparable stream processing application.
@@ -27,6 +41,7 @@ The contributions of this thesis are summarized in the following listing:
     \item Implementation and instrumentation of a comparable measurement system using PREESM.
     \item Performance measurements and analysis of different stream processing mechanisms on TI DSP.
 \end{itemize}
+\fixme{add experiment setups here}
 
 \section{Structure of the Thesis}
 \label{section:structure}

@@ -25,7 +25,7 @@ OpenEM includes a fork-join helper called \textbf{event groups}. Event groups tr
 
 \subsection{Execution Objects}
 \label{subsec:eos}
-The \textbf{Execution Objects} contain the application logic. The application is built from execution objects connected by queues. Multiple queues can be connected to an execution object and an execution object may execute on multiple cores if the queueing rules allow. There are multiple possible queue configurations, which allow the execution objects to be executed on multiple cores, the main method is through the use of parallel queues.~\cite{openemintro}
+The execution objects contain the application logic. The application is built from execution objects connected by queues. Multiple queues can be connected to an execution object and an execution object may execute on multiple cores if the queueing rules allow. There are multiple possible queue configurations, which allow the execution objects to be executed on multiple cores, the main method is through the use of parallel queues.~\cite{openemintro}
 
 The application logic for each execution object is implemented in three functions, namely start, receive and stop. Execution object construction and destruction are handled in the application defined start and stop functions. An execution object can be scheduled on a core if there are events in the queues attached to it. When an execution object is scheduled for execution, one of the events in the queues attached to it is dequeued and passed to the receive function. Once the execution object has been scheduled on a core, it will run until the receive function returns.~\cite{openemintro}
 

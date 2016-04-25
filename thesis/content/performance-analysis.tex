@@ -22,7 +22,7 @@ The workload is the target of the measurements but it does not define the exact 
 
 The software measurement tools are called monitors, which can be implemented both in hardware and in software. Monitors are classified to software monitors, hardware monitors, firmware monitors or hybrid monitors depending on the implementation level of the monitor. The implementation level of the monitor affects the level of events that are convenient to measure with it. For example hardware monitors can monitor the state of registers and hardware counters but have difficulties in observing the status of software constructs such as the execution of functions. The software monitors on the other hand can be used to monitor the status of software components but gathering information about the status of the hardware is more difficult and in some cases impossible. \cite{jain1991art} For example it is very complicated to determine whether a memory operation hit a given level of cache or not using software alone but many hardware platforms offer hardware counters to monitor the cache hits and misses.
 
-\subsection{Analysis of the Data}
+\subsection{Analysis of the Measurement Data}
 \label{subsec:data-analysis}
 The goal of the performance analysis is to get actionable results about the systems under study. The data obtained from the models or measurements is not in itself enough for making well-grounded decisions. The models and measurements may yield millions of values for the observed variables and the analyst needs to decide how to best represent the data so that the phenomena behind the data are explained \cite{jain1991art}.
 
