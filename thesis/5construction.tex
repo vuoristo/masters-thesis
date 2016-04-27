@@ -32,7 +32,7 @@ An actor network that represents the video filter application is constructed in 
     \end{center}
 \end{figure}
 
-\subsection{The Actor Model}
+\subsection{Actor Model}
 \label{subsec:actors}
 To keep the model simple and the program well analyzable both of the processing paths in the network are independent. The first actor on both of the processing paths, the Read\_YUV and the Read\_YUV2 actors in the figure \ref{fig:preesm_actors}, loads the video frames from memory and passes them to splitting actors. The splitting actors split the frames to a suitable number of splices to enable processing of the same video stream on multiple cores. The filter actors, Sobel and Gauss actors in the figure, follow the splitting actors. Partial frames filtered in the filter actor are merged back to whole frames in the merge actors. The last actors on both of the processing paths are dummy actors. The pentagons in the top and the bottom of the figure represent the parameters of the application. The \texttt{xsize}, \texttt{ysize}, \texttt{xsize2} and \texttt{ysize2} parameters specify the size of the input frames. \texttt{nbSlice} and \texttt{gaussNbSlice} determine the numbers of slices the frames are split to. The \texttt{sobel\_ysize} and \texttt{gauss\_ysize} are the heights of the slices after splitting.
 
@@ -46,7 +46,7 @@ The gauss actor operates similarly to the sobel actor but instead of closed expr
 
 The last actor processing the frame is the merge actor. The merge actor copies the processed data from its input buffer to its output buffer, overlaying the slices so that the output frame doesn't contain the extra lines created in the split actor. Since there is no real I/O in the application, the merged frame is not processed further. In a real world application the processed frame would be copied for example to a network packet. As there is no I/O the display actors don't do any computations. In the experiments the display actor is used as the endpoint of the processing and it starts the data export.
 
-\subsection{The PREESM Schedule}
+\subsection{PREESM Schedule}
 \label{subsec:preesmsched}
 The scheduler in the PREESM framework is described in \ref{sec:preesm-scheduling}. The scheduler creates a block schedule from the actor model using user provided estimates for the actor durations. To get reasonably accurate estimates, the application was first scheduled with the default values and the actor durations were measured on the target device. The resulting timings are presented in the table \ref{tab:preesm_times}. The timings from the measurements were approximately the same for all the actors except for the gauss actor. A gantt chart representing the schedule created using the values in the table is presented in figure \ref{fig:preesm_gantt}. The mutable parameters in the graph \ref{fig:preesm_actors} affect the static memory allocations of the PREESM application and the PREESM codegen workflow needs to be executed every time the parameters are changed. Because of this the PREESM schedules of the different measurement setups are slightly different.
 
