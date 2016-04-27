@@ -266,7 +266,7 @@
 % variants you use (they are all there in the same place).
 % ------------------------------------------------------------------
 \newcommand{\TITLE}{Stream Processing on a Multicore DSP with Open Event Machine}
-\newcommand{\FTITLE}{OpenEM:n Suorituskykyominaisuudet Reaaliaikaisessa Virtalaskennassa Moniydin DSP:llä}
+\newcommand{\FTITLE}{OpenEM:n Suorituskykyominaisuudet Virtalaskennassa Moniydin DSP:llä}
 \newcommand{\SUBTITLE}{}
 \newcommand{\FSUBTITLE}{}
 \newcommand{\SSUBTITLE}{}
@@ -413,9 +413,9 @@
 \thesisabstract{english}{
     Streaming data is responsible for a large fraction of the growth in creation and copying of data over the Internet. Stream processing is a computing paradigm that seeks to provide a useful abstraction of computing over streaming data. The stream processing and signal processing models are similar on a high level.
 
-    Digital Signal Processors (DSP) are computing units optimized for low energy consumption in signal processing tasks. The trend toward more cores in CPUs and GPUs has been adopted by the DSP vendors as well. Multi-core DSPs provide an interesting platform for stream processing as they combine an architecture optimized for signal processing tasks with the parallel computing power of the multiple cores.
+    Digital Signal Processors (DSP) are computing units optimized for low energy consumption in signal processing tasks. The trend toward more cores in CPUs and GPUs has been adopted by the DSP vendors as well. Multicore DSPs provide an interesting platform for stream processing as they combine an architecture optimized for signal processing tasks with the parallel computing power of the multiple cores.
 
-    Scheduling parallel computing is a non-trivial task. On DSPs it is often complicated by the lack of OS as an abstraction layer for parallelism. Open Event Machine provides task-parallel computing model for Texas Instruments (TI) multi-core DSPs with a dynamic, hardware accelerated scheduler. In this thesis the performance of OpenEM in stream processing is investigated. The TI implementation of OpenEM for TMS320C6678 multi-core DSP is used in this thesis.
+    Scheduling parallel computing is a non-trivial task. On DSPs it is often complicated by the lack of OS as an abstraction layer for parallelism. Open Event Machine (OpenEM) provides task-parallel computing model for Texas Instruments (TI) multicore DSPs with a dynamic, hardware accelerated scheduler. In this thesis the performance of OpenEM in stream processing is investigated. The TI implementation of OpenEM for TMS320C6678 multicore DSP is used in this thesis.
 
     The concrete contributions of this thesis are the construction of an OpenEM based stream processing measurement system, the construction of similar, statically scheduled measurement system, the comparison of the systems and the analysis of the stream processing performance of OpenEM using the measurement systems. The analysis uses the results of three experiments conducted in this thesis.
 
@@ -428,9 +428,9 @@
 
     Digitaaliset signaaliprosessorit (DSP) ovat laskentayksiköitä, jotka on suunniteltu tarjoamaan matalaa energian kulutusta signaalinkäsittelytehtävissä. DSP:iden valmistajat ovat omaksuneet tietokoneen suorittimissa ja grafiikkakiihdyttimissä yleisen trendin kasvattaa yksiköiden ydinmäärää. Moniydin DSP:t tarjoavat mielenkiintoisen virtalaskenta-alustan sillä ne yhdistävät signaalinkäsittelyyn optimoidun arkkitehtuurin monen ytimen tarjoamaan rinnakkaislaskentatehoon.
 
-        Rinnakkaislaskennan ajoittaminen ei ole vähäpätöinen tehtävä. DSP:illä tätä tehtävää monimutkaistaa käyttöjärjestelmän tarjoaman rinnakkaislaskenta-abstraktion puuttuminen. Open Event Machine tarjoaa tehtävärinnakkaisen laskentamallin Texas Instruments:in (TI) moniydin DSP:ille laitteistokiihdytetyllä dynaamisella tehtäväajoituksella. Tässä diplomityössä tutkitaan OpenEM:n suorituskykä virtalaskennassa. Työssä käytetään TI:n TMS320C6678 moniydin-DSP:lle toteuttamaa versiota OpenEM:sta.
+    Rinnakkaislaskennan ajoittaminen ei ole vähäpätöinen tehtävä. DSP:illä tätä tehtävää monimutkaistaa käyttöjärjestelmän tarjoaman rinnakkaislaskenta-abstraktion puuttuminen. Open Event Machine (OpenEM) tarjoaa tehtävärinnakkaisen laskentamallin Texas Instruments:in (TI) moniydin DSP:eille laitteistokiihdytetyllä dynaamisella tehtäväajoituksella. Tässä diplomityössä tutkitaan OpenEM:n suorituskykä virtalaskennassa. Työssä käytetään TI:n TMS320C6678 moniydin-DSP:lle toteuttamaa versiota OpenEM:sta.
 
-    Diplomityön tuloksena on toteutettu OpenEM:ään pohjautuva virtalaskennan mittausjärjestelmä, vastaava, staattisesti ajoitettu mittausjärjestelmä, järjestelmien vertailu ja OpenEM:nen virtalaskentasuorituskyvyn analyysi järjestelmien avulla. Analyysissä tutkitaan kolmen työtä varten tehdyn kokeen tuloksia.
+    Diplomityön tuloksena on toteutettu OpenEM:neen pohjautuva virtalaskennan mittausjärjestelmä, vastaava, staattisesti ajoitettu mittausjärjestelmä, järjestelmien vertailu ja OpenEM:nen virtalaskentasuorituskyvyn analyysi järjestelmien avulla. Analyysissä tutkitaan kolmen työtä varten tehdyn kokeen tuloksia.
 
     Kokeiden tulokset näyttävät että OpenEM:a voidaan käyttää hyvän suorituskyvyn omaavien virtalaskentaohjelmien toteuttamiseen. Jatkotutkimusta tarvitaan suorituskyvyn vertaamiseksi kilpailevien laskenta-alustojen suorituskykyyn.
 }
