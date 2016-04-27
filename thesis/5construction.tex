@@ -72,7 +72,7 @@ The scheduler in the PREESM framework is described in \ref{sec:preesm-scheduling
     \end{center}
 \end{table}
 
-The PREESM framework doesn't support changing the timing of the implode and explode operations which started affecting the schedule considerably with larger frame sizes. The duration estimates used by PREESM for the implode and explode operations are very short compared to durations of the actors measured from the application. The explode operations for both streams are represented in the gantt chart by the small time slices predecing gauss actors on cores 4 and 7. The implode operation for gauss stream follows the gauss actor execution on core 7 and the implode operation of sobel stream follows the latter sobel actor on core 5.
+The PREESM framework doesn't support changing the timing of the implode and explode operations which started affecting the schedule considerably with larger frame sizes. The duration estimates used by PREESM for the implode and explode operations are very short compared to durations of the actors measured from the application. The explode operations for both streams are represented in the Gantt chart by the small time slices preceding gauss actors on cores 4 and 7. The implode operation for gauss stream follows the gauss actor execution on core 7 and the implode operation of sobel stream follows the latter sobel actor on core 5.
 
 \begin{figure}[h!]
     \begin{center}
@@ -98,7 +98,7 @@ The design principles introduced in the beginning of this chapter apply to the O
     \end{center}
 \end{figure}
 
-The application execution starts with initializing the OpenEM framework and the application data structures. The OpenEM initialization is explained in \ref{subsec:ti-init-layer}. After the queues and the execution objects have been initialized the application creates a number of initial events that are sent to the the read queue. Once the events have been queued the application synchronizes all cores and the actual execution starts.
+The application execution starts with initializing the OpenEM framework and the application data structures. The OpenEM initialization is explained in \ref{subsec:ti-init-layer}. After the queues and the execution objects have been initialized the application creates a number of initial events that are sent to the read queue. Once the events have been queued the application synchronizes all cores and the actual execution starts.
 
 The Read EO combines the functionality of the read and split actors of the PREESM filter application presented in \ref{fig:preesm_actors}. A frame is read from the input video memory and split into a number of slices. The functions called are exactly the same as in the PREESM application. The frame slices are copied to event buffers of new events. The new events are then sent to the filter queue. There is only one filter queue and one filter execution object. The same execution object will compute either sobel or gauss filter on the frame slice according to its type.
 
