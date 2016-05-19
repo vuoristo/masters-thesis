@@ -11,7 +11,7 @@ In this section the results of the three experiments described in~\ref{subsec:me
 \FloatBarrier
 In the first experiment the bitrates of the two video streams are varied. The latency and throughput of the OpenEM application measurements are summarized in the table \ref{tab:oemthrough2}. The corresponding summaries for the PREESM application are presented in the table \ref{tab:preesmthrough}
 
-The latencies of the two streams of the PREESM application in all measurement setups in the table \ref{tab:preesmthrough} are similar. The largest difference in the latencies is in the case where Sobel filter filters a CIF stream and Gauss filter filters a 4CIF stream, where Gauss latency is 60\% higher than the Sobel latency. Much larger differences in the latencies are observed with the OpenEM application with two initial events presented in table \ref{tab:oemthrough2} where the largest difference in latencies is also measured between the CIF Sobel stream and 4CIF Gauss stream. The Gauss latency in the particular OpenEM measurement is 200\% higher than the Sobel latency. The other OpenEM measurements show larger differences as well compared to PREESM.
+The latencies of the two streams of the PREESM application in all measurement setups in the table \ref{tab:preesmthrough} are similar. The largest difference in the latencies is in the case where Sobel filter filters a CIF stream and Gauss filter filters a 4CIF stream, where Gauss latency is 60\% higher than the Sobel latency. Much larger differences in the latencies are observed with the OpenEM application with two initial events presented in table \ref{tab:oemthrough2}, where the largest difference in latencies is also measured between the CIF Sobel stream and 4CIF Gauss stream. The Gauss latency in the particular OpenEM measurement is 200\% higher than the Sobel latency. The other OpenEM measurements show larger differences as well compared to PREESM.
 
 \newcommand{\head}[2]{\multicolumn{1}{>{\centering\arraybackslash}p{#1}}{#2}}
 \begin{table}
@@ -27,21 +27,6 @@ The latencies of the two streams of the PREESM application in all measurement se
         \end{tabular}
         \caption{PREESM latency and throughput. The the latencies are measured in milliseconds.}
         \label{tab:preesmthrough}
-    \end{center}
-\end{table}
-\begin{table}
-    \begin{center}
-        \begin{tabular}{ c c c c c }
-            \head{1.5cm}{Sobel latency} & \head{1.5cm}{Gauss latency} &
-            \head{1.5cm}{FPS} & \head{1.5cm}{Sobel frame} &
-            \head{1.5cm}{Gauss frame} \\ \hline
-            3,59 & 10,93 & 256 & CIF & 4CIF \\ \hline
-            3,75 & 2,95 & 527 & 4CIF & CIF \\ \hline
-            1,42 & 2,80 & 889 & CIF & CIF \\ \hline
-            0,32 & 0,71 & 3534 & QCIF & QCIF \\ \hline
-        \end{tabular}
-        \caption{OpenEM latency and throughput with 2 frames processed simultaneously. The latencies are measured in milliseconds.}
-        \label{tab:oemthrough2}
     \end{center}
 \end{table}
 
@@ -70,6 +55,21 @@ The overhead portions in the figures \ref{fig:preesmcif} and \ref{fig:oem8corefu
 \subsection[Investigating the Balance of Latency and Throughput]{Investigating the Balance of Latency\\and Throughput}
 \label{subsec:second-experiment}
 \FloatBarrier
+\begin{table}
+    \begin{center}
+        \begin{tabular}{ c c c c c }
+            \head{1.5cm}{Sobel latency} & \head{1.5cm}{Gauss latency} &
+            \head{1.5cm}{FPS} & \head{1.5cm}{Sobel frame} &
+            \head{1.5cm}{Gauss frame} \\ \hline
+            3,59 & 10,93 & 256 & CIF & 4CIF \\ \hline
+            3,75 & 2,95 & 527 & 4CIF & CIF \\ \hline
+            1,42 & 2,80 & 889 & CIF & CIF \\ \hline
+            0,32 & 0,71 & 3534 & QCIF & QCIF \\ \hline
+        \end{tabular}
+        \caption{OpenEM latency and throughput with 2 frames processed simultaneously. The latencies are measured in milliseconds.}
+        \label{tab:oemthrough2}
+    \end{center}
+\end{table}
 \begin{table}
     \begin{center}
         \begin{tabular}{ c c c c c }
@@ -132,11 +132,12 @@ The effect of increasing the number of simultaneous frames was further examined 
 \subsection{Examining the Efficiency of Parallel Scheduling}
 \label{subsec:third-experiment}
 \FloatBarrier
+In the third experiment the number of cores available for the OpenEM application was varied. Both filters were processing CIF streams. The measurements were repeated using one to eight cores. The resulting latencies and throughputs are presented in the table \ref{tab:oemcoremasks}. The increase of the throughput of the OpenEM application is presented in figure \ref{fig:fpsvcores}. The actual FPS measured with eight cores is approximately 90\% of the linear growth calculated from the FPS using a single core.
 \begin{table}
     \begin{center}
         \begin{tabular}{ c c c c }
-            \head{1.5cm}{Sobel latency} & \head{1.5cm}{Gauss latency} &
-            \head{1.5cm}{FPS} & \head{1.5cm}{Number of cores} \\
+            \head{2.6cm}{Sobel latency} & \head{2.6cm}{Gauss latency} &
+            \head{1.5cm}{FPS} & \head{2.0cm}{No of cores} \\
             \hline
             57,05 & 57,11 & 263 & 1 \\ \hline
             22,59 & 23,15 & 510 & 2 \\ \hline
@@ -151,8 +152,6 @@ The effect of increasing the number of simultaneous frames was further examined 
         \label{tab:oemcoremasks}
     \end{center}
 \end{table}
-
-In the third experiment the number of cores available for the OpenEM application was varied. Both filters were processing CIF streams. The measurements were repeated using one to eight cores. The resulting latencies and throughputs are presented in the table \ref{tab:oemcoremasks}. The increase of the throughput of the OpenEM application is presented in graph \ref{fig:fpsvcores}. The actual FPS measured with eight cores is approximately 90\% of the linear growth calculated from the FPS using a single core.
 \begin{figure}
     \begin{center}
         \includegraphics[width=0.7\textwidth]{images/coremask_fps.eps}
@@ -164,7 +163,7 @@ In the third experiment the number of cores available for the OpenEM application
 
 \section{Discussion}
 \label{sec:discussion}
-Three experiments were conducted to understand the performance of OpenEM in stream processing. Stream processing application was implemented with OpenEM and a comparable application was implemented using PREESM. The performance of the application as a part of a stream processing system was not studied. Therefore IO was omitted from the stream processing task that both of the applications implemented.  The experiments focused on understanding the performance of the OpenEM scheduler in handling stream processing tasks.
+Three experiments were conducted to understand the performance of OpenEM in stream processing. Stream processing application was implemented with OpenEM and a comparable application was implemented using PREESM. The performance of the application as a part of a stream processing system was not studied. Therefore, IO was omitted from the stream processing task that both of the applications implemented. The experiments focused on understanding the performance of the OpenEM scheduler in handling stream processing tasks.
 
 In this section the results of the three conducted experiments are discussed. First the discoveries made from the experiments are described in \ref{subsec:discoveries}. Second the possible directions of future work are discussed in \ref{subsec:future-work}. Finally the challenges faced conducting the experiments are explained in \ref{subsec:challenges}
 
@@ -224,18 +223,18 @@ In this thesis the use of OpenEM to provide task management and scheduling in a 
 
 The workload studied in this thesis was simple and lacked dynamic nature of processing graphs common to stream processing applications. To better understand the performance of OpenEM, two future research approaches could be taken. First, studying the performance of OpenEM scheduler with another artificial workload application could still strengthen the case for using OpenEM as the runtime for stream processing. Instead of a simple, linear processing graph like the one used in the experiments of this thesis, a more dynamic graph with optional processing paths could be studied. Studying this kind of graph would show if the scheduler is capable of hitting the latency and throughput constraints of the application consistently under varying load. Second, a more complex application could be constructed and measured. For example implementing an MPEG decoder using OpenEM as the runtime system would provide a more complete view to the dynamic performance of OpenEM. An MPEG decoder would be an interesting workload because it has been used as something of a standard benchmark in dataflow literature and thus there exists many implementations based on different technologies. Having points of comparison for the workload would help put the performance in broader context.
 
-The idea of using DSPs for stream processing has been researched to some extent but the idea has not made it to the mainstream of computing industry. To make the case for DSPs as stream processors a thorough benchmark should be created that would compare the streaming performance versus energy consumed for similar stream processing applications implemented with DSPs, GPUs and CPUs. Making such comparison is not trivial, since to the author's knowledge there does not exist a single widely accepted measure of streaming performance. The question is complicated further by the need for measuring the energy consumption, which itself is a complex task.
+The idea of using DSPs for stream processing has been researched to some extent but the idea has not made it to the mainstream of computing industry. To make the case for DSPs as stream processors, a thorough benchmark should be created that would compare the streaming performance versus energy consumed for similar stream processing applications implemented with DSPs, GPUs, and CPUs. Making such comparison is not trivial, since to the author's knowledge there does not exist a single widely accepted measure of streaming performance. The question is complicated further by the need for measuring the energy consumption, which itself is a complex task.
 
-Before conducting such research three problems would have to be solved. First, selection of the measured variables. Comparing floating point operations per second per Joule between the platforms would be the simple solution, but FLOPS is not necessarily good measurement for streaming performance. For example, for video stream frames per second and latency would provide a better understanding of the streaming performance than FLOPS. Second, accounting of the energy consumption fairly with all measured processing units is not trivial, since they are commonly installed in different forms of devices. CPUs are installed in sockets on motherboards, GPUs are installed on PCI cards or increasingly as part of integrated chips and DSPs are installed in various devices including PCI cards. Comparing the vendor provided energy specifications is one way to deal with this problem, but it might miss how the devices are actually deployed. Third, the workload would have to be implemented in different patterns for each of the platforms making use of the strengths of each platform equally.
+Before conducting such research, three problems would have to be solved. First, selection of the measured variables. Comparing floating point operations per second per Joule between the platforms would be the simple solution, but FLOPS is not necessarily good measurement for streaming performance. For example, for video stream frames per second and latency would provide a better understanding of the streaming performance than FLOPS. Second, accounting of the energy consumption fairly with all measured processing units is not trivial, since they are commonly installed in different forms of devices. CPUs are installed in sockets on motherboards, GPUs are installed on PCI cards or increasingly as part of integrated chips, and DSPs are installed in various devices including PCI cards. Comparing the vendor provided energy specifications is one way to deal with this problem, but it might miss how the devices are actually deployed. Third, the workload would have to be implemented in different patterns for each of the platforms making use of the strengths of each platform equally.
 
 Two papers conduct comparisons that partially answer the questions above, but do not actually provide the complete comparison between the processors. Stotzer et al. conduct an experiment in~\cite{stotzer2013openmp} where a comparison between the different processing units is conducted in the context of OpenMP, but the comparison does not include energy measurements. The performance of FPGAs and GPUs in processing what the author calls ``sliding-window applications'' is compared in terms of Joules per frame in~\cite{fowers2012performance}. The ``sliding-window applications'' consist of applying convolutions on frames of data in the stream, similar to how the workload in this thesis computes.
 
 \subsection{Challenges}
 \label{subsec:challenges}
-Analysing the performance of OpenEM based stream processing applications is a broad task, requiring the use of many distinct technologies. First a suitable workload, which is representative of stream processing tasks had to be designed. Next two versions of the workload application had to be implemented, one for the evaluation of OpenEM and the other to provide a point of comparison. In order to get usable data from the applications, they had to be instrumented and the measurement data analysed. Most of the work required was straightforward but some complications were faced with the tools.
+Analysing the performance of OpenEM based stream processing applications is a broad task, requiring the use of many distinct technologies. First, a suitable workload, which is representative of stream processing tasks had to be designed. Next, two versions of the workload application had to be implemented, one for the evaluation of OpenEM and the other to provide a point of comparison. In order to get usable data from the applications, they had to be instrumented and the measurement data analysed. Most of the work required was straightforward but some complications were faced with the tools.
 
 The baseline application was implemented using PREESM. PREESM generates static schedules for the application from provided the dataflow graph and the source code. To get specific points of comparison for each of the measurement setups working with the PREESM automatic code generation was complicated. The tool would create different schedules on each iteration and thus yield applications with dissimilar core usage between the measurement setups.
 
-Texas Instruments OpenEM version 1.0.0.2 that was used for the implementation of the OpenEM workload has some unimplemented features. Most of the unimplemented features were documented and did not cause unnecessary work. However the implementation of Queue Groups did not work as expected. Creation of multiple queue groups did not work as specified in the documentation, and was left unexplored after multiple trials at working with them.
+Texas Instruments OpenEM version 1.0.0.2 that was used for the implementation of the OpenEM workload has some unimplemented features. Most of the unimplemented features were documented and did not cause unnecessary work. However, the implementation of Queue Groups did not work as expected. Creation of multiple queue groups did not work as specified in the documentation, and was left unexplored after multiple trials at working with them.
 
 The documentation of the Texas Instruments implementation of OpenEM was lacking. The documentation provided with the source code was incomplete and included a sketchy version of the OpenEM white paper~\cite{moerman2014open}, which was the most important source for understanding the use of hardware acceleration in the runtime. The documentation also lacked details for the initialization layer without which the initialization of the hardware components would have been difficult. The initialization code was provided as a part of a scarcely documented example application.
