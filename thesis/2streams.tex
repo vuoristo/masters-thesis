@@ -33,7 +33,7 @@ The authors of the StreamIt language~\cite{thies2002streamit} have defined \text
 
 Applications that handle streams of audio and video often have the above features and can be implemented following the stream processing paradigm. The multimedia domain is therefore full of examples of stream processing applications. Video conferencing is a commonly used example of a streaming application, streaming video decoding is used in online video streaming services, and audio streams are encoded and decoded in mobile devices for calls and also in streaming of music.
 
-In addition to multimedia, streaming data is often encountered in other kinds of internet services as well. For example, efficient computation of analytics from search engine data can be implemented following stream processing paradigm. The total dataset may be quite large and a batch computing system computing over the complete data would provide results with high latency. A stream processing system on the other hand would be able to compute the analytics from the data as the data is being produced and update the analytics separately for each piece of data received. Google has developed the MillWheel framework for implementation of such analytics~\cite{tyler2013millwheel}.
+In addition to multimedia, streaming data is often encountered in other kinds of internet services as well. For example, efficient computation of analytics from search engine data can be implemented following stream processing paradigm. The total dataset may be quite large and a batch computing system computing over the complete data would provide results with high latency. A stream processing system, on the other hand, would be able to compute the analytics from the data as the data is being produced and update the analytics separately for each piece of data received. Google has developed the MillWheel framework for implementation of such analytics~\cite{tyler2013millwheel}.
 
 \subsection{Stream Processing Platforms}
 \label{subsec:stream-processing-platforms}
@@ -68,7 +68,9 @@ The scheduling of dataflow graphs means determining when and where the nodes exe
 \subsection{Synchronous Dataflow}
 \label{subsec:synchronous-dataflow}
 \FloatBarrier
-One approach to solving the schedulability and the unbounded buffer growth of the dataflow MoC is fixing the production and consumption rates of the actors. These limitations are implemented in the family of dataflow models introduced by Lee and Messerschmit called synchronous dataflow (SDF)~\cite{lee1987synchronous}. An SDF model imposes strict limits on the kinds of dataflow graphs allowed. The dataflow graphs in SDF models are fixed at compile time. No new actors may be added in run time to SDF graphs because all arcs of the model are fixed. The flow of tokens along the arcs is fixed as well, due to the fixed production and consumption rates of the model. Graphs created adhering to these limitations are fully schedulable at compile time and they execute the same way on each iteration. This means that the boundedness of the buffers is guaranteed and the deadlocking problems are avoided. Implementing such limitations reduces the expression power of SDF models compared to more lax dataflow models such as the dynamic dataflow, which is discussed in~\ref{subsec:dynamic-dataflow}.~\cite{lee2015introduction}
+One approach to solving the schedulability and the unbounded buffer growth of the dataflow MoC is fixing the production and consumption rates of the actors. These limitations are implemented in the family of dataflow models introduced by Lee and Messerschmit called synchronous dataflow (SDF)~\cite{lee1987synchronous}.
+
+An SDF model imposes strict limits on the kinds of dataflow graphs allowed. The dataflow graphs in SDF models are fixed at compile time. No new actors may be added in run time to SDF graphs because all arcs of the model are fixed. The flow of tokens along the arcs is fixed as well, due to the fixed production and consumption rates of the model. Graphs created adhering to these limitations are fully schedulable at compile time and they execute the same way on each iteration. This means that the boundedness of the buffers is guaranteed and the deadlocking problems are avoided. Implementing such limitations reduces the expression power of SDF models compared to more lax dataflow models such as the dynamic dataflow, which is discussed in~\ref{subsec:dynamic-dataflow}.~\cite{lee2015introduction}
 
 \begin{figure}[h!]
     \begin{center}
@@ -93,7 +95,7 @@ The SDF MoC was specifically designed for digital signal processing applications
             df  & 6 \\ \hline
             ef  & 8 \\ \hline
         \end{tabular}
-        \caption{The minimum required buffer sizes for the arcs in the SDF graph \ref{fig:sdf_graph}. The buffer sizes are presented as the maximum number of tokens the buffer fits. The buffers store the tokens that are waiting to be processed by the node in the receiving end of each arc.}
+        \caption{The minimum required buffer sizes for the arcs in the SDF figure \ref{fig:sdf_graph}. The buffer sizes are presented as the maximum number of tokens the buffer fits. The buffers store the tokens that are waiting to be processed by the node in the receiving end of each arc.}
         \label{tab:sdf_buffers}
     \end{center}
 \end{table}
